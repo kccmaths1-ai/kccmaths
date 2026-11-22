@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ගණිත ගැලවුම් කාමරය | Maths Escape Room Sri Lanka</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0b132b',
+                            900: '#070b19',
+                            950: '#03050d',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sinhala: ['"Noto Sans Sinhala"', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            background-color: #03050d;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* 3D Perspective Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            perspective: 600px;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.25;
+        }
+        .grid-plane {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(to right, rgba(245, 158, 11, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 158, 11, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(60deg);
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { transform: rotateX(60deg) translateY(0); }
+            100% { transform: rotateX(60deg) translateY(50px); }
+        }
+
+        /* Floating Symbols */
+        .symbol-particle {
+            position: fixed;
+            color: rgba(245, 158, 11, 0.15);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* 3D Cube Animation */
+        .cube-wrapper {
+            width: 100px;
+            height: 100px;
+            perspective: 400px;
+            margin: 0 auto;
+        }
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 12s infinite linear;
+        }
+        .cube-face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #f59e0b;
+            background: rgba(11, 19, 43, 0.85);
+            box-shadow: inset 0 0 15px rgba(245, 158, 11, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #fbbf24;
+            font-weight: bold;
+            backdrop-filter: blur(4px);
+        }
+        .front  { transform: rotateY(0deg) translateZ(50px); }
+        .back   { transform: rotateY(180deg) translateZ(50px); }
+        .right  { transform: rotateY(90deg) translateZ(50px); }
+        .left   { transform: rotateY(-90deg) translateZ(50px); }
+        .top    { transform: rotateX(90deg) translateZ(50px); }
+        .bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+        @keyframes rotateCube {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Stacked Fraction Styling */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-size: 0.95em;
+        }
+        .num {
+            border-bottom: 2px solid #fbbf24;
+            padding-bottom: 2px;
+            line-height: 1.1;
+        }
+        .den {
+            padding-top: 2px;
+            line-height: 1.1;
+        }
+
+        /* 3D Extruded Buttons */
+        .btn-3d {
+            transition: all 0.1s ease;
+            box-shadow: 0 6px 0 #b45309, 0 10px 15px rgba(0,0,0,0.5);
+            transform: translateY(0);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b45309, 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        /* 3D Glass Cards */
+        .card-3d {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(7, 11, 25, 0.95));
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+
+        /* Lock Tiles & 3D Flip */
+        .lock-tile {
+            perspective: 300px;
+            width: 38px;
+            height: 44px;
+        }
+        .lock-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .lock-tile.unlocked .lock-inner {
+            transform: rotateY(180deg);
+        }
+        .lock-front, .lock-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .lock-front {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #94a3b8;
+        }
+        .lock-front.current {
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+            background: #334155;
+            color: #fbbf24;
+        }
+        .lock-back {
+            background: linear-gradient(135deg, #d97706, #78350f);
+            border: 1px solid #fbbf24;
+            color: #ffffff;
+            transform: rotateY(180deg);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+        .lock-front.lost {
+            background: #450a0a;
+            border: 1px solid #ef4444;
+            color: #f87171;
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.8; }
+        }
+        .animate-timer-pulse {
+            animation: timerPulse 0.5s ease-in-out infinite;
+        }
+
+        .bg-danger-flash {
+            animation: bgFlash 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes bgFlash {
+            from { background-color: #03050d; }
+            to { background-color: #2a0808; }
+        }
+
+        /* Screen Transitions */
+        .screen {
+            display: none;
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .screen.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .grid-plane, .cube, .symbol-particle, .animate-timer-pulse, .bg-danger-flash {
+                animation: none !important;
+            }
+            .screen {
+                transition: opacity 0.2s ease !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative text-gray-100">
+
+    <!-- Grid & Symbol Particles -->
+    <div class="grid-bg"><div class="grid-plane"></div></div>
+    <div id="particles-container"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="w-full max-w-4xl mx-auto px-4 py-4 relative z-10 flex-grow flex flex-col justify-center">
+        
+        <!-- GLOBAL HEADER (Visible during stages) -->
+        <header id="game-header" class="hidden mb-6 card-3d rounded-2xl p-4 border border-gold-500/30">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <!-- User Info & Stage -->
+                <div>
+                    <span id="hdr-stage" class="text-xs font-bold text-gold-400 uppercase tracking-widest bg-gold-500/10 px-2.5 py-1 rounded-full border border-gold-500/30">Stage 01</span>
+                    <h2 id="hdr-user-group" class="text-sm font-semibold text-gray-300 mt-1">ශිෂ්‍යයා: -</h2>
+                </div>
+
+                <!-- Locks Bar (10 locks) -->
+                <div class="flex items-center gap-1.5 overflow-x-auto py-1" id="locks-bar">
+                    <!-- Dynamic Lock tiles generated via JS -->
+                </div>
+
+                <!-- Stats & Controls -->
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <div class="text-xs text-gray-400">ලකුණු</div>
+                        <div id="hdr-score" class="text-xl font-bold font-tech text-gold-400">0</div>
+                    </div>
+                    <button id="sound-toggle-btn" onclick="toggleSound()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-gold-400 rounded-xl border border-slate-600 transition" title="ශබ්දය සක්‍රිය/අක්‍රිය">
+                        <svg id="sound-icon-on" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/></svg>
+                        <svg id="sound-icon-off" class="w-5 h-5 hidden text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- SCREEN 1: START & STUDENT DETAILS -->
+        <section id="screen-welcome" class="screen active card-3d rounded-3xl p-6 md:p-10 text-center relative overflow-hidden">
+            <div class="cube-wrapper mb-6">
+                <div class="cube">
+                    <div class="cube-face front">π</div>
+                    <div class="cube-face back">√</div>
+                    <div class="cube-face right">∑</div>
+                    <div class="cube-face left">∞</div>
+                    <div class="cube-face top">∫</div>
+                    <div class="cube-face bottom">%</div>
+                </div>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-yellow-200 to-gold-500 mb-2">
+                ගණිත ගැලවුම් කාමරය
+            </h1>
+            <p class="text-gray-400 text-sm md:text-base max-w-xl mx-auto mb-8">
+                10 සහ 11 ශ්‍රේණිවල අභියෝගාත්මක ගණිත ගැටලු විසඳමින් අගුළු හැර රහස් කාමරයෙන් මිදෙන්න!
+            </p>
+
+            <form id="start-form" onsubmit="handleStartGame(event)" class="max-w-md mx-auto space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">සම්පූර්ණ නම *</label>
+                    <input type="text" id="input-name" required placeholder="උදා: කසුන් පෙරේරා" class="w-full bg-slate-900/90 border border-slate-700 focus:border-gold-400 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/40">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">කණ්ඩායමේ නම / අංකය *</label>
+                        <input type="text" id="input-group" required placeholder="උදා: Omega Team" class="w-full bg-slate-900/90 border border-slate-700 focus:border-gold-400 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/40">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ශ්‍රේණිය *</label>
+                        <select id="input-grade" required class="w-full bg-slate-900/90 border border-slate-700 focus:border-gold-400 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/40">
+                            <option value="10 ශ්‍රේණිය">10 ශ්‍රේණිය</option>
+                            <option value="11 ශ්‍රේණිය">11 ශ්‍රේණිය</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="btn-3d w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-slate-950 font-extrabold text-lg py-3.5 px-6 rounded-xl transition cursor-pointer">
+                        අභියෝගය ආරම්භ කරන්න 🔑
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SCREEN 2 & 3: GAME STAGES -->
+        <section id="screen-game" class="screen card-3d rounded-3xl p-6 md:p-8 relative">
+            <!-- Timer & Progress Bar Header -->
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span id="question-index-lbl" class="text-xs font-bold text-gray-400 tracking-wider">ප්‍රශ්නය 01 / 10</span>
+                    <div id="timer-box" class="flex items-center gap-1.5 font-tech text-gold-400 text-lg font-bold">
+                        <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span id="timer-text">01:30</span>
+                    </div>
+                </div>
+                <!-- Countdown Bar -->
+                <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                    <div id="timer-bar" class="bg-gradient-to-r from-gold-500 to-amber-400 h-full w-full transition-all duration-1000 linear"></div>
+                </div>
+            </div>
+
+            <!-- Question Display Area -->
+            <div id="question-card" class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 md:p-7 mb-6">
+                <h3 id="q-text" class="text-lg md:text-xl font-bold text-gray-100 leading-relaxed mb-4">
+                    <!-- Question text injected here -->
+                </h3>
+
+                <!-- SVG Figure Container -->
+                <div id="q-svg-container" class="my-4 flex justify-center items-center overflow-x-auto">
+                    <!-- SVG diagram injected here -->
+                </div>
+
+                <!-- Hint Section -->
+                <div id="hint-box" class="hidden mt-4 p-3.5 bg-amber-950/40 border border-amber-600/40 rounded-xl text-amber-300 text-xs md:text-sm flex items-start gap-2.5">
+                    <span class="text-base">💡</span>
+                    <div>
+                        <span class="font-bold">ඉඟිය:</span> <span id="hint-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Form -->
+            <form id="answer-form" onsubmit="submitAnswer(event)" class="space-y-4">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <input type="number" step="1" id="input-answer" placeholder="ඔබේ පිළිතුර (පූර්ණ සංඛ්‍යාවක්)" required class="w-full bg-slate-900 border-2 border-slate-700 focus:border-gold-400 rounded-xl px-4 py-3.5 text-white font-tech text-lg focus:outline-none focus:ring-2 focus:ring-gold-500/30">
+                    </div>
+                    <button type="submit" class="btn-3d bg-gold-500 hover:bg-gold-400 text-slate-950 font-bold px-8 py-3.5 rounded-xl text-base transition cursor-pointer flex items-center justify-center gap-2">
+                        <span>පරීක්ෂා කරන්න</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <p class="text-xs text-gray-400">ක්‍රියාකාරී උපදෙස: Enter යතුර එබීමෙන් ද පිළිතුර යොමු කළ හැක.</p>
+            </form>
+        </section>
+
+        <!-- SCREEN 4: VICTORY / ESCAPE -->
+        <section id="screen-victory" class="screen card-3d rounded-3xl p-6 md:p-10 text-center relative overflow-hidden">
+            <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
+            
+            <div class="relative z-10 space-y-6">
+                <div class="inline-block p-4 bg-gold-500/10 rounded-full border border-gold-400/40 mb-2">
+                    <span class="text-5xl">🏆</span>
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-yellow-200 to-gold-500">
+                    ගැලවීම සාර්ථකයි!
+                </h1>
+                <p class="text-gray-300 text-sm md:text-base">ඔබ සියලු රහස් අගුළු සාර්ථකව විසඳා ගැලවුම් කාමරයෙන් පිටතට පැමිණියහ!</p>
+
+                <!-- Rank Badge -->
+                <div id="victory-rank" class="inline-block bg-gradient-to-r from-amber-500 to-gold-600 text-slate-950 font-extrabold px-6 py-2.5 rounded-full text-base md:text-lg shadow-lg">
+                    📊 ගණිත මහාචාර්ය
+                </div>
+
+                <!-- Stats Summary Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-2xl mx-auto pt-4">
+                    <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl">
+                        <div class="text-xs text-gray-400 mb-1">ශිෂ්‍යයා / කණ්ඩායම</div>
+                        <div id="v-name" class="font-bold text-sm text-gold-300 truncate">-</div>
+                        <div id="v-group" class="text-xs text-gray-400 truncate">-</div>
+                    </div>
+                    <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl">
+                        <div class="text-xs text-gray-400 mb-1">මුළු ලකුණු</div>
+                        <div id="v-score" class="font-tech text-2xl font-bold text-gold-400">0</div>
+                    </div>
+                    <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl">
+                        <div class="text-xs text-gray-400 mb-1">නිවැරදි පිළිතුරු</div>
+                        <div id="v-correct" class="font-tech text-2xl font-bold text-emerald-400">0 / 20</div>
+                    </div>
+                    <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl">
+                        <div class="text-xs text-gray-400 mb-1">ගත් මුළු කාලය</div>
+                        <div id="v-time" class="font-tech text-2xl font-bold text-cyan-400">00:00</div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <a id="gf" target="_blank" rel="noopener" class="btn-3d bg-gradient-to-r from-gold-500 to-gold-600 text-slate-950 font-extrabold text-lg py-3.5 px-8 rounded-xl transition cursor-pointer no-underline inline-block mr-2 mb-2">📨 ලකුණු Google Form එකට යවන්න</a>
+                    <button onclick="restartGame()" class="btn-3d bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-slate-950 font-extrabold text-lg py-3.5 px-8 rounded-xl transition cursor-pointer">
+                        නැවත සෙල්ලම් කරන්න 🔄
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL ALERT (Custom alert replacing browser native alert) -->
+    <div id="game-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="card-3d bg-slate-900 border border-gold-500/40 rounded-2xl max-w-md w-full p-6 text-center space-y-4">
+            <div id="modal-icon" class="text-4xl">⚠️</div>
+            <h3 id="modal-title" class="text-xl font-bold text-gold-400">දැනුම්දීමයි</h3>
+            <p id="modal-msg" class="text-sm text-gray-300 leading-relaxed"></p>
+            <button onclick="closeModal()" class="btn-3d w-full bg-gold-500 hover:bg-gold-400 text-slate-950 font-bold py-2.5 rounded-xl transition">
+                ඉදිරියට යන්න
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT SECTION -->
+    <script>
+        /* ==========================================================================
+           1. DATA STRUCTURE (Verified Sinhala Questions & Integer Answers)
+           ========================================================================== */
+        const STAGE1_QUESTIONS = [
+            {
+                text: "තේජාන් රු. 40,000 ක මුදලක් වසරකට 12% ක සරල පොලී අනුපාතිකය යටතේ ණයට ගත්තේය. වසර 2 ක් අවසානයේ ඔහු ගෙවිය යුතු මුළු පොලිය රුපියල් කීයද?",
+                answer: 9600,
+                hint: "සරල පොලිය = (මුදල × අනුපාතිකය × කාලය) ÷ 100",
+                svg: null
+            },
+            {
+                text: "නගර සභාවකින් තක්සේරු වටිනාකම රු. 60,000 ක් වූ නිවසක් සඳහා වසරකට 8% ක වරිපනම් බද්දක් අය කරයි. ත්‍රෛමාසිකව (මාස 3කට) ගෙවිය යුතු වරිපනම් බදු මුදල රුපියල් කීයද?",
+                answer: 1200,
+                hint: "වාර්ෂික බද්ද සොයා එය 4 න් බෙදන්න."
+            },
+            {
+                text: "ලඝුගණක ප්‍රකාශනය සුළු කරන්න: lg 50 + lg 20 = ?",
+                answer: 3,
+                hint: "lg a + lg b = lg (a × b) වේ. lg 1000 හි අගය සොයන්න."
+            },
+            {
+                text: "පුද්ගලයෙකුගේ වාර්ෂික නිදහස් ආදායම් සීමාව රු. 1,200,000 කි. ඔහුගේ වාර්ෂික ආදායමය රු. 1,700,000 ක් නම්, 6% ක ආදායම් බදු අනුපාතිකය යටතේ ඔහු ගෙවිය යුතු වාර්ෂික ආදායම් බද්ද රුපියල් කීයද?",
+                answer: 30000,
+                hint: "බදු අයවන ආදායම = මුළු ආදායම - නිදහස් සීමාව"
+            },
+            {
+                text: "රු. 150,000 ක් වටිනා විදුලි උපකරණයක් ආනයනය කිරීමේදී 20% ක තීරු බද්දක් අය කෙරේ. අයකරන තීරු බදු මුදල රුපියල් කීයද?",
+                answer: 30000,
+                hint: "තීරු බද්ද = භාණ්ඩයේ වටිනාකම × (20/100)"
+            },
+            {
+                text: "පහත දැක්වෙන ත්‍රිකෝණයේ අභ්‍යන්තර කෝණවල අගයන් x ඇසුරෙන් දී ඇත. x හි අගය සොයන්න.",
+                answer: 25,
+                hint: "ත්‍රිකෝණයක අභ්‍යන්තර කෝණවල එකතුව 180° කි. (3x + 20) + 2x + 10 = 180",
+                svg: `<svg width="220" height="150" viewBox="0 0 220 150">
+                    <polygon points="30,130 190,130 110,20" fill="none" stroke="#fbbf24" stroke-width="3"/>
+                    <text x="30" y="145" fill="#38bdf8" font-size="12" font-weight="bold">3x + 20°</text>
+                    <text x="145" y="145" fill="#38bdf8" font-size="12" font-weight="bold">2x</text>
+                    <text x="100" y="45" fill="#38bdf8" font-size="12" font-weight="bold">10°</text>
+                </svg>`
+            },
+            {
+                text: "මිනිසුන් 6 දෙනෙකුට යම් වැඩක් නිම කිරීමට දින 8 ක් ගතවේ. එම වැඩය දින 4 කින් නිම කිරීමට මිනිසුන් කී දෙනෙකු අවශ්‍ය වේද?",
+                answer: 12,
+                hint: "මුළු මිනිස් දින ගණන = 6 × 8 = 48. අවශ්‍ය මිනිසුන් = 48 ÷ 4"
+            },
+            {
+                text: "අරය 14 cm වූ වෘත්තයක පරිධිය සෙන්ටිමීටර කීයද? (π = [[22|7]] ලෙස ගන්න)",
+                answer: 88,
+                hint: "පරිධිය = 2 × π × r = 2 × (22/7) × 14"
+            },
+            {
+                text: "අරය 21 cm ද කේන්ද්‍රීය කෝණය 60° ද වන කේන්ද්‍රික ඛණ්ඩයක චාප දිග සෙන්ටිමීටර කීයද? (π = [[22|7]])",
+                answer: 22,
+                hint: "චාප දිග = (θ / 360°) × 2πr = (60/360) × 2 × (22/7) × 21",
+                svg: `<svg width="180" height="140" viewBox="0 0 180 140">
+                    <path d="M 30,120 L 130,120 A 100,100 0 0,0 80,33 Z" fill="rgba(245, 158, 11, 0.15)" stroke="#fbbf24" stroke-width="2"/>
+                    <text x="65" y="110" fill="#38bdf8" font-size="12">60°</text>
+                    <text x="75" y="135" fill="#e2e8f0" font-size="12">21 cm</text>
+                </svg>`
+            },
+            {
+                text: "මෝටර් රථයක් පැය 3 කදී කිලෝමීටර 180 ක දුරක් ගමන් කරයි නම්, එහි මධ්‍යන්‍ය වේගය පැයට කිලෝමීටර (km/h) කීයද?",
+                answer: 60,
+                hint: "වේගය = මුළු දුර ÷ ගතවූ කාලය"
+            }
+        ];
+
+        const STAGE2_QUESTIONS = [
+            {
+                text: "පහත රූපයේ පරිධිය මත පිහිටි කෝණය ∠ACB = 40° වේ. කේන්ද්‍රීය කෝණය වන x හි අගය අංශක කීයක්ද?",
+                answer: 80,
+                hint: "වෘත්තයක එකම චාපය මත පිහිටි කේන්ද්‍රීය කෝණය පරිධි කෝණය මෙන් දෙගුණයකි. x = 2 × 40°",
+                svg: `<svg width="180" height="160" viewBox="0 0 180 160">
+                    <circle cx="90" cy="80" r="60" fill="none" stroke="#fbbf24" stroke-width="2"/>
+                    <circle cx="90" cy="80" r="3" fill="#fbbf24"/>
+                    <polyline points="40,115 90,80 140,115" fill="none" stroke="#38bdf8" stroke-width="2"/>
+                    <polyline points="40,115 90,20 140,115" fill="none" stroke="#f43f5e" stroke-width="2"/>
+                    <text x="85" y="98" fill="#38bdf8" font-size="13" font-weight="bold">x</text>
+                    <text x="82" y="38" fill="#f43f5e" font-size="13" font-weight="bold">40°</text>
+                    <text x="85" y="142" fill="#94a3b8" font-size="11">O</text>
+                </svg>`
+            },
+            {
+                text: "අරය 10 cm වූ වෘත්තයක කේන්ද්‍රයේ සිට 6 cm දුරින් පිහිටි ජ්‍යායක දිග සෙන්ටිමීටර කීයද?",
+                answer: 16,
+                hint: "පයිතගරස් ප්‍රමේයයෙන් ජ්‍යායෙන් අඩක දිග d සොයන්න: d² = 10² - 6² = 64 → d = 8 cm. මුළු ජ්‍යායේ දිග = 2 × 8",
+                svg: `<svg width="180" height="160" viewBox="0 0 180 160">
+                    <circle cx="90" cy="80" r="60" fill="none" stroke="#fbbf24" stroke-width="2"/>
+                    <line x1="40" y1="120" x2="140" y2="120" stroke="#38bdf8" stroke-width="2"/>
+                    <line x1="90" y1="80" x2="90" y2="120" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    <line x1="90" y1="80" x2="40" y2="120" stroke="#a855f7" stroke-width="1.5"/>
+                    <text x="95" y="105" fill="#f43f5e" font-size="11">6cm</text>
+                    <text x="55" y="95" fill="#a855f7" font-size="11">10cm</text>
+                    <text x="85" y="140" fill="#38bdf8" font-size="12">ජ්‍යාය (?)</text>
+                </svg>`
+            },
+            {
+                text: "A නළයෙන් විනාඩියකට ලීටර් 12 ක් සහ B නළයෙන් විනාඩියකට ලීටර් 8 ක් බැගින් ජලය ගලා එයි. ලීටර් 200 ක ධාරිතාවයක් ඇති ටැංකියක් මෙම නළ දෙකම එකවර විවෘත කර පිරවීමට ගතවන කාලය විනාඩි කීයද?",
+                answer: 10,
+                hint: "විනාඩියකට පිරෙන මුළු ලීටර් ගණන = 12 + 8 = 20 ලීටර්. ගතවන කාලය = 200 ÷ 20"
+            },
+            {
+                text: "x² + 7x + 12 = 0 වර්ගජ සමීකරණයේ ධන ධර්ම සාධකවල (x + a)(x + b) ආකාරයට දැක්වූ විට, a + b හි අගය කුමක්ද?",
+                answer: 7,
+                hint: "ගුණිතය 12 වන සහ එකතුව 7 වන සංඛ්‍යා දෙක 3 සහ 4 වේ."
+            },
+            {
+                text: "x² - 25 = 0 නම්, x හි ධන අගය කුමක්ද?",
+                answer: 5,
+                hint: "x² - 5² = (x - 5)(x + 5) = 0"
+            },
+            {
+                text: "අරය 7 cm සහ උස 10 cm වන ඝන සිලින්ඩරයක පරිමාව cm³ කීයද? (π = [[22|7]])",
+                answer: 1540,
+                hint: "සිලින්ඩර පරිමාව = π r² h = (22/7) × 7 × 7 × 10",
+                svg: `<svg width="150" height="150" viewBox="0 0 150 150">
+                    <ellipse cx="75" cy="40" rx="45" ry="15" fill="none" stroke="#fbbf24" stroke-width="2"/>
+                    <ellipse cx="75" cy="110" rx="45" ry="15" fill="none" stroke="#fbbf24" stroke-width="2"/>
+                    <line x1="30" y1="40" x2="30" y2="110" stroke="#fbbf24" stroke-width="2"/>
+                    <line x1="120" y1="40" x2="120" y2="110" stroke="#fbbf24" stroke-width="2"/>
+                    <text x="75" y="38" fill="#38bdf8" font-size="11">r = 7 cm</text>
+                    <text x="125" y="80" fill="#38bdf8" font-size="11">h = 10 cm</text>
+                </svg>`
+            },
+            {
+                text: "වීජීය භාග සමීකරණය විසඳා x හි අගය සොයන්න: [[x|4]] + [[x|2]] = 9",
+                answer: 12,
+                hint: "පොදු හරය 4 න් මුළු සමීකරණයම ගුණ කරන්න: x + 2x = 36 → 3x = 36"
+            },
+            {
+                text: "ප්‍රකාශනය සුළු කර අගය සොයන්න: [[ (x² - 9) | (x - 3) ]] ප්‍රකාශනයේ x = 7 වන විට අගය කීයද?",
+                answer: 10,
+                hint: "(x² - 9) = (x - 3)(x + 3). (x - 3) සුළු වූ විට ඉතිරි වන්නේ (x + 3) ය. 7 + 3 = 10"
+            },
+            {
+                text: "වසරකට 10% ක සරල පොලී අනුපාතයක් යටතේ වසර 3 කදී රු. 15,000 ක පොලියක් ලබා ගැනීමට තැන්පත් කළ යුතු මුදල (මුදල් ප්‍රාග්ධනය) රුපියල් කීයද?",
+                answer: 50000,
+                hint: "වාර්ෂික පොලිය = 15000 ÷ 3 = රු. 5000. මුදල = (5000 × 100) ÷ 10"
+            },
+            {
+                text: "රු. 100,000 ක් වටිනා භාණ්ඩයකට 10% ක තීරු බද්දක් එකතු කිරීමෙන් පසු ලැබෙන මුළු වටිනාකම මත 8% ක එකතු කළ අගය මත බද්ද (VAT) අය කෙරේ. ගෙවිය යුතු මුළු VAT බදු මුදල රුපියල් කීයද?",
+                answer: 8800,
+                hint: "තීරු බදු සහිත වටිනාකම = 100,000 + 10,000 = රු. 110,000. VAT බද්ද = 110,000 හි 8%"
+            }
+        ];
+
+        /* ==========================================================================
+           2. GAME STATE & AUDIO ENGINE
+           ========================================================================== */
+        let gameState = {
+            studentName: '',
+            groupName: '',
+            grade: '',
+            currentStage: 1, // 1 or 2
+            currentQIndex: 0,
+            score: 0,
+            totalCorrect: 0,
+            wrongAttemptsTotal: 0,
+            questionWrongAttempts: 0,
+            stageLocks: Array(10).fill('locked'), // 'locked', 'unlocked', 'lost'
+            totalSecondsElapsed: 0,
+            timerInterval: null,
+            globalTimerInterval: null,
+            timeLeft: 90,
+            soundMuted: false
+        };
+
+        // Web Audio API Synthesizer
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSound(type) {
+            if (gameState.soundMuted) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } 
+                else if (type === 'correct') {
+                    // Upward Arpeggio Chime
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.25, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.3);
+                    });
+                } 
+                else if (type === 'wrong') {
+                    // Low Buzzer
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.linearRampToValueAtTime(100, now + 0.35);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } 
+                else if (type === 'warning') {
+                    // Beep
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                } 
+                else if (type === 'timeup') {
+                    // Descending time up sound
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(80, now + 0.6);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.6);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.6);
+                }
+                else if (type === 'fanfare') {
+                    // Victory Fanfare
+                    const notes = [440, 554.37, 659.25, 880, 739.99, 880];
+                    const times = [0, 0.15, 0.3, 0.45, 0.65, 0.85];
+                    const durations = [0.12, 0.12, 0.12, 0.18, 0.18, 0.6];
+                    notes.forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + times[idx]);
+                        gain.gain.setValueAtTime(0.3, now + times[idx]);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + times[idx] + durations[idx]);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + times[idx]);
+                        osc.stop(now + times[idx] + durations[idx]);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio play error", e);
+            }
+        }
+
+        function toggleSound() {
+            gameState.soundMuted = !gameState.soundMuted;
+            document.getElementById('sound-icon-on').classList.toggle('hidden', gameState.soundMuted);
+            document.getElementById('sound-icon-off').classList.toggle('hidden', !gameState.soundMuted);
+        }
+
+        /* ==========================================================================
+           3. UI HELPERS & FRACTION PARSER
+           ========================================================================== */
+        // Convert [[num|den]] markup to stacked fraction HTML
+        function parseFractions(str) {
+            if (!str) return '';
+            return str.replace(/\[\[(.*?)\|(.*?)\]\]/g, function(match, num, den) {
+                return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;
+            });
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(screenId);
+            if (target) target.classList.add('active');
+        }
+
+        function showCustomModal(title, msg, icon = "⚠️") {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-msg').innerHTML = parseFractions(msg);
+            document.getElementById('modal-icon').innerText = icon;
+            document.getElementById('game-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            playSound('click');
+            document.getElementById('game-modal').classList.add('hidden');
+        }
+
+        /* ==========================================================================
+           4. GAME LOGIC & FLOW
+           ========================================================================== */
+        function handleStartGame(e) {
+            e.preventDefault();
+            initAudio();
+            playSound('click');
+
+            const name = document.getElementById('input-name').value.trim();
+            const group = document.getElementById('input-group').value.trim();
+            const grade = document.getElementById('input-grade').value;
+
+            if (!name || !group) return;
+
+            gameState.studentName = name;
+            gameState.groupName = group;
+            gameState.grade = grade;
+            gameState.currentStage = 1;
+            gameState.currentQIndex = 0;
+            gameState.score = 0;
+            gameState.totalCorrect = 0;
+            gameState.wrongAttemptsTotal = 0;
+            gameState.totalSecondsElapsed = 0;
+
+            // Global timer tracker
+            if (gameState.globalTimerInterval) clearInterval(gameState.globalTimerInterval);
+            gameState.globalTimerInterval = setInterval(() => {
+                gameState.totalSecondsElapsed++;
+            }, 1000);
+
+            document.getElementById('hdr-user-group').innerText = `${name} | ${group} (${grade})`;
+            document.getElementById('game-header').classList.remove('hidden');
+
+            startStage(1);
+        }
+
+        function startStage(stageNum) {
+            gameState.currentStage = stageNum;
+            gameState.currentQIndex = 0;
+            gameState.stageLocks = Array(10).fill('locked');
+
+            document.getElementById('hdr-stage').innerText = `Stage 0${stageNum}`;
+            renderLockBar();
+            showScreen('screen-game');
+            loadQuestion();
+        }
+
+        function renderLockBar() {
+            const container = document.getElementById('locks-bar');
+            container.innerHTML = '';
+            gameState.stageLocks.forEach((status, idx) => {
+                const isCurrent = idx === gameState.currentQIndex;
+                const tile = document.createElement('div');
+                tile.className = `lock-tile ${status === 'unlocked' ? 'unlocked' : ''}`;
+                
+                let frontClass = 'lock-front';
+                if (status === 'lost') frontClass += ' lost';
+                else if (isCurrent) frontClass += ' current';
+
+                tile.innerHTML = `
+                    <div class="lock-inner">
+                        <div class="${frontClass}">
+                            ${status === 'lost' ? '✖' : (isCurrent ? '🔒' : idx + 1)}
+                        </div>
+                        <div class="lock-back">
+                            🔑
+                        </div>
+                    </div>
+                `;
+                container.appendChild(tile);
+            });
+        }
+
+        function getCurrentQuestionList() {
+            return gameState.currentStage === 1 ? STAGE1_QUESTIONS : STAGE2_QUESTIONS;
+        }
+
+        function loadQuestion() {
+            const questions = getCurrentQuestionList();
+            const q = questions[gameState.currentQIndex];
+            gameState.questionWrongAttempts = 0;
+
+            // Render Header & Lock tiles
+            document.getElementById('question-index-lbl').innerText = `ප්‍රශ්නය ${String(gameState.currentQIndex + 1).padStart(2, '0')} / 10`;
+            document.getElementById('hdr-score').innerText = gameState.score;
+            renderLockBar();
+
+            // Render Question Text & Fractions
+            document.getElementById('q-text').innerHTML = parseFractions(q.text);
+
+            // Render SVG Diagram
+            const svgContainer = document.getElementById('q-svg-container');
+            if (q.svg) {
+                svgContainer.innerHTML = q.svg;
+                svgContainer.classList.remove('hidden');
+            } else {
+                svgContainer.innerHTML = '';
+                svgContainer.classList.add('hidden');
+            }
+
+            // Reset Hint
+            document.getElementById('hint-box').classList.add('hidden');
+
+            // Reset Input
+            const inputAns = document.getElementById('input-answer');
+            inputAns.value = '';
+            inputAns.focus();
+
+            // Reset Timer
+            startTimer();
+        }
+
+        function startTimer() {
+            if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+            gameState.timeLeft = 90;
+            updateTimerUI();
+
+            document.body.classList.remove('bg-danger-flash');
+            document.getElementById('timer-box').classList.remove('animate-timer-pulse', 'text-red-500');
+
+            gameState.timerInterval = setInterval(() => {
+                gameState.timeLeft--;
+                updateTimerUI();
+
+                // Warning phase (last 10s)
+                if (gameState.timeLeft <= 10 && gameState.timeLeft > 0) {
+                    playSound('warning');
+                    document.body.classList.add('bg-danger-flash');
+                    document.getElementById('timer-box').classList.add('animate-timer-pulse', 'text-red-500');
+                }
+
+                // Time Up
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const mins = Math.floor(gameState.timeLeft / 60);
+            const secs = gameState.timeLeft % 60;
+            document.getElementById('timer-text').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            const pct = (gameState.timeLeft / 90) * 100;
+            const bar = document.getElementById('timer-bar');
+            bar.style.width = `${pct}%`;
+            
+            if (gameState.timeLeft <= 10) {
+                bar.className = "bg-gradient-to-r from-red-600 to-rose-500 h-full w-full transition-all duration-1000 linear";
+            } else {
+                bar.className = "bg-gradient-to-r from-gold-500 to-amber-400 h-full w-full transition-all duration-1000 linear";
+            }
+        }
+
+        function handleTimeOut() {
+            playSound('timeup');
+            document.body.classList.remove('bg-danger-flash');
+
+            const questions = getCurrentQuestionList();
+            const q = questions[gameState.currentQIndex];
+
+            gameState.stageLocks[gameState.currentQIndex] = 'lost';
+            renderLockBar();
+
+            showCustomModal("කාලය අවසන්!", `කාලය අවසන් විය! නිවැරදි පිළිතුර: <strong class="text-gold-400 font-tech text-lg">${q.answer}</strong> වේ.`, "⌛");
+
+            setTimeout(() => {
+                advanceQuestion();
+            }, 2500);
+        }
+
+        function submitAnswer(e) {
+            e.preventDefault();
+            const inputEl = document.getElementById('input-answer');
+            const userAns = parseInt(inputEl.value, 10);
+
+            if (isNaN(userAns)) return;
+
+            const questions = getCurrentQuestionList();
+            const q = questions[gameState.currentQIndex];
+
+            if (userAns === q.answer) {
+                // CORRECT ANSWER
+                clearInterval(gameState.timerInterval);
+                document.body.classList.remove('bg-danger-flash');
+                playSound('correct');
+
+                // Calculate Bonus
+                const speedBonus = Math.floor(gameState.timeLeft * 1.5);
+                const attemptBonus = gameState.questionWrongAttempts === 0 ? 100 : 50;
+                const pointsEarned = attemptBonus + speedBonus;
+                
+                gameState.score += pointsEarned;
+                gameState.totalCorrect++;
+                gameState.stageLocks[gameState.currentQIndex] = 'unlocked';
+                renderLockBar();
+
+                advanceQuestion();
+            } else {
+                // WRONG ANSWER
+                playSound('wrong');
+                gameState.score = Math.max(0, gameState.score - 5);
+                gameState.wrongAttemptsTotal++;
+                gameState.questionWrongAttempts++;
+
+                document.getElementById('hdr-score').innerText = gameState.score;
+
+                // Shake Card Animation
+                const card = document.getElementById('question-card');
+                card.classList.add('animate-shake');
+                setTimeout(() => card.classList.remove('animate-shake'), 400);
+
+                // Show Hint on 2 wrong attempts
+                if (gameState.questionWrongAttempts >= 2 && q.hint) {
+                    document.getElementById('hint-text').innerHTML = parseFractions(q.hint);
+                    document.getElementById('hint-box').classList.remove('hidden');
+                }
+
+                inputEl.value = '';
+                inputEl.focus();
+            }
+        }
+
+        function advanceQuestion() {
+            gameState.currentQIndex++;
+
+            if (gameState.currentQIndex >= 10) {
+                // Stage complete
+                if (gameState.currentStage === 1) {
+                    playSound('fanfare');
+                    showCustomModal("Stage 01 සම්පූර්ණයි!", "අතිවිශිෂ්ටයි! ඔබ Stage 01 හි සියලුම අගුළු පසු කළා. දැන් Stage 02 හි වඩාත් අභියෝගාත්මක ගැටලුවලට මුහුණ දෙන්න!", "🔓");
+                    setTimeout(() => {
+                        closeModal();
+                        startStage(2);
+                    }, 3000);
+                } else {
+                    // Final Victory!
+                    endGame();
+                }
+            } else {
+                setTimeout(() => {
+                    loadQuestion();
+                }, 600);
+            }
+        }
+
+        function endGame() {
+            if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+            if (gameState.globalTimerInterval) clearInterval(gameState.globalTimerInterval);
+
+            playSound('fanfare');
+            document.getElementById('game-header').classList.add('hidden');
+            document.body.classList.remove('bg-danger-flash');
+
+            // Format Total Time
+            const totalMins = Math.floor(gameState.totalSecondsElapsed / 60);
+            const totalSecs = gameState.totalSecondsElapsed % 60;
+            const timeStr = `${String(totalMins).padStart(2, '0')}:${String(totalSecs).padStart(2, '0')}`;
+
+            // Calculate Rank
+            let rankStr = "📊 ධෛර්යවන්ත ගැලවුම්කරු";
+            if (gameState.score >= 2000 && gameState.totalCorrect >= 17) {
+                rankStr = "👑 ගණිත මහාචාර්ය";
+            } else if (gameState.score >= 1200 || gameState.totalCorrect >= 13) {
+                rankStr = "⚡ සුපිරි විසඳුම්කරු";
+            }
+
+            // Populate Victory Details
+            document.getElementById('v-name').innerText = gameState.studentName;
+            document.getElementById('v-group').innerText = `${gameState.groupName} (${gameState.grade})`;
+            document.getElementById('v-score').innerText = gameState.score;
+            document.getElementById('v-correct').innerText = `${gameState.totalCorrect} / 20`;
+            document.getElementById('v-time').innerText = timeStr;
+            document.getElementById('victory-rank').innerText = rankStr;
+
+            const GF_BASE="https://docs.google.com/forms/d/e/1FAIpQLScmaRhkPAuqr_t-C-GkGu0JNBBhvT9VX7YSnysn68hC7iP5Fg/viewform",GF_E={"GAME": "entry.1343312173", "NAME": "entry.1341088117", "GRADE": "entry.765725535", "SCORE": "entry.101774562", "TIME": "entry.736987893", "CORRECT": "entry.1686830365", "WRONG": "entry.396852829", "RANK": "entry.1917189363", "EXTRA": "entry.225628272"};function gfUrl(v){const q=new URLSearchParams({usp:'pp_url'});Object.keys(v).forEach(k=>{if(v[k]!==undefined&&v[k]!==null&&v[k]!=='')q.set(GF_E[k],v[k])});return GF_BASE+'?'+q.toString()}
+            document.getElementById('gf').href=gfUrl({GAME:'Maths Room',NAME:gameState.studentName,EXTRA:gameState.groupName,GRADE:gameState.grade,SCORE:gameState.score,CORRECT:gameState.totalCorrect+' / 20',WRONG:gameState.wrongAttemptsTotal,TIME:timeStr,RANK:rankStr});
+            showScreen('screen-victory');
+            startConfetti();
+        }
+
+        function restartGame() {
+            playSound('click');
+            stopConfetti();
+            showScreen('screen-welcome');
+        }
+
+        /* ==========================================================================
+           5. VISUAL EFFECTS (Floating Symbols, 3D Card Tilt & Confetti)
+           ========================================================================== */
+        // Floating Symbols
+        function createFloatingSymbols() {
+            const symbols = ['π', '∑', '√', '∞', '%', '∠', '∫', 'α', 'θ'];
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 15; i++) {
+                const el = document.createElement('div');
+                el.className = 'symbol-particle';
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = `${Math.random() * 95}vw`;
+                el.style.fontSize = `${1.2 + Math.random() * 1.8}rem`;
+                el.style.animationDuration = `${12 + Math.random() * 18}s`;
+                el.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(el);
+            }
+        }
+        createFloatingSymbols();
+
+        // 3D Card Tilt Effect on Mouse Move
+        document.addEventListener('mousemove', (e) => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const cards = document.querySelectorAll('.card-3d');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const tiltX = mouseY * 8;
+                    const tiltY = -mouseX * 8;
+                    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                }
+            });
+        });
+
+        // Canvas Confetti Animation
+        let confettiAnimationId = null;
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            const particles = [];
+            const colors = ['#fbbf24', '#f59e0b', '#38bdf8', '#34d399', '#f43f5e', '#a855f7'];
+
+            for (let i = 0; i < 120; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360,
+                    rotSpeed: Math.random() * 4 - 2
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += p.rotSpeed;
+
+                    if (p.y > canvas.height) p.y = -10;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                });
+                confettiAnimationId = requestAnimationFrame(render);
+            }
+            render();
+        }
+
+        function stopConfetti() {
+            if (confettiAnimationId) cancelAnimationFrame(confettiAnimationId);
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+    </script>
+</body>
+</html>

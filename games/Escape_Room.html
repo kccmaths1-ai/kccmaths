@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ගණිත Escape Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;800&family=Bungee&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070f1c;--ink:#eaf2f6;--mut:#9fb3c8;--gold:#ffc857;--ok:#3ddc97;--bad:#ff5d73;--line:#3d5a80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{color-scheme:dark;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Noto Sans Sinhala',system-ui,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 50% -10%,#2b4a78 0,var(--bg) 65%) fixed;overflow-x:hidden}
+body.danger{background:radial-gradient(ellipse at 50% -10%,#7a1426 0,#2a0710 70%) fixed;animation:flash 1s infinite}
+@keyframes flash{50%{filter:brightness(1.35)}}
+#floor{position:fixed;left:-50%;right:-50%;bottom:0;height:55vh;transform:perspective(500px) rotateX(68deg);transform-origin:bottom;background-image:linear-gradient(rgba(255,200,87,.28) 2px,transparent 2px),linear-gradient(90deg,rgba(255,200,87,.28) 2px,transparent 2px);background-size:64px 64px;animation:grid 3s linear infinite;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000);pointer-events:none;z-index:0}
+@keyframes grid{to{background-position:0 64px}}
+#bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#bg span{position:absolute;bottom:-60px;color:var(--gold);opacity:.13;font-family:'Bungee',sans-serif;animation:rise linear infinite;text-shadow:0 0 12px var(--gold)}
+@keyframes rise{to{transform:translateY(-120vh) rotate(360deg)}}
+.wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+h1{font-family:'Bungee','Noto Sans Sinhala',sans-serif;font-size:1.25rem;margin:0;color:var(--gold);text-shadow:0 3px 0 #8a5a00,0 6px 12px rgba(0,0,0,.6)}
+.tools{display:flex;gap:8px;align-items:center}
+.pill{background:linear-gradient(#27406a,#14243f);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:700;box-shadow:0 4px 0 #0a1424,0 8px 14px rgba(0,0,0,.4)}
+button{font-family:inherit;cursor:pointer}
+.btn{background:linear-gradient(#ffe08a,#ffc857 55%,#f0a91a);color:#2a1c00;border:0;border-radius:14px;padding:13px 24px;font-size:1.05rem;font-weight:800;box-shadow:0 6px 0 #a06f00,0 12px 18px rgba(0,0,0,.45);transition:.1s}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #a06f00,0 4px 8px rgba(0,0,0,.4)}
+.btn:focus-visible,input:focus-visible,.snd:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.snd{background:linear-gradient(#27406a,#14243f);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:6px 12px;box-shadow:0 4px 0 #0a1424}
+.sec{display:none;background:linear-gradient(160deg,rgba(40,62,100,.95),rgba(14,26,46,.95));border:1px solid #5073a8;border-radius:22px;padding:24px;margin-top:18px;box-shadow:0 10px 0 #0a1424,0 34px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.18);transform:perspective(1200px) rotateX(var(--rx,2deg)) rotateY(var(--ry,0deg));transition:transform .15s}
+.sec.on{display:block;animation:enter .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes enter{from{opacity:0;transform:perspective(1200px) rotateY(-35deg) translateZ(-200px)}}
+h2{margin:0 0 6px;font-size:1.3rem}
+p.sub{color:var(--mut);margin:0 0 14px}
+label{display:block;margin:12px 0 4px;font-weight:600}
+input[type=text],input[type=number]{width:100%;padding:12px;border-radius:12px;border:2px solid var(--line);background:#08121f;color:var(--ink);font-size:1.1rem;font-family:inherit;box-shadow:inset 0 4px 8px rgba(0,0,0,.5)}
+.scene{perspective:700px;height:150px}
+.cube{width:90px;height:90px;margin:30px auto;position:relative;transform-style:preserve-3d;animation:spin 10s linear infinite}
+.cube i{position:absolute;inset:0;display:grid;place-items:center;font:normal 2.2rem 'Bungee',sans-serif;color:var(--gold);background:rgba(255,200,87,.14);border:2px solid var(--gold);box-shadow:0 0 18px rgba(255,200,87,.4) inset}
+.cube i:nth-child(1){transform:translateZ(45px)}.cube i:nth-child(2){transform:rotateY(90deg) translateZ(45px)}.cube i:nth-child(3){transform:rotateY(180deg) translateZ(45px)}.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(45px)}.cube i:nth-child(5){transform:rotateX(90deg) translateZ(45px)}.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(45px)}
+@keyframes spin{to{transform:rotateX(360deg) rotateY(360deg)}}
+.locks{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0;perspective:600px}
+.lock{width:36px;height:42px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;font-weight:800;background:linear-gradient(#1b2e4d,#0c1829);box-shadow:0 4px 0 #050b14;transition:.5s;transform-style:preserve-3d}
+.lock.cur{border-color:var(--gold);box-shadow:0 4px 0 #8a5a00,0 0 14px var(--gold);transform:translateZ(14px) scale(1.1)}
+.lock.done{background:linear-gradient(#5af0b1,#22b878);color:#06251a;border-color:var(--ok);transform:rotateY(360deg);box-shadow:0 4px 0 #107a4e}
+.lock.miss{background:linear-gradient(#ff8394,#d93550);border-color:var(--bad);color:#2a0710;box-shadow:0 4px 0 #8a1428}
+.tm{display:flex;align-items:center;gap:10px;margin:8px 0}
+.tnum{font-family:'Bungee',sans-serif;font-size:1.5rem;min-width:72px;color:var(--gold);text-shadow:0 3px 0 #6b4700}
+.tbar{flex:1;height:14px;background:#08121f;border-radius:99px;overflow:hidden;border:1px solid var(--line);box-shadow:inset 0 3px 6px rgba(0,0,0,.6)}
+.tbar i{display:block;height:100%;width:100%;background:linear-gradient(#7dffc6,#22b878);transition:width .25s linear}
+.tm.red .tnum{color:var(--bad);animation:pulse .5s infinite}
+.tm.red .tbar i{background:linear-gradient(#ff8394,#d93550)}
+@keyframes pulse{50%{transform:scale(1.25)}}
+.q{font-size:1.2rem;line-height:2;background:linear-gradient(#0c1829,#08121f);border-left:6px solid var(--gold);padding:14px 16px;border-radius:12px;margin:8px 0 12px;font-weight:600;box-shadow:inset 0 4px 10px rgba(0,0,0,.5),0 6px 0 #050b14}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 4px;font-size:.95em;line-height:1.35}
+.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 5px}.fr>span:last-child{padding:0 5px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row input{flex:1;min-width:140px}
+.msg{min-height:1.6em;margin-top:12px;font-weight:700}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.hint{color:var(--gold);margin-top:6px}
+.fig{text-align:center;margin:4px 0 14px}.fig svg{max-width:100%;height:auto;stroke:#eaf2f6;stroke-width:2;fill:none;stroke-linejoin:round;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5))}
+.fig text{fill:#ffc857;stroke:none;font:700 14px 'Noto Sans Sinhala',sans-serif}.fig .d{stroke-dasharray:5 4}.fig .t{stroke:#ffc857}.fig .f{fill:rgba(255,200,87,.18)}
+.big{font-size:2.6rem;text-align:center;margin:8px 0;animation:sway 2s ease-in-out infinite}
+@keyframes sway{50%{transform:translateY(-8px) rotate(-5deg)}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:14px 0}
+.stat{background:linear-gradient(#1b2e4d,#0c1829);border-radius:14px;padding:12px;text-align:center;box-shadow:0 6px 0 #050b14;transform:perspective(500px) rotateX(8deg)}
+.stat b{display:block;font-size:1.4rem;color:var(--gold)}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:5}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="floor" aria-hidden="true"></div><div id="bg" aria-hidden="true"></div><canvas id="fx"></canvas>
+<div class="wrap">
+<header><h1>🔐 MATHS ESCAPE ROOM</h1>
+<div class="tools"><span class="pill" id="prog">0/20</span><span class="pill" id="score">⭐ 0</span><button class="snd" id="snd" aria-label="Sound">🔊</button></div></header>
+
+<section class="sec on" id="s1">
+ <div class="scene"><div class="cube"><i>π</i><i>∑</i><i>√</i><i>∞</i><i>%</i><i>∠</i></div></div>
+ <h2>ඔබ අගුළු දැමූ කාමරයක සිරවී සිටී!</h2>
+ <p class="sub">Stage 2ක්, එක Stage එකකට ප්‍රශ්න 10 බැගින්. හැම ප්‍රශ්නයකටම <b>මිනිත්තු 2ක්</b> ලැබේ. අවසන් තත්පර 10දී ටයිමරය රතු වී ඇඟවීමේ ශබ්දයක් නාද වේ. කාලය ඉවර වුණොත් ඒ යතුර නැති වේ!</p>
+ <label for="nm">ඔබේ නම</label><input type="text" id="nm" placeholder="නම ඇතුළත් කරන්න">
+ <label for="gp">කණ්ඩායමේ නම (Group Name)</label><input type="text" id="gp" placeholder="උදා: Math Heroes">
+ <label for="gr">ශ්‍රේණිය</label><input type="text" id="gr" placeholder="10 / 11">
+ <p class="msg bad" id="m1"></p>
+ <button class="btn" id="start">ක්‍රීඩාව අරඹන්න 🚀</button>
+</section>
+<div id="stages"></div>
+<section class="sec" id="s5">
+ <div class="big">🎉🏆🎉</div>
+ <h2 style="text-align:center">සුබ පැතුම්! ඔබ Escape වුණා! 🥳</h2>
+ <p class="sub" style="text-align:center" id="win"></p>
+ <div class="stats" id="stats"></div>
+ <p style="text-align:center"><a class="btn gold" id="gf" target="_blank" rel="noopener">📨 Google Form එකට යවන්න</a></p>
+ <div style="text-align:center"><button class="btn" onclick="location.reload()">නැවත සෙල්ලම් කරන්න 🔁</button></div>
+</section>
+</div>
+
+<script>
+const TL=120;
+const fx=s=>s.replace(/\[\[(.+?)\|(.+?)\]\]/g,"<span class='fr'><span>$1</span><span>$2</span></span>");
+const FIG={
+tri:`<svg viewBox='0 0 260 180' width='290'><path class='f' d='M30 150H230L110 30Z'/><text x='44' y='142'>(2x+10)°</text><text x='200' y='142' text-anchor='end'>(x+25)°</text><text x='130' y='22' text-anchor='middle'>(3x−5)°</text><text x='14' y='168'>A</text><text x='232' y='168'>B</text><text x='80' y='34'>C</text></svg>`,
+circ:`<svg viewBox='0 0 200 180' width='220'><circle class='f' cx='100' cy='90' r='70'/><path class='t' d='M100 90H170'/><circle cx='100' cy='90' r='3'/><text x='112' y='82'>21 cm</text><text x='86' y='108'>O</text></svg>`,
+sec:`<svg viewBox='0 0 200 170' width='230'><path class='f' d='M40 140H150A110 110 0 0 0 40 30Z'/><path class='t' d='M60 140A20 20 0 0 0 40 120'/><text x='64' y='128'>90°</text><text x='2' y='92'>14 cm</text><text x='84' y='158'>14 cm</text><text x='26' y='158'>O</text></svg>`,
+ang:`<svg viewBox='0 0 220 200' width='250'><circle cx='110' cy='100' r='80'/><path d='M43.7 144.7L110 100L176.3 144.7M43.7 144.7L110 20L176.3 144.7'/><path class='t' d='M93.4 111.2A20 20 0 0 0 126.6 111.2'/><text x='86' y='140'>112°</text><text x='22' y='158'>A</text><text x='182' y='158'>B</text><text x='104' y='14'>C</text><text x='116' y='96'>O</text><text x='104' y='52'>?</text></svg>`,
+chord:`<svg viewBox='0 0 220 200' width='250'><circle cx='110' cy='100' r='80'/><path d='M36.2 130.8H183.8M110 100L36.2 130.8'/><path class='d t' d='M110 100V130.8'/><path class='t' d='M110 122H118V130.8'/><text x='40' y='154'>AB = 24 cm</text><text x='38' y='108'>13 cm</text><text x='116' y='120'>?</text><text x='24' y='136'>A</text><text x='186' y='136'>B</text><text x='114' y='94'>O</text></svg>`,
+cone:`<svg viewBox='0 0 220 180' width='250'><ellipse cx='110' cy='150' rx='60' ry='16'/><path d='M50 150L110 20L170 150'/><path class='d t' d='M110 20V150H170'/><text x='116' y='90'>12 cm</text><text x='128' y='142'>7 cm</text></svg>`};
+// [question, answer, hint, figure]
+const S1=[
+["රු. 40 000ක් වාර්ෂික 8%ක <b>සුළු පොලියට</b> වසර 3කට තැන්පත් කළ විට ලැබෙන මුළු පොලිය රුපියල් කීයද?",9600,"පොලිය = [[P × r × n|100]]"],
+["නිවසක වාර්ෂික වටිනාකම රු. 96 000කි. නගර සභාව වාර්ෂිකව 15%ක <b>වරිපනම් බද්දක්</b> අය කරයි. එය කාර්තුවකට (මාස 3කට) ගෙවිය යුතු මුදල රුපියල් කීයද?",3600,"මුලින් වසරක බද්ද සොයා, 4 න් බෙදන්න."],
+["lg 8 + lg 125 හි අගය කීයද?",3,"lg a + lg b = lg(a × b)"],
+["වාර්ෂික ආදායම රු. 1 500 000කි. රු. 1 200 000ක් බදු රහිත වන අතර, ඉතිරි ආදායමට 6%ක <b>ආදායම් බද්දක්</b> අය කරයි. ගෙවිය යුතු ආදායම් බද්ද රුපියල් කීයද?",18000,"බදු අදාළ ආදායම = 1 500 000 − 1 200 000"],
+["රු. 150 000 වටිනා භාණ්ඩයක් ආනයනය කරන විට 30%ක <b>තීරු බද්දක්</b> අය කරයි. ගෙවිය යුතු තීරු බද්ද රුපියල් කීයද?",45000,"150 000 × [[30|100]]"],
+["රූපයේ ත්‍රිකෝණයේ කෝණ (2x + 10)°, (x + 25)° සහ (3x − 5)° වේ. විශාලතම කෝණයේ අගය අංශක කීයද?",70,"ත්‍රිකෝණයක කෝණ ඓක්‍යය 180°; මුලින් x සොයන්න.",FIG.tri],
+["වැඩ කරන්නන් 8 දෙනෙකුට දින 15කින් අවසන් කළ හැකි වැඩක්, වැඩ කරන්නන් 12 දෙනෙකුට දින කීයකින් අවසන් කළ හැකිද?",10,"මිනිස්දින = 8 × 15"],
+["අරය 21 cm වූ වෘත්තයක <b>පරිධිය</b> (cm) කීයද? (π = [[22|7]])",132,"පරිධිය = 2πr",FIG.circ],
+["රූපයේ කේන්ද්‍රික ඛණ්ඩයේ අරය 14 cm ද කේන්ද්‍රික කෝණය 90° ද වේ. එහි වර්ගඵලය (cm²) කීයද? (π = [[22|7]])",154,"වර්ගඵලය = [[90|360]] × πr²",FIG.sec],
+["ගමනක් ආරම්භයේ පැය 2ක් පැයට 60 km වේගයෙන් ද, ඊළඟ පැය 3ක් පැයට 80 km වේගයෙන් ද ගමන් කළේ නම්, මුළු ගමනේ <b>සාමාන්‍ය වේගය</b> (km/h) කීයද?",72,"සාමාන්‍ය වේගය = [[මුළු දුර|මුළු කාලය]]"]];
+const S2=[
+["O කේන්ද්‍රය වූ වෘත්තයේ AÔB = 112° වේ. C ලක්ෂ්‍යය මහා චාපය මත පිහිටා ඇත්නම් ACB̂ (අංශක) කීයද?",56,"කේන්ද්‍රයේ කෝණය = පරිධියේ කෝණය මෙන් 2 ගුණයක්.",FIG.ang],
+["අරය 13 cm වූ වෘත්තයක AB <b>ජ්‍යායේ</b> දිග 24 cm වේ. කේන්ද්‍රයේ සිට AB ජ්‍යායට ඇති ලම්බ දුර (cm) කීයද?",5,"ලම්බය ජ්‍යාය සමච්ඡේදනය කරයි: 13² − 12²",FIG.chord],
+["ධාරිතාව ලීටර් 900ක් වූ හිස් ටැංකියකට නළ දෙකකින් ජලය ගලයි. පළමු නළයෙන් මිනිත්තුවට ලීටර් 12ක් ද, දෙවැන්නෙන් මිනිත්තුවට ලීටර් 18ක් ද ගලයි. දෙකම එකවර විවෘත කළ විට ටැංකිය පිරීමට මිනිත්තු කීයක් ගතවේද?",30,"<b>පරිමා සීඝ්‍රතා</b> දෙක එකතු කරන්න: 12 + 18"],
+["3x² + 10x + 8 = (3x + 4)(x + p) නම් p හි අගය කීයද?",2,"දකුණු පැත්ත ප්‍රසාරණය කර නියත පද සසඳන්න: 4 × p = 8"],
+["53² − 47² හි අගය, <b>වර්ග දෙකක අන්තරය</b> භාවිතයෙන් සොයන්න.",600,"a² − b² = (a + b)(a − b)"],
+["රූපයේ කේතුවේ අරය 7 cm ද සිරස් උස 12 cm ද වේ. එහි <b>පරිමාව</b> (cm³) කීයද? (π = [[22|7]])",616,"පරිමාව = [[1|3]] πr²h",FIG.cone],
+["විසඳන්න: [[3|x]] + [[2|3x]] = [[11|12]]. x හි අගය කීයද?",4,"වීජීය භාග: හර සමාන කරන්න → [[9 + 2|3x]]"],
+["x = 12 විට [[x² − 25|x + 5]] හි අගය කීයද? (වර්ග දෙකක අන්තරයෙන් සුළු කරන්න)",7,"x² − 25 = (x + 5)(x − 5)"],
+["වාර්ෂික 6%ක සුළු පොලියට වසර 4කට තැන්පත් කළ මුදලකින් රු. 2 400ක පොලියක් ලැබුණි. තැන්පත් කළ මුදල රුපියල් කීයද?",10000,"P = [[I × 100|r × n]]"],
+["රු. 120 000 වටිනා භාණ්ඩයකට 20%ක <b>තීරු බද්දක්</b> එකතු වේ. තීරු බද්ද සහිත මිලට තවත් 10%ක වැට් බද්දක් අය කරයි. අවසාන මුළු මිල රුපියල් කීයද?",158400,"මුලින් තීරු බද්ද සහිත මිල සොයා, ඒ මිලෙන් 10% එකතු කරන්න."]];
+const ST=[{t:'Stage 01 — අඳුරු කාමරය 🕯️',s:'ප්‍රශ්න 10යි.',Q:S1},{t:'Stage 02 — රහස් විද්‍යාගාරය 🧪',s:'ප්‍රශ්න 10යි. තව අමාරුයි!',Q:S2}];
+const N=20,$=id=>document.getElementById(id);
+const S={k:0,i:0,score:0,ok:0,wrong:0,done:0,t0:0,res:[[],[]],wr:0,busy:false,dl:0,tick:0,tid:null};
+
+const sy=['π','∑','√','x²','∞','÷','×','%','∠','Δ','7','3','=','sin','log','∫'];
+for(let i=0;i<24;i++){const s=document.createElement('span');s.textContent=sy[i%sy.length];s.style.left=Math.random()*100+'%';s.style.fontSize=(18+Math.random()*44)+'px';s.style.animationDuration=(14+Math.random()*22)+'s';s.style.animationDelay=(-Math.random()*30)+'s';$('bg').appendChild(s)}
+document.addEventListener('mousemove',e=>{const r=document.documentElement.style;r.setProperty('--ry',((e.clientX/innerWidth-.5)*6).toFixed(2)+'deg');r.setProperty('--rx',(2-(e.clientY/innerHeight-.5)*5).toFixed(2)+'deg')});
+$('stages').innerHTML=ST.map((g,k)=>`<section class="sec" id="g${k}"><h2>${g.t}</h2><p class="sub">${g.s}</p><div class="locks" id="L${k}"></div>
+<div class="tm" id="TM${k}"><span class="tnum" id="TN${k}">2:00</span><div class="tbar"><i id="TB${k}"></i></div></div>
+<div class="q" id="Q${k}"></div><div class="fig" id="D${k}"></div><div class="row"><input type="number" step="any" id="A${k}" aria-label="පිළිතුර" placeholder="පිළිතුර"><button class="btn" id="B${k}">පරීක්ෂා කරන්න 🔑</button></div>
+<div class="msg" id="M${k}"></div><div class="hint" id="H${k}"></div></section>`).join('');
+
+let ac,on=true;
+function tone(f,d,type='sine',v=.15,t=0){if(!on)return;ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain(),n=ac.currentTime+t;o.type=type;o.frequency.setValueAtTime(f,n);g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(ac.destination);o.start(n);o.stop(n+d)}
+const snd={click:()=>tone(520,.08,'square',.06),
+ ok:()=>[660,880,1175].forEach((f,i)=>tone(f,.25,'triangle',.18,i*.1)),
+ bad:()=>{tone(150,.3,'sawtooth',.18);tone(110,.35,'sawtooth',.18,.12)},
+ alarm:()=>{tone(1000,.12,'square',.14);tone(760,.12,'square',.14,.14)},
+ up:()=>[600,450,300,200].forEach((f,i)=>tone(f,.3,'sawtooth',.16,i*.16)),
+ unlock:()=>{tone(200,.1,'square',.12);tone(300,.15,'square',.12,.12);[784,988,1318].forEach((f,i)=>tone(f,.4,'sine',.18,.3+i*.12))},
+ win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.3,'triangle',.2,i*.15))};
+$('snd').onclick=()=>{on=!on;$('snd').textContent=on?'🔊':'🔇';snd.click()};
+
+function show(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+function addScore(n){S.score=Math.max(0,S.score+n);$('score').textContent='⭐ '+S.score}
+$('start').onclick=()=>{if(!$('nm').value.trim()||!$('gp').value.trim()){$('m1').textContent='⚠️ නම සහ කණ්ඩායමේ නම ඇතුළත් කරන්න.';snd.bad();return}
+ snd.unlock();S.t0=Date.now();stage(0)};
+function stage(k){S.k=k;S.i=0;show('g'+k);render()}
+function locks(){const k=S.k,Q=ST[k].Q;$('L'+k).innerHTML=Q.map((_,j)=>{const r=S.res[k][j];return `<div class="lock ${r!==undefined?(r===null?'miss':'done'):''} ${j==S.i?'cur':''}">${r===undefined?'🔒':r===null?'✖':Math.abs(r)%10}</div>`}).join('')}
+function render(){const k=S.k,Q=ST[k].Q;
+ if(S.i>=Q.length){if(k<ST.length-1){snd.unlock();stage(k+1)}else finish();return}
+ locks();S.wr=0;S.busy=false;
+ $('Q'+k).innerHTML=`<span style="color:var(--gold)">ප්‍රශ්නය ${S.i+1}/${Q.length}</span><br>`+fx(Q[S.i][0]);
+ $('D'+k).innerHTML=Q[S.i][3]||'';$('A'+k).value='';$('M'+k).textContent='';$('H'+k).textContent='';$('A'+k).focus();
+ $('prog').textContent=S.done+'/'+N;
+ S.dl=Date.now()+TL*1000;S.tick=-1;clearInterval(S.tid);S.tid=setInterval(tickFn,200);tickFn()}
+function stopTimer(){clearInterval(S.tid);document.body.classList.remove('danger');$('TM'+S.k).classList.remove('red')}
+function tickFn(){const k=S.k,left=Math.max(0,(S.dl-Date.now())/1000),sec=Math.ceil(left);
+ $('TN'+k).textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');$('TB'+k).style.width=(left/TL*100)+'%';
+ const red=sec<=10&&left>0;$('TM'+k).classList.toggle('red',red);document.body.classList.toggle('danger',red);
+ if(red&&sec!==S.tick){S.tick=sec;snd.alarm()}
+ if(left<=0&&!S.busy)timeUp()}
+function advance(ms){S.busy=true;S.done++;$('prog').textContent=S.done+'/'+N;setTimeout(()=>{S.i++;render()},ms)}
+function timeUp(){const k=S.k,Q=ST[k].Q;stopTimer();snd.up();S.res[k][S.i]=null;locks();
+ $('M'+k).className='msg bad';$('M'+k).textContent='⏰ කාලය ඉවරයි! නිවැරදි පිළිතුර: '+Q[S.i][1]+' (යතුර නැති වුණා)';advance(3000)}
+function check(k){if(S.busy||k!==S.k)return;const Q=ST[k].Q,v=$('A'+k).value;if(v==='')return;snd.click();
+ if(Math.abs(parseFloat(v)-Q[S.i][1])<1e-6){stopTimer();S.res[k][S.i]=Q[S.i][1];S.ok++;
+  const bonus=Math.round(Math.max(0,(S.dl-Date.now())/1000)/24);addScore((S.wr?5:10)+bonus);locks();snd.ok();
+  $('M'+k).className='msg ok';$('M'+k).textContent='✅ නිවැරදියි! යතුර ලැබුණා 🔑';advance(900)}
+ else{S.wrong++;S.wr++;snd.bad();addScore(-1);$('M'+k).className='msg bad';$('M'+k).textContent='❌ වැරදියි! නැවත උත්සාහ කරන්න.';
+  const c=$('Q'+k);c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');
+  if(S.wr>=2)$('H'+k).innerHTML='💡 ඉඟිය: '+fx(Q[S.i][2])}}
+ST.forEach((_,k)=>{$('B'+k).onclick=()=>check(k);$('A'+k).addEventListener('keydown',e=>{if(e.key==='Enter')check(k)})});
+
+function finish(){stopTimer();const s=Math.floor((Date.now()-S.t0)/1000);snd.win();addScore(20);
+ const rank=S.ok>=18?'🏅 Math Master':S.ok>=12?'🥈 Super Solver':'🥉 Brave Escaper';
+ $('win').textContent=`${$('nm').value} (${$('gp').value}${$('gr').value?' • '+$('gr').value+' ශ්‍රේණිය':''}) සාර්ථකව කාමරයෙන් පැන ගියා! ${rank}`;
+ $('stats').innerHTML=`<div class="stat"><b>${Math.floor(s/60)}m ${s%60}s</b>මුළු කාලය</div><div class="stat"><b>${S.score}</b>ලකුණු</div><div class="stat"><b>${S.ok}/${N}</b>නිවැරදි</div><div class="stat"><b>${S.wrong}</b>වැරදි උත්සාහ</div>`;
+ const GF_BASE="https://docs.google.com/forms/d/e/1FAIpQLScmaRhkPAuqr_t-C-GkGu0JNBBhvT9VX7YSnysn68hC7iP5Fg/viewform",GF_E={"GAME": "entry.1343312173", "NAME": "entry.1341088117", "GRADE": "entry.765725535", "SCORE": "entry.101774562", "TIME": "entry.736987893", "CORRECT": "entry.1686830365", "WRONG": "entry.396852829", "RANK": "entry.1917189363", "EXTRA": "entry.225628272"};function gfUrl(v){const q=new URLSearchParams({usp:'pp_url'});Object.keys(v).forEach(k=>{if(v[k]!==undefined&&v[k]!==null&&v[k]!=='')q.set(GF_E[k],v[k])});return GF_BASE+'?'+q.toString()}
+ $('gf').href=gfUrl({GAME:'Escape Room',NAME:$('nm').value,EXTRA:$('gp').value,GRADE:$('gr').value,SCORE:S.score,CORRECT:S.ok+'/'+N,WRONG:S.wrong,TIME:Math.floor(s/60)+'m '+(s%60)+'s',RANK:rank});
+ show('s5');confetti()}
+function confetti(){const c=$('fx'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const P=Array.from({length:160},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height,r:4+Math.random()*6,vy:2+Math.random()*4,vx:-1+Math.random()*2,h:Math.random()*360}));let f=0;(function loop(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.vy;p.x+=p.vx;x.fillStyle=`hsl(${p.h},90%,60%)`;x.fillRect(p.x,p.y,p.r,p.r*1.6)});if(++f<420)requestAnimationFrame(loop);else x.clearRect(0,0,c.width,c.height)})()}
+</script>
+</body>
+</html>

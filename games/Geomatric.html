@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="si"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>🔥Shape_Shifters 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Noto+Sans+Sinhala:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#160400;--c:#2a0c05;--c2:#3b1308;--tx:#fff1e0;--or:#ff8a1f;--rd:#ff3d1f;--yl:#ffd166;--gn:#3ddc84;--bd:#6b2a12;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Poppins,'Noto Sans Sinhala',sans-serif;color:var(--tx);min-height:100vh;background:radial-gradient(ellipse at 50% 110%,#7a1d00 0,#3a0a00 38%,#160400 75%) fixed;overflow-x:hidden}
+[hidden]{display:none!important}
+#fire{position:fixed;left:0;right:0;bottom:-30px;height:200px;z-index:0;pointer-events:none;filter:blur(7px)}
+.fi{position:absolute;bottom:0;width:90px;height:150px;border-radius:50% 50% 45% 45%/70% 70% 30% 30%;background:radial-gradient(ellipse at 50% 85%,#fff3a0 0,#ffb21f 35%,#ff4d00 65%,transparent 80%);transform-origin:50% 100%;animation:fl 1.1s ease-in-out infinite alternate;opacity:.85}
+@keyframes fl{0%{transform:scale(.8,.75) translateY(6px) skewX(-4deg)}50%{transform:scale(1.05,1.15) skewX(5deg)}100%{transform:scale(.9,1.3) translateY(-8px) skewX(-3deg)}}
+.em{position:fixed;bottom:0;width:6px;height:6px;border-radius:50%;background:#ffb347;box-shadow:0 0 10px 3px #ff7a1a;z-index:1;pointer-events:none;animation:up linear forwards}
+@keyframes up{to{transform:translate(var(--dx),-105vh);opacity:0}}
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:14px 14px 170px}
+.card{background:linear-gradient(160deg,var(--c2),var(--c));border:2px solid var(--or);border-radius:22px;padding:18px;box-shadow:0 0 28px #ff5a0055,inset 0 0 22px #ff5a0022;animation:pop .5s}
+@keyframes pop{from{transform:scale(.92) translateY(14px);opacity:0}}
+h1.t{margin:0 0 6px;font-size:28px;text-align:center;background:linear-gradient(180deg,#fff3a0,#ff8a1f 55%,#ff3d1f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px #ff5a00aa)}
+.card p{line-height:1.7;margin:6px 0 14px;opacity:.92}
+input{width:100%;padding:14px;border:2px solid var(--bd);border-radius:12px;font:inherit;background:#1d0803;color:var(--tx);margin-bottom:10px}input:focus{outline:none;border-color:var(--or);box-shadow:0 0 14px #ff8a1f88}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:13px 18px;font-weight:700;transition:transform .15s,box-shadow .15s;color:#fff}
+button:hover{transform:translateY(-2px);box-shadow:0 6px 18px #ff5a0066}
+.go{width:100%;font-size:18px;background:linear-gradient(135deg,#ff3d1f,#ff8a1f);box-shadow:0 0 18px #ff5a0099}
+.sc{background:#3b1308;border:2px solid var(--or);color:var(--yl)}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between;background:#2a0c05cc;border:2px solid var(--or);border-radius:16px;padding:8px 12px;margin-bottom:10px;font-weight:700;flex-wrap:wrap}
+.top b{color:var(--yl)}.stk{font-size:18px}.stk.hot{animation:pulse .6s infinite alternate}
+@keyframes pulse{to{transform:scale(1.18);text-shadow:0 0 14px #ff8a1f}}
+.pg{height:12px;border-radius:9px;background:#3b1308;overflow:hidden;margin-bottom:10px;border:1px solid var(--bd)}.pg i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff3d1f,#ffb21f,#fff3a0);transition:width .5s;box-shadow:0 0 12px #ff8a1f}
+.dg{width:100%;max-height:300px;display:block}
+.dgw{background:radial-gradient(circle at 50% 40%,#3d1507,#1d0803);border:2px solid var(--bd);border-radius:16px;margin-bottom:10px;padding:6px}
+.cr{fill:none;stroke:#ff9a3c;stroke-width:2.6}.ln{stroke:#ffe0a3;stroke-width:2.2}.ds{stroke:#ffe0a3;stroke-width:2;stroke-dasharray:5 4;opacity:.8}.ar{fill:none;stroke:#ff5a3c;stroke-width:2.6}
+.lb{fill:#fff;font:700 15px Poppins}.at{fill:#ffd166;font:800 13px Poppins;text-anchor:middle}.pt{fill:#ffd166}.tri{fill:#ff6a1a66}.rm{fill:none;stroke:#ff5a3c;stroke-width:2}.mt{fill:#8fe3ff;font:700 12px Poppins;text-anchor:middle}.tk{stroke:#ffe0a3;stroke-width:2.2}
+.q{font:600 17px/1.7 'Noto Sans Sinhala',Poppins;margin:0 0 10px}
+.fz{height:14px;border-radius:9px;background:#2a0c05;border:1px solid var(--bd);position:relative;margin-bottom:12px}.fz i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#c0392b,#ff8a1f,#ffd166);transition:width .25s linear}.fz i:after{content:"🔥";position:absolute;right:-12px;top:-9px;font-size:20px}
+.ans{display:flex;gap:8px;align-items:center;margin-bottom:10px}.ans input{margin:0;font-size:22px;text-align:center;flex:1}.ans span{font-weight:800;color:var(--yl);min-width:34px}.ans button{background:linear-gradient(135deg,#ff3d1f,#ff8a1f);font-size:20px}
+.mc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.mc button{background:#3b1308;border:2px solid var(--bd);font-size:17px}.mc button.no{border-color:var(--rd);background:#ff3d1f44}.mc button.yes{border-color:var(--gn);background:#3ddc8444}
+.fb{border-radius:16px;padding:12px;margin-bottom:10px;line-height:1.7;animation:pop .4s;font-size:15px}.fb.ok{background:#12351f;border:2px solid var(--gn)}.fb.bad{background:#4a1208;border:2px solid var(--rd)}.fb b{color:var(--yl)}
+.nx{width:100%;background:linear-gradient(135deg,#2e9e5b,#3ddc84);color:#04210f;margin-bottom:8px}
+.shake{animation:sh .45s}@keyframes sh{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+#mt{position:fixed;bottom:14px;right:12px;z-index:30;background:#2a0c05cc;border:2px solid var(--or);font-size:20px;padding:6px 10px}
+.big{font:800 64px Poppins;text-align:center;margin:0;color:var(--yl);text-shadow:0 0 22px #ff5a00}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}.row div{background:#3b1308;border:2px solid var(--bd);border-radius:14px;padding:8px 16px;min-width:100px;text-align:center}.row small{display:block;opacity:.7}
+.rv{background:#3b1308;border-left:5px solid var(--or);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:14px;line-height:1.6}
+.ov{position:fixed;inset:0;background:#000b;z-index:40;overflow:auto;padding:14px}.ov>div{max-width:680px;margin:0 auto}
+#toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-90px);background:#2e9e5b;color:#fff;padding:11px 22px;border-radius:99px;font-weight:700;transition:.4s;z-index:60}#toast.on{transform:translate(-50%,0)}#toast.bad{background:#c0392b}
+</style></head><body>
+<div id="fire"></div>
+<button id="mt" onclick="toggleSound()">🔊</button>
+<div id="toast"></div>
+<section id="s1" class="wrap"><div class="card">
+<h1 class="t">🔥Shape_Shifters 🔥</h1>
+<p>වෘත්ත ජ්‍යාමිතිය, සමාන්තර රේඛා අතර වර්ගඵල, මධ්‍ය ලක්ෂ්‍ය ප්‍රමේයය සහ ත්‍රිකෝණමිතිය ගැන ප්‍රශ්න <b>30</b> ක්! හරියට උත්තර දෙමින් <b>ගිනි පරම්පරාව</b> 🔥 දිගටම ගිනිගන්වන්න. හැම ප්‍රශ්නයකටම පස්සේ අදාළ ප්‍රමේයය පෙන්වනවා.</p>
+<input id="nm" maxlength="30" placeholder="ඔබේ නම (අවශ්‍ය නම් පමණක්)">
+<button class="go" onclick="start()">🚀 Check the Answer!</button>
+<button class="sc" style="width:100%;margin-top:10px" onclick="showTheory()">📖 ප්‍රමේය බලන්න</button>
+</div></section>
+
+<section id="s2" class="wrap" hidden>
+<div class="top"><div>👤 <b id="pn"></b></div><div class="stk" id="sk">🔥×0</div><div>⭐ <b id="xp">0</b></div><div><b id="no">1</b> / 30</div></div>
+<div class="pg"><i id="pb"></i></div>
+<div class="dgw" id="dg"></div>
+<p class="q" id="qt"></p>
+<div class="fz"><i id="fz" style="width:100%"></i></div>
+<div id="ia"></div><div id="fb"></div>
+<button class="nx" id="nx" hidden onclick="next()">ඊළඟ ප්‍රශ්නය ▶</button>
+<button class="sc" style="width:100%" onclick="showTheory()">📖 ප්‍රමේය</button>
+</section>
+
+<section id="s3" class="wrap" hidden><div class="card">
+<h1 class="t">🏆 අභියෝගය අවසන්!</h1>
+<p class="big" id="fs">0</p><p style="text-align:center;font-size:20px;font-weight:800" id="rk"></p>
+<div class="row" id="bk"></div>
+<h3 style="margin:14px 0 4px;color:var(--yl)" id="rvt"></h3><div id="rv"></div>
+<a class="go" id="gf" target="_blank" rel="noopener" style="margin-top:12px;display:block;text-align:center;text-decoration:none">📨 ලකුණු Google Form එකට යවන්න</a>
+<button class="go" style="margin-top:12px" onclick="location.reload()">🔥 නැවත ක්‍රීඩා කරන්න</button>
+</div></section>
+
+<div class="ov" id="th" hidden><div class="card"><h1 class="t">📖 ප්‍රමේය</h1><div id="tl"></div><button class="go" style="margin-top:10px" onclick="$('th').hidden=true">✖ වසන්න</button></div></div>
+
+<script>
+const CX=150,CY=120,R=95,pc=a=>[CX+R*Math.cos(a*Math.PI/180),CY-R*Math.sin(a*Math.PI/180)];
+const f1=n=>n.toFixed(1),SV=x=>`<svg viewBox="0 0 300 250" class="dg">${x}</svg>`;
+const TH={tc:['කේන්ද්‍රික කෝණය','එකම චාපයක් මත කේන්ද්‍රයේ ආපාතිත කෝණය, වෘත්ත පරිධියේ ආපාතිත කෝණයේ දෙගුණයකි.'],
+ti:['සමද්විපාද ත්‍රිකෝණය','ත්‍රිකෝණයක කෝණ ඓක්‍යය 180° ය. අරයන් සමාන නිසා OAB සමද්විපාද ත්‍රිකෝණයකි (පාදක කෝණ සමානයි).'],
+ts:['එකම ඛණ්ඩයේ කෝණ','එකම ඛණ්ඩයේ (එකම චාපය මත) පිහිටි කෝණ සමානයි.'],
+th:['අර්ධ වෘත්තයේ කෝණය','අර්ධ වෘත්තයේ කෝණය සෘජුකෝණයකි (90°). සෘජුකෝණී ත්‍රිකෝණයක් නිසා පයිතගරස් ප්‍රමේයය ද යොදාගත හැක.'],
+ty:['චක්‍රීය චතුරස්‍රය','චක්‍රීය චතුරස්‍රයක ප්‍රතිමුඛ කෝණවල ඓක්‍යය 180° ය.'],
+te:['චක්‍රීය චතුරස්‍රයේ බාහිර කෝණය','චක්‍රීය චතුරස්‍රයක පාදයක් දික් කළ විට සෑදෙන බාහිර කෝණය, අභ්‍යන්තර ප්‍රතිමුඛ කෝණයට සමානයි.'],
+tb:['ජ්‍යායට ලම්බය','වෘත්ත කේන්ද්‍රයේ සිට ජ්‍යායකට ඇඳි ලම්බය ජ්‍යාය සමච්ඡේදනය කරයි (පයිතගරස් ප්‍රමේයය ද යොදාගන්න).'],
+tp:['ත්‍රිකෝණය හා සමාන්තරාස්‍රය','එකම පාදයක් මත, එකම සමාන්තර රේඛා යුගලය අතර පිහිටි ත්‍රිකෝණයක වර්ගඵලය සමාන්තරාස්‍රයක වර්ගඵලයෙන් අඩකි.'],
+tq:['සමාන වර්ගඵල','එකම පාදයක් මත, එකම සමාන්තර රේඛා යුගලය අතර පිහිටි ත්‍රිකෝණ (හෝ සමාන්තරාස්‍ර) වල වර්ගඵල සමානයි.'],
+tm:['මධ්‍ය ලක්ෂ්‍ය ප්‍රමේයය','ත්‍රිකෝණයක පාද දෙකක මධ්‍ය ලක්ෂ්‍ය යා කරන රේඛාව තුන්වන පාදයට සමාන්තර වන අතර එහි දිග තුන්වන පාදයෙන් අඩකි.'],
+tt:['ත්‍රිකෝණමිතිය','සෘජුකෝණී ත්‍රිකෝණයක: sin θ = සම්මුඛ ÷ කර්ණය, cos θ = බද්ධ ÷ කර්ණය, tan θ = සම්මුඛ ÷ බද්ධ.']};
+function draw(s){const P={};
+for(const k in s.p){const v=s.p[k];if(typeof v=='number'){const xy=pc(v);P[k]={xy,dx:(xy[0]-CX)/R*15,dy:(xy[1]-CY)/R*15+5}}
+else if(v.mid){const a=P[v.mid[0]].xy,b=P[v.mid[1]].xy;P[k]={xy:[(a[0]+b[0])/2,(a[1]+b[1])/2],dx:v.dx||0,dy:v.dy??-8}}
+else if(v.ext){const a=P[v.ext[0]].xy,b=P[v.ext[1]].xy,f=v.ext[2];P[k]={xy:[b[0]+(b[0]-a[0])*f,b[1]+(b[1]-a[1])*f],dx:6,dy:6}}
+else P[k]={xy:[v.x,v.y],dx:v.dx||0,dy:v.dy||0}}
+if(!s.noc)P.O={xy:[CX,CY],dx:8,dy:-8};const g=k=>P[k].xy;let o='';
+(s.f||[]).forEach(([l,c])=>o+=`<polygon class="${c}" points="${[...l].map(k=>g(k).map(f1)).join(' ')}"/>`);
+if(!s.noc)o+=`<circle class="cr" cx="${CX}" cy="${CY}" r="${R}"/>`;
+(s.l||[]).forEach(l=>{const d=l[0]=='~',a=g(l[d?1:0]),b=g(l[d?2:1]);o+=`<line class="${d?'ds':'ln'}" x1="${f1(a[0])}" y1="${f1(a[1])}" x2="${f1(b[0])}" y2="${f1(b[1])}"/>`});
+(s.t||[]).forEach(([p,q,n])=>{const a=g(p),b=g(q),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;for(let i=0;i<n;i++){const off=(i-(n-1)/2)*6,cx=mx+ux*off,cy=my+uy*off;o+=`<line class="tk" x1="${f1(cx-uy*6)}" y1="${f1(cy+ux*6)}" x2="${f1(cx+uy*6)}" y2="${f1(cy-ux*6)}"/>`}});
+(s.r||[]).forEach(([v,a,b])=>{const V=g(v),A=g(a),B=g(b),la=Math.hypot(A[0]-V[0],A[1]-V[1]),lb=Math.hypot(B[0]-V[0],B[1]-V[1]),u=[(A[0]-V[0])/la*11,(A[1]-V[1])/la*11],w=[(B[0]-V[0])/lb*11,(B[1]-V[1])/lb*11];o+=`<polyline class="rm" points="${f1(V[0]+u[0])},${f1(V[1]+u[1])} ${f1(V[0]+u[0]+w[0])},${f1(V[1]+u[1]+w[1])} ${f1(V[0]+w[0])},${f1(V[1]+w[1])}"/>`});
+(s.a||[]).forEach(([v,a,b,r,tx])=>{const V=g(v),A=g(a),B=g(b),a1=Math.atan2(A[1]-V[1],A[0]-V[0]),a2=Math.atan2(B[1]-V[1],B[0]-V[0]);let d=a2-a1;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;
+const x1=V[0]+r*Math.cos(a1),y1=V[1]+r*Math.sin(a1),x2=V[0]+r*Math.cos(a2),y2=V[1]+r*Math.sin(a2),m=a1+d/2;
+o+=`<path class="ar" d="M${f1(x1)},${f1(y1)} A${r},${r} 0 0 ${d>0?1:0} ${f1(x2)},${f1(y2)}"/><text class="at" x="${f1(V[0]+(r+15)*Math.cos(m))}" y="${f1(V[1]+(r+15)*Math.sin(m)+4)}">${tx}</text>`});
+for(const k in P){if(k=='O'&&s.noc)continue;const p=P[k];o+=`<circle class="pt" cx="${f1(p.xy[0])}" cy="${f1(p.xy[1])}" r="3.6"/><text class="lb" x="${f1(p.xy[0]+p.dx-4)}" y="${f1(p.xy[1]+p.dy)}">${k}</text>`}
+(s.m||[]).forEach(([p,q,tx,dx,dy])=>{const a=g(p),b=g(q);o+=`<text class="mt" x="${f1((a[0]+b[0])/2+dx)}" y="${f1((a[1]+b[1])/2+dy)}">${tx}</text>`});
+(s.tx||[]).forEach(([x,y,tx])=>o+=`<text class="at" x="${x}" y="${y}" style="font-size:16px">${tx}</text>`);
+return SV(o)}
+const SP=(x,y,dx=0,dy=0)=>({x,y,dx,dy});
+const cy4={A:205,B:295,C:20,D:110},CH=(h,d)=>({A:SP(150-h,120+d,-14,14),B:SP(150+h,120+d,6,14),M:SP(150,120+d,0,16)});
+const Q=[
+/*1*/{t:'tc',q:'O කේන්ද්‍රය වන වෘත්තයේ ∠AOB = 100° නම් ∠ACB (x) සොයන්න.',a:[50],u:'°',d:{p:{A:220,B:320,C:95},l:['OA','OB','CA','CB'],a:[['O','A','B',22,'100°'],['C','A','B',28,'x°']]}},
+/*2*/{t:'tc',q:'∠ACB = 35° නම් කේන්ද්‍රයේ ආපාතිත ∠AOB (x) සොයන්න.',a:[70],u:'°',d:{p:{A:235,B:305,C:100},l:['CA','CB','OA','OB'],a:[['C','A','B',28,'35°'],['O','A','B',22,'x°']]}},
+/*3*/{t:'ti',q:'∠AOB = 130° නම් ∠OAB (x) සොයන්න. (OA = OB අරයන්)',a:[25],u:'°',d:{p:{A:205,B:335},l:['OA','OB','AB'],a:[['O','A','B',24,'130°'],['A','O','B',26,'x°']]}},
+/*4*/{t:'ti',q:'∠ACB = 28° නම් ∠OAB (x) සොයන්න.',a:[62],u:'°',d:{p:{A:242,B:298,C:95},l:['CA','CB','OA','OB','AB'],a:[['C','A','B',26,'28°'],['A','O','B',30,'x°']]}},
+/*5*/{t:'ts',q:'∠ACB = 42° නම් ∠ADB (x) සොයන්න.',a:[42],u:'°',d:{p:{A:228,B:312,C:125,D:55},l:['CA','CB','DA','DB'],a:[['C','A','B',26,'42°'],['D','A','B',26,'x°']]}},
+/*6*/{t:'ts',q:'∠BAC = 37° නම් ∠BDC (x) සොයන්න.',a:[37],u:'°',d:{p:{B:325,C:251,A:130,D:75},l:['AB','AC','DB','DC'],a:[['A','B','C',26,'37°'],['D','B','C',26,'x°']]}},
+/*7*/{t:'th',q:'AB විෂ්කම්භයකි. ∠ABC = 35° නම් ∠BAC (x) සොයන්න.',a:[55],u:'°',d:{p:{A:180,B:0,C:68},l:['AB','AC','CB'],a:[['B','A','C',26,'35°'],['A','B','C',26,'x°']]}},
+/*8*/{t:'th',q:'AB විෂ්කම්භයකි. ∠CAB = 24° නම් ∠ABC (x) සොයන්න.',a:[66],u:'°',d:{p:{A:180,B:0,C:48},l:['AB','AC','CB'],a:[['A','B','C',28,'24°'],['B','A','C',26,'x°']]}},
+/*9*/{t:'th',q:'AB විෂ්කම්භයකි. AB = 10 cm, AC = 6 cm නම් BC දිග (cm) සොයන්න.',a:[8],u:'cm',d:{p:{A:180,B:0,C:106},l:['AB','AC','CB'],m:[['A','C','6 cm',-14,-2],['A','B','10 cm',0,18]]}},
+/*10*/{t:'th',q:'AB විෂ්කම්භයකි. AB = 13 cm, BC = 12 cm නම් AC දිග (cm) සොයන්න.',a:[5],u:'cm',d:{p:{A:180,B:0,C:135},l:['AB','AC','CB'],m:[['A','B','13 cm',0,18],['B','C','12 cm',16,-2]]}},
+/*11*/{t:'th',q:'AB විෂ්කම්භයකි. ∠ACB (x) හි අගය සොයන්න.',a:[90],u:'°',d:{p:{A:180,B:0,C:60},l:['AB','AC','CB'],a:[['C','A','B',22,'x°']]}},
+/*12*/{t:'ty',q:'ABCD චක්‍රීය චතුරස්‍රයකි. ∠ABC = 80° නම් ∠ADC (x) සොයන්න.',a:[100],u:'°',d:{p:cy4,l:['AB','BC','CD','DA'],a:[['B','A','C',24,'80°'],['D','A','C',24,'x°']]}},
+/*13*/{t:'ty',q:'ABCD චක්‍රීය චතුරස්‍රයකි. ∠DAB = 95° නම් ∠BCD (x) සොයන්න.',a:[85],u:'°',d:{p:cy4,l:['AB','BC','CD','DA'],a:[['A','D','B',24,'95°'],['C','B','D',24,'x°']]}},
+/*14*/{t:'te',q:'BC, E දක්වා දික් කර ඇත. ∠DCE = 88° නම් ∠DAB (x) සොයන්න.',a:[88],u:'°',d:{p:{...cy4,E:{ext:['B','C',.45]}},l:['AB','BC','CD','DA','~CE'],a:[['C','D','E',20,'88°'],['A','D','B',24,'x°']]}},
+/*15*/{t:'ty',q:'ABCD චක්‍රීය චතුරස්‍රයකි. AB = BC වේ. ∠ADC = 110° නම් ∠BAC (x) සොයන්න.',a:[55],u:'°',d:{p:{A:210,B:270,C:330,D:90},l:['AB','BC','CD','DA','AC'],t:[['A','B',1],['B','C',1]],a:[['D','A','C',24,'110°'],['A','B','C',26,'x°']]}},
+/*16*/{t:'ty',q:'ABCD චක්‍රීය චතුරස්‍රයකි. x හි අගය සොයන්න.',a:[50],u:'',d:{p:cy4,l:['AB','BC','CD','DA'],a:[['B','A','C',24,'(2x+10)°'],['D','A','C',24,'(x+20)°']]}},
+/*17*/{t:'tb',q:'O කේන්ද්‍රය වන වෘත්තයේ අරය 13 cm, ජ්‍යාය AB = 24 cm වේ. OM ⟂ AB නම් OM දිග (cm) සොයන්න.',a:[5],u:'cm',d:{p:CH(87.7,36.5),l:['AB','OM','OA'],r:[['M','O','B']],m:[['O','A','13 cm',-14,-4],['A','B','24 cm',0,34]]}},
+/*18*/{t:'tb',q:'අරය 10 cm ද OM = 6 cm ද (OM ⟂ AB) නම් ජ්‍යාය AB දිග (cm) සොයන්න.',a:[16],u:'cm',d:{p:CH(76,57),l:['AB','OM','OA'],r:[['M','O','B']],m:[['O','M','6 cm',22,0],['O','A','10 cm',-26,-8]]}},
+/*19*/{t:'tb',q:'ජ්‍යාය AB = 16 cm, OM = 6 cm (OM ⟂ AB) නම් වෘත්තයේ අරය (cm) සොයන්න.',a:[10],u:'cm',d:{p:CH(76,57),l:['AB','OM','OA'],r:[['M','O','B']],m:[['A','B','16 cm',0,34],['O','M','6 cm',22,0]]}},
+/*20*/{t:'tb',q:'OM ⟂ AB ද ∠AOB = 100° ද නම් ∠AOM (x) සොයන්න.',a:[50],u:'°',d:{p:{A:220,B:320,M:{mid:['A','B'],dy:16}},l:['OA','OB','AB','OM'],r:[['M','O','B']],a:[['O','A','B',40,'100°'],['O','A','M',22,'x°']]}},
+/*21*/{t:'tb',q:'O කේන්ද්‍රය වන වෘත්තයේ AB = 18 cm ද OM ⟂ AB ද නම් AM දිග (cm) සොයන්න.',a:[9],u:'cm',d:{p:CH(80,51),l:['AB','OM','OA'],r:[['M','O','B']],m:[['A','B','18 cm',0,34]]}},
+/*22*/{t:'tp',q:'ABCD සමාන්තරාස්‍රයේ වර්ගඵලය 60 cm² වේ. E යනු DC මත ලක්ෂ්‍යයකි. ABE ත්‍රිකෝණයේ වර්ගඵලය (cm²) සොයන්න.',a:[30],u:'cm²',d:{noc:1,p:{A:SP(40,200,-14,14),B:SP(200,200,6,14),C:SP(260,90,8,-4),D:SP(100,90,-14,-4),E:SP(185,90,0,-9)},l:['AB','BC','CD','DA','AE','EB'],f:[['ABE','tri']],tx:[[150,140,'60 cm²']]}},
+/*23*/{t:'tq',q:'ABC ත්‍රිකෝණයේ වර්ගඵලය 18 cm² වේ. AD ∥ BC නම් DBC ත්‍රිකෝණයේ වර්ගඵලය (cm²) සොයන්න.',a:[18],u:'cm²',d:{noc:1,p:{B:SP(60,200,-14,14),C:SP(230,200,6,14),A:SP(110,70,0,-9),D:SP(200,70,0,-9)},l:['BC','AB','AC','DB','DC','~AD'],f:[['ABC','tri']],tx:[[120,165,'18 cm²']]}},
+/*24*/{t:'tp',q:'ABC ත්‍රිකෝණයේ වර්ගඵලය 15 cm² වේ. A, EF මත ලක්ෂ්‍යයකි. BCFE සමාන්තරාස්‍රයේ වර්ගඵලය (cm²) සොයන්න.',a:[30],u:'cm²',d:{noc:1,p:{B:SP(60,200,-14,14),C:SP(220,200,6,14),F:SP(275,80,6,-4),E:SP(115,80,-14,-4),A:SP(175,80,0,-9)},l:['BC','CF','FE','EB','AB','AC'],f:[['ABC','tri']],tx:[[160,160,'15 cm²']]}},
+/*25*/{t:'tq',q:'ABCD හා ABEF සමාන්තරාස්‍ර දෙකකි. ABCD හි වර්ගඵලය 54 cm² නම් ABEF හි වර්ගඵලය (cm²) සොයන්න.',a:[54],u:'cm²',d:{noc:1,p:{A:SP(40,200,-14,14),B:SP(170,200,6,14),C:SP(210,90,6,-8),D:SP(80,90,-12,-8),E:SP(290,90,4,-8),F:SP(160,90,-4,-10)},l:['AB','BC','CD','DA','BE','EF','FA'],f:[['ABCD','tri']],tx:[[110,160,'54 cm²']]}},
+/*26*/{t:'tm',q:'D, E යනු AB හා AC හි මධ්‍ය ලක්ෂ්‍ය වේ. BC = 14 cm නම් DE දිග (cm) සොයන්න.',a:[7],u:'cm',d:{noc:1,p:{A:SP(150,30,0,-10),B:SP(50,200,-14,14),C:SP(250,200,6,14),D:{mid:['A','B'],dx:-16,dy:0},E:{mid:['A','C'],dx:16,dy:0}},l:['AB','BC','CA','DE'],t:[['A','D',1],['D','B',1],['A','E',1],['E','C',1]],m:[['B','C','14 cm',0,34]]}},
+/*27*/{t:'tm',q:'D, E යනු AB හා AC හි මධ්‍ය ලක්ෂ්‍ය වේ. DE = 5 cm නම් BC දිග (cm) සොයන්න.',a:[10],u:'cm',d:{noc:1,p:{A:SP(150,30,0,-10),B:SP(50,200,-14,14),C:SP(250,200,6,14),D:{mid:['A','B'],dx:-16,dy:0},E:{mid:['A','C'],dx:16,dy:0}},l:['AB','BC','CA','DE'],t:[['A','D',1],['D','B',1],['A','E',1],['E','C',1]],m:[['D','E','5 cm',0,-8]]}},
+/*28*/{t:'tm',q:'ABC ත්‍රිකෝණයේ පාද 8, 10, 12 cm වේ. D, E, F යනු පාදවල මධ්‍ය ලක්ෂ්‍යයි. DEF හි පරිමිතිය (cm) සොයන්න.',a:[15],u:'cm',d:{noc:1,p:{A:SP(150,30,0,-10),B:SP(50,200,-14,14),C:SP(250,200,6,14),D:{mid:['A','B'],dx:-16,dy:0},E:{mid:['A','C'],dx:16,dy:0},F:{mid:['B','C'],dx:0,dy:18}},l:['AB','BC','CA','DE','EF','FD'],f:[['DEF','tri']],m:[['A','B','8 cm',-44,0],['A','C','10 cm',46,0],['B','C','12 cm',0,36]]}},
+/*29*/{t:'tt',q:'ABC සෘජුකෝණී ත්‍රිකෝණයේ B = 90° වේ. tan θ හි අගය සොයන්න. (දශම ලෙස හෝ භාග ලෙස)',a:[.75],u:'',d:{noc:1,p:{A:SP(50,190,-14,14),B:SP(220,190,6,14),C:SP(220,63,6,-4)},l:['AB','BC','CA'],r:[['B','A','C']],a:[['A','B','C',32,'θ']],m:[['A','B','4 cm',0,34],['B','C','3 cm',20,0],['A','C','5 cm',-14,-12]]}},
+/*30*/{t:'tt',q:'sin θ සමාන වන අනුපාතය කුමක්ද?',a:[],mc:['BC / AC','AB / AC','BC / AB','AB / BC'],d:{noc:1,p:{A:SP(50,190,-14,14),B:SP(220,190,6,14),C:SP(220,63,6,-4)},l:['AB','BC','CA'],r:[['B','A','C']],a:[['A','B','C',32,'θ']]}}];
+/*DOM*/
+const $=id=>document.getElementById(id);let S,aud,mute=false,cr;
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+function toast(m,bad){const t=$('toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(t.x);t.x=setTimeout(()=>t.className='',1700)}
+function AC(){aud=aud||new (window.AudioContext||window.webkitAudioContext)();if(aud.state=='suspended')aud.resume();return aud}
+function noise(d,v,f0,f1_){if(mute||!aud)return;const n=aud.sampleRate*d,b=aud.createBuffer(1,n,aud.sampleRate),a=b.getChannelData(0);for(let i=0;i<n;i++)a[i]=(Math.random()*2-1)*(1-i/n);const s=aud.createBufferSource();s.buffer=b;const fl=aud.createBiquadFilter();fl.type='bandpass';fl.frequency.setValueAtTime(f0,aud.currentTime);fl.frequency.exponentialRampToValueAtTime(f1_,aud.currentTime+d);const g=aud.createGain();g.gain.value=v;s.connect(fl);fl.connect(g);g.connect(aud.destination);s.start()}
+function tone(f,t0,d,type,v){if(mute||!aud)return;const o=aud.createOscillator(),g=aud.createGain();o.type=type;o.frequency.value=f;o.connect(g);g.connect(aud.destination);const t=aud.currentTime+t0;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.start(t);o.stop(t+d+.05)}
+const sfx={ok:n=>{noise(.5,.5,400,3500);[660,880,1100,1320].slice(0,Math.min(4,1+n)).forEach((f,i)=>tone(f,.08*i,.35,'triangle',.25))},bad:()=>{tone(150,0,.4,'sawtooth',.25);tone(110,.12,.4,'sawtooth',.25);noise(.25,.2,300,80)},tick:()=>tone(900,0,.08,'square',.08),win:()=>{[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.13*i,.4,'triangle',.28));noise(1.2,.4,300,4000)},click:()=>tone(520,0,.08,'sine',.2)};
+function toggleSound(){mute=!mute;$('mt').textContent=mute?'🔇':'🔊'}
+setInterval(()=>{if(!mute&&aud&&!document.hidden&&Math.random()<.55)noise(.03+Math.random()*.05,.06+Math.random()*.06,1500+Math.random()*3000,800)},130);
+(()=>{const F=$('fire');for(let i=0;i<22;i++){const d=document.createElement('div');d.className='fi';d.style.left=(i*4.6-4)+'%';d.style.width=(70+Math.random()*70)+'px';d.style.height=(110+Math.random()*100)+'px';d.style.animationDelay=(-Math.random()*1.2)+'s';d.style.animationDuration=(.7+Math.random()*.8)+'s';F.appendChild(d)}
+setInterval(()=>{const e=document.createElement('div');e.className='em';e.style.left=Math.random()*100+'vw';e.style.setProperty('--dx',(Math.random()*80-40)+'px');e.style.animationDuration=(3+Math.random()*4)+'s';e.style.width=e.style.height=(3+Math.random()*5)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),7500)},260)})();
+function show(id){['s1','s2','s3'].forEach(x=>$(x).hidden=x!=id);scrollTo(0,0)}
+function showTheory(){AC();sfx.click();$('tl').innerHTML=Object.values(TH).map(([a,b])=>`<div class="rv"><b style="color:var(--yl)">${a}</b><br>${b}</div>`).join('');$('th').hidden=false}
+const num=s=>{s=s.trim().replace('−','-').replace(',','.').replace('°','').replace(/\s/g,'');const m=s.match(/^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);return m?m[1]/m[2]:Number(s)};
+function start(){AC();sfx.click();S={n:$('nm').value.trim()||'ධෛර්යවන්තයා',i:0,xp:0,st:0,best:0,ok:0,miss:new Set(),att:0,fd:0};$('pn').textContent=S.n;show('s2');load()}
+function load(){const q=Q[S.i];S.att=0;S.done=0;S.dl=Date.now()+60000;
+$('no').textContent=S.i+1;$('pb').style.width=S.i/Q.length*100+'%';$('dg').innerHTML=draw(q.d);$('qt').textContent=q.q;$('fb').innerHTML='';$('nx').hidden=true;
+if(q.mc){const ix=sh(q.mc.map((t,j)=>[t,j]));$('ia').innerHTML='<div class="mc">'+ix.map(([t,j])=>`<button onclick="pickC(this,${j})">${t}</button>`).join('')+'</div>'}
+else{$('ia').innerHTML=`<div class="ans"><input id="ai" inputmode="decimal" placeholder="පිළිතුර" onkeydown="if(event.key=='Enter')check()"><span>${q.u}</span><button onclick="check()">🔥</button></div>`;setTimeout(()=>{const a=$('ai');a&&a.focus({preventScroll:true})},150)}
+$('sk').className='stk'+(S.st>=3?' hot':'');$('sk').textContent='🔥×'+S.st;$('xp').textContent=S.xp;clearInterval(S.iv);S.iv=setInterval(tick,250)}
+function tick(){if(S.done)return;const r=Math.max(0,(S.dl-Date.now())/1000);$('fz').style.width=r/60*100+'%';if(r<=10&&Math.ceil(r)!=S.lt){S.lt=Math.ceil(r);sfx.tick()}if(r<=0)fail('⏰ කාලය ඉවරයි!')}
+function topicBox(q,ok){const [a,b]=TH[q.t];return `<div class="fb ${ok?'ok':'bad'}">${ok?'✅ නිවැරදියි!':'🔥 නැවත මතක් කරගමු'}${q.mc?'':' <b>'+q.a[0]+q.u+'</b>'}<br>📖 <b>${a}</b>: ${b}</div>`}
+function good(){S.done=1;clearInterval(S.iv);const q=Q[S.i],p=S.att==0?10+Math.min(S.st,5)*2:5;S.xp+=p;S.ok++;S.st++;S.best=Math.max(S.best,S.st);sfx.ok(S.st);boom(S.st>=3?36:20);
+$('sk').textContent='🔥×'+S.st;$('sk').className='stk'+(S.st>=3?' hot':'');$('xp').textContent=S.xp;toast('+'+p+' ⭐'+(S.st>=3?' · ගිනි පරම්පරාව 🔥×'+S.st:''));
+$('fb').innerHTML=topicBox(q,true);$('nx').hidden=false;$('nx').textContent=S.i==Q.length-1?'🏆 ප්‍රතිඵලය බලන්න':'ඊළඟ ප්‍රශ්නය ▶';const a=$('ai');if(a)a.disabled=true;document.querySelectorAll('.mc button').forEach(b=>b.disabled=true)}
+function fail(m){S.done=1;clearInterval(S.iv);const q=Q[S.i];S.st=0;S.miss.add(q.t);sfx.bad();$('sk').textContent='🔥×0';$('sk').className='stk';toast(m,1);
+$('fb').innerHTML=topicBox(q,false)+(q.mc?`<div class="fb bad">නිවැරදි පිළිතුර: <b>${q.mc[0]}</b></div>`:'');$('nx').hidden=false;$('nx').textContent=S.i==Q.length-1?'🏆 ප්‍රතිඵලය බලන්න':'ඊළඟ ප්‍රශ්නය ▶';const a=$('ai');if(a)a.disabled=true;document.querySelectorAll('.mc button').forEach(b=>{b.disabled=true;if(b.textContent==q.mc[0])b.classList.add('yes')})}
+function miss(){const q=Q[S.i];S.att++;S.st=0;$('sk').textContent='🔥×0';$('sk').className='stk';sfx.bad();const o=$('dg');o.classList.remove('shake');void o.offsetWidth;o.classList.add('shake');
+if(S.att>=2||q.mc)fail('❌ වැරදියි!');else toast('❌ වැරදියි – තවත් එක් උත්සාහයක් ඇත!',1)}
+function check(){if(S.done)return;const q=Q[S.i],v=$('ai').value;if(!v.trim()){toast('පිළිතුරක් ඇතුළත් කරන්න',1);return}const x=num(v);q.a.some(a=>Math.abs(x-a)<1e-6)?good():miss()}
+function pickC(b,j){if(S.done)return;if(j==0){b.classList.add('yes');good()}else{b.classList.add('no');miss()}}
+function next(){sfx.click();if(S.i>=Q.length-1)return finish();S.i++;load()}
+function finish(){clearInterval(S.iv);const n=Q.length,p=S.ok/n;$('pb').style.width='100%';
+$('fs').textContent=S.xp+' ⭐';$('rk').textContent=p>=.9?'🌋 ගිනි කන්ද':p>=.7?'🔥🔥 ගිනි ජාලාව':p>=.4?'🔥 ගිනි දැල්ල':'✨ ගිනි පුපුර';
+$('bk').innerHTML=`<div><small>නිවැරදි</small><b>${S.ok}/${n}</b></div><div><small>දිගම 🔥</small><b>×${S.best}</b></div><div><small>${S.n}</small><b>${Math.round(p*100)}%</b></div>`;
+const ms=[...S.miss];$('rvt').textContent=ms.length?'📖 නැවත අධ්‍යයනය කළ යුතු කොටස්':'🎉 සියලු ප්‍රමේය හොඳින් දන්නවා!';$('rv').innerHTML=ms.map(k=>`<div class="rv"><b style="color:var(--yl)">${TH[k][0]}</b><br>${TH[k][1]}</div>`).join('');
+const GF_BASE="https://docs.google.com/forms/d/e/1FAIpQLScmaRhkPAuqr_t-C-GkGu0JNBBhvT9VX7YSnysn68hC7iP5Fg/viewform",GF_E={"GAME": "entry.1343312173", "NAME": "entry.1341088117", "GRADE": "entry.765725535", "SCORE": "entry.101774562", "TIME": "entry.736987893", "CORRECT": "entry.1686830365", "WRONG": "entry.396852829", "RANK": "entry.1917189363", "EXTRA": "entry.225628272"};function gfUrl(v){const q=new URLSearchParams({usp:'pp_url'});Object.keys(v).forEach(k=>{if(v[k]!==undefined&&v[k]!==null&&v[k]!=='')q.set(GF_E[k],v[k])});return GF_BASE+'?'+q.toString()}
+$('gf').href=gfUrl({GAME:'Geomatric',NAME:S.n,SCORE:S.xp,CORRECT:S.ok+'/'+n,RANK:$('rk').textContent,EXTRA:'දිගම ගිනි ×'+S.best});
+show('s3');sfx.win();boom(120)}
+function boom(n){for(let i=0;i<n;i++){const e=document.createElement('div');e.className='em';e.style.left=Math.random()*100+'vw';e.style.setProperty('--dx',(Math.random()*300-150)+'px');e.style.animationDuration=(1.5+Math.random()*2)+'s';e.style.width=e.style.height=(4+Math.random()*7)+'px';e.style.background=['#ffd166','#ff8a1f','#ff3d1f','#fff3a0'][i%4];document.body.appendChild(e);setTimeout(()=>e.remove(),4000)}}
+</script></body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="si"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Geometry Puzzles – Maths Spark ’26</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#ffc83d;--ember:#ff7a00;--red:#ff3b2f;--ink:#ffe9d2;--cyan:#6fe7ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:'Noto Sans Sinhala','Iskoola Pota',system-ui,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 50% 115%,#ff5a00 0%,#8a1b00 28%,#2a0a05 58%,#0b0302 100%) fixed;overflow-x:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body.alarm::after{content:"";position:fixed;inset:0;background:rgba(255,20,20,.28);z-index:70;pointer-events:none;animation:fl2 1s steps(2) infinite}
+@keyframes fl2{50%{opacity:0}}
+.glow{position:fixed;left:-10%;right:-10%;bottom:-8vh;height:38vh;z-index:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,140,0,.55),rgba(255,60,0,.25) 45%,transparent 70%);animation:glw 2.4s ease-in-out infinite alternate;pointer-events:none}
+@keyframes glw{from{opacity:.6;transform:scaleY(.9)}to{opacity:1;transform:scaleY(1.08)}}
+#em{position:fixed;inset:0;z-index:1;pointer-events:none}
+main{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:12px}
+.sec{display:none}.sec.on{display:block}
+.card{background:linear-gradient(160deg,rgba(48,20,12,.95),rgba(20,8,5,.96));border:2px solid rgba(255,140,40,.65);border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 0 22px rgba(255,100,20,.35),0 2px 0 rgba(255,220,160,.12) inset,0 10px 0 -3px #090201,0 26px 44px rgba(0,0,0,.6);transition:transform .15s ease-out;animation:enter .7s cubic-bezier(.2,.8,.2,1),pulse 3s ease-in-out .7s infinite alternate}
+@keyframes enter{from{opacity:0;transform:perspective(900px) rotateX(-26deg) translateY(60px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes pulse{to{box-shadow:0 0 34px rgba(255,120,30,.55),0 2px 0 rgba(255,220,160,.12) inset,0 10px 0 -3px #090201,0 26px 44px rgba(0,0,0,.6)}}
+h1,h2{margin:.2em 0;background:linear-gradient(#fff3a0,#ffb300 45%,#ff5a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #5a1500) drop-shadow(0 0 10px rgba(255,100,0,.5))}
+small,.sm{color:#e9b99a;font-size:14px}
+label{display:block;font-weight:700;margin:12px 0 6px}
+input{width:100%;font:inherit;font-size:20px;padding:12px;color:#fff;background:#1a0805;border:2px solid var(--ember);border-radius:12px;outline:none}
+input:focus{box-shadow:0 0 0 4px rgba(255,140,0,.35)}
+.b3{font:inherit;font-weight:800;font-size:18px;padding:13px 22px;border:0;border-radius:14px;background:linear-gradient(#ffe066,#ff8a00 55%,#d63a00);color:#2a0a00;cursor:pointer;box-shadow:0 7px 0 #8a2100,0 0 18px rgba(255,120,0,.6),0 14px 22px rgba(0,0,0,.5);transition:transform .08s,box-shadow .08s}
+.b3:active{transform:translateY(6px);box-shadow:0 1px 0 #8a2100,0 0 10px rgba(255,120,0,.5)}
+.b3.alt{background:linear-gradient(#5a3a30,#2d1812);color:#ffd9b0;box-shadow:0 7px 0 #0e0402,0 14px 22px rgba(0,0,0,.5)}
+.b3:disabled{filter:grayscale(.8);opacity:.55;cursor:default}
+.wide{width:100%;margin-top:16px;font-size:21px}
+.ctr{text-align:center}
+.flame{position:relative;width:70px;height:92px;margin:0 auto;--k:0;transform-origin:bottom center;transform:scale(calc(.5 + var(--k)*.2));transition:transform .6s cubic-bezier(.3,1.6,.5,1),filter .6s}
+.flame i{position:absolute;bottom:0;left:50%;width:46px;height:46px;margin-left:-23px;border-radius:50% 0 50% 50%;background:radial-gradient(circle at 30% 70%,#fff3a0,#ffb300 40%,#ff5a00 70%,#c01800);filter:blur(1.5px);transform-origin:50% 100%;transform:rotate(-45deg);animation:fk 1.1s ease-in-out infinite alternate}
+.flame i:nth-child(2){width:32px;height:32px;margin-left:-16px;bottom:6px;background:radial-gradient(circle,#fff,#ffe36a 60%,#ff9d00);animation-duration:.8s}
+.flame i:nth-child(3){width:64px;height:64px;margin-left:-32px;opacity:.5;filter:blur(8px);background:#ff4500;animation-duration:1.5s}
+.flame.hot{filter:hue-rotate(185deg) brightness(1.35) drop-shadow(0 0 12px #6fe7ff)}.flame.douse{animation:dz .5s}
+@keyframes fk{0%{transform:rotate(-45deg) scale(1,1)}50%{transform:rotate(-40deg) scale(.94,1.1)}100%{transform:rotate(-50deg) scale(1.05,.94)}}
+@keyframes dz{50%{filter:grayscale(1) brightness(.6)}}
+.hd{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap}
+.hd img{width:42px;height:42px;border-radius:50%;border:2px solid var(--gold)}
+.hd .grow{flex:1;min-width:110px;font-weight:800;color:var(--gold)}
+.pill{background:#1a0805;border:2px solid rgba(255,140,40,.7);border-radius:12px;padding:4px 12px;font-weight:800}
+.sbtn{width:44px;height:44px;padding:0;font-size:20px}
+.pg{display:flex;gap:3px;margin:8px 0}.pg i{flex:1;height:10px;border-radius:5px;background:#2b1008;border:1px solid #5a2a18}
+.pg i.ok{background:linear-gradient(#ffe066,#ff7a00);box-shadow:0 0 8px #ff7a00}.pg i.no{background:#6a1d18}.pg i.cur{animation:cu 1s infinite alternate;border-color:var(--gold)}
+@keyframes cu{to{background:#8a3a10}}
+.qtop{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:8px;gap:8px}
+#tnum{font-size:24px;color:var(--cyan)}
+.tbar{height:14px;background:#1a0805;border-radius:9px;overflow:hidden;border:1px solid rgba(255,140,40,.5)}
+.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ffe066,#ff7a00,#ff2e00)}
+.low #tnum{color:var(--red);animation:lw .5s infinite}@keyframes lw{50%{transform:scale(1.2)}}
+.qtxt{font-size:20px;line-height:1.95;margin:14px 0 6px}
+.fig{display:block;width:min(100%,380px);margin:10px auto;background:radial-gradient(circle at 50% 40%,#2a110a,#12060a);border:1px solid rgba(255,140,40,.55);border-radius:14px;padding:4px;filter:drop-shadow(0 0 8px rgba(255,110,20,.45))}
+.fig .cc{fill:rgba(255,120,30,.06);stroke:#ff7a2f;stroke-width:2.4}.fig .ln{stroke:#ffb347;stroke-width:2.3;stroke-linecap:round}.fig .dd{stroke-dasharray:5 4}
+.fig .ar{fill:none;stroke:#ffe066;stroke-width:1.8}.fig .ra,.fig .tk,.fig .pa{fill:none;stroke:#6fe7ff;stroke-width:1.9;stroke-linecap:round}
+.fig .dt{fill:#fff3c0}.fig text{font:700 12px 'Noto Sans Sinhala',sans-serif}.fig .pn{fill:#ffd9a0;font-style:italic;font-size:13px}.fig .tx{fill:#fff}.fig .unk{fill:#ff6a5a;font-size:16px}
+.row{display:flex;gap:10px;align-items:stretch}.row input{flex:1;min-width:0}.row .b3{white-space:nowrap}
+.tools{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.tools .b3{font-size:15px;padding:9px 16px;box-shadow:0 5px 0 #0e0402,0 8px 14px rgba(0,0,0,.45)}
+.dots{display:flex;gap:8px;margin:12px 0}.dots i{width:14px;height:14px;border-radius:50%;background:#1a0805;border:2px solid #8a4a30}.dots i.x{background:var(--red);border-color:#ffc1b8}
+.hint{display:none;margin-top:10px;padding:10px 14px;border-radius:12px;background:rgba(111,231,255,.1);border:1px dashed var(--cyan);line-height:1.9}
+.msg{min-height:30px;font-weight:800;margin-top:10px;font-size:19px}
+.shake{animation:sh .45s}@keyframes sh{20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:14px 0}.stat div{background:#1a0805;border:2px solid rgba(255,140,40,.6);border-radius:14px;padding:10px;text-align:center;font-size:14px}.stat b{display:block;font-size:26px;color:var(--gold)}
+.rank{display:inline-block;font-size:26px;font-weight:800;color:#2a0a00;background:linear-gradient(#ffe066,#ff8a00);padding:8px 22px;border-radius:40px;box-shadow:0 6px 0 #8a2100,0 0 22px rgba(255,120,0,.7);margin:8px 0}
+table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid rgba(255,200,150,.18);text-align:left}th{color:var(--gold)}
+a.b3{display:block;text-align:center;text-decoration:none;margin-top:14px}
+ol.th{padding-left:22px;line-height:1.9;margin:8px 0}ol.th li{margin-bottom:8px}
+#thm,#lvl{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(10,2,1,.88);padding:14px}
+#thm.on,#lvl.on{display:flex}#thm .card{max-height:88vh;overflow:auto;width:min(100%,640px)}
+#lvl{pointer-events:none}#lvl div{font-size:clamp(34px,9vw,64px);font-weight:800;text-align:center;color:var(--gold);text-shadow:0 0 30px #ff5a00,0 5px 0 #7a1c00;animation:lv 1.8s ease-out both}
+@keyframes lv{0%{transform:scale(.3) rotateX(70deg);opacity:0}25%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="glow"></div><canvas id="em"></canvas>
+<div id="thm"><div class="card"><h2>📖 සිද්ධාන්ත</h2><small>මෙම ක්‍රීඩාවේ ප්‍රශ්න සඳහා අවශ්‍ය සිද්ධාන්ත මේවායි.</small><ol class="th" id="thl"></ol><button class="b3 wide" id="thx">✖ වසන්න</button></div></div>
+<div id="lvl"><div id="lvt"></div></div>
+<main>
+<section class="sec on" id="s-start">
+  <div class="card tilt ctr">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCACaAJYDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6ZZiy/IQX6A+vvTtoSP52wqjnHH60gjHnBicsATnpTb3/AI9yB1LKB/30Kwtu2UTLgKNoAXqMUtBpCQASSAB1NWIWmSyJEpaRgoHcmuC8b/EvTfD5ltrQrd3ycMobCRn/AG27H2GT7DrXlHiHVtc1lBdeJtSXTNPkG5IZFIZ1/wBiAHc31cge9YTxCjsZyqJPlWr/AK37Hsut/Efw9pbMn2v7VMvBS2HmYPuRwPxIrjrz4y73Kabpqs3bzJvm/wC+VDfzrgdDsZNawPDHhe81cDj7ZqJxCPooKxj6EtXb6f8ADvxxOgFxr9ho0J/5YWEfT8ECD9TWXNWnt/kRzTltp6K/4uyGH4k+L5uYNDk2noVsp3H58U0/EjxhB802iSEe9jOv65NXL74UGOFH1LxXqs8juEGxQoJP+8xwODUGkfC+3vDcjTvFOsQT277H3AMOmQRgjI/LpUWnzct9fVj5Ktr3f3RFtfjRLFIE1PSwjdwsmG/75YL/ADrrtF+KXh3USqyztZyHtcLsH/fX3f1rk9Q+G/jSCMiy8T2uqQ/8++oRHB9sNvFcL4g0e+0UFvEvhOexj6G+0lv3Y9yo3Jj6haq9aG/+Yuacd3f1VvxV0fTdtcw3SB7eVJFIyNp7VNXyz4fvNW04/avCOq/boF+ZrdFKyAe8BPP1Q5r1LwT8WrLUnjs9aC2t2TtD5+Rj6Z7H2PP1rSGJT+L+v8jSM03Z6P8ArZ7M9UopsUiSxq8TBkbkEdDTq6SwpaSlpgFFJRQA1OSx9Tj8v8mlIBIyAccjI6UIu1QPSlPHWktgGyOsaF3ICjqa8S8e/Ea61a/Oh+E9778q08bYL4+8VboqDvIfw9ad8W/GlxqWoDwx4fLSSO3lTFGxvbHKZ7ADlj2HHrXF+GPDdz4o1GXw/wCHZylgm06vq4X/AFvoif7P91O+NzelclSo6j5Y/wBf8AxnNt8sfm/0Xn+RHoFjcXeqDT/CVumq60vMuoMP9Gs8948jA/32BYn7or1zwn8J9L06UX/iSU67qzne73GTCreyH731bP0Fdn4Y8Pab4Y0iPTtGtxDbpyT1eRu7O3cn1qxqupQ6bb+ZKSXYhURRlnY9AAOST2FaRpwpLmluXCktrf1/XUtZSKNR8qRqMADgD2ArMl160ErQ23mXUy8FIELkfXaDj8cVBFpVzqZ87W3ZIj92yjfAA/6aMPvH/ZHy/wC91rYhiitUjgt4kiiAO1I1CqMewqrzn5L8TX3UYWrXU1xYI88BtfLm3kTOq4TaRuJzgcn1rN8LSvaDUZYljuXuJFeBYZVcSqM7tpzgkZ6ZrnfiZM9xqtvDc2E+o2Vjd/aLuxiGWmiaMCOQL1ZVYEEeorL8CgxeIp57TTpdMstRu4DZWLp5Z3JkyyhP4V28Hsa86U37bm6rT9PvNVLTkt/W/wBx6kmvQo4S+hmtGJwPOUqD9CeD+BNasUscyExsGXof/riiTbITC6BkZTlWGQR6EViXGiSWb/aNDk8l162zN+7b2X+5/wCg+3evQ/eQ/vL8TP3ZeRzvjL4WaLrxa607OjaqDuW5tVwpb1ZBgH6jB968X8WaLf6Vfiy8bQiC5k+W31mBd0c+O0n979HHuK+ldF1iLUd8TqYbuI7ZIXGGUjrx/nseQc1Nrek2OuaZPp+q20dzZzDDxuPyIPYjsRyKUoQrLmjv3MZ07XX/AA39eZ8/eCPiHqHg7UI9L18mawbBWTdvAQ9GVv4k9+o6H2+h9OvbfUbOO6s5VlhkGQwNfM3j3wZJ4LuEsdRklufDNy5+xXxGXspD/C39R0Yc8EcTfCvxxdeENfGiau26wlYKCDlVz91lPdT1H5fTKnN0nyy/rzX6oUJfZf8AXk/0fU+nKKZE6SxpJGwdHAZWHQg9DT67DQKKKKYBXE/FjxT/AMIz4aka3ZRf3H7qAHsSOW+gGT+AHeu1JABJOAOSa+aPiDrUfij4hTR3JJ0fS1dpgD1RMFx9WbbHWFefLGxMm0tN3ojnNL0/UJ5rXS9MDN4h14cu5JNtat8xLHsXGXY/3cDua+oPB/hyy8K6Bb6Vpq/u4xmSUj5ppD9529z+gwO1eYfBiAQtL4q1aCSXUtekkjtFQD93AnJwCRgMVwMdlUd69A1ybUNSsYjpv2+03lJADa/MhVs8nPsPlxgj60UYcsbvdkQSS0/r/hzo7q5htIfNuZBHHkDJ9T0HFYFncaempPfXt+txPysIELqsQPXAwfmPTPoMeucTVf7We0hW+vLmNvMOxngC4kL/AC7SMfwFlxjrg+taV1bXj6U9pZT6tCzOJGc2w5bfuY5UgjJ7DtxWjipNN9ClNrY6CHUbW8lSK1uNznJICkcY9xUki7Z4t0sgG1iSSPb2rH8Orq4u5v7WuLiZGX5A0PlqDnn6+3pzVzWBFEsYO/DBg3zt93jPfv0/GlUkoRcn0KheWhx/jmCPV5tLsoQRqd5cBYZwSskEY5dgRjgIOnTJqhY6bHpGq6oYt02o2cq3dvdPIZHmtmGQu49sb149BWv4btBr2sazq8rOLeKN9PtmRtpGeZXU9jnAz7VnSacNI8JeFNUtjIYrS1jt7jexY+TIAeT6K2PoDXleyk6Lrfavc7Oe01S6WPQoJEuXgmgnkaKWHejZHIOCO1Tx7hO6F2YBVIz7k/4VzXhFoS81k27NuC0eHI/dsQQOvY5H5Vb8RTalZwOdEt5J52aIPtw7Knz5IDHGeAOeBnPavSpVFUgp9zkqLkbTJNa0r7bdx3emzxQ6nbkBmzncv91gPrx+I6GttdxVdwG7HO3pn2rlba21iw09dRhiW71e+FqLqKYLEIsYDgbVOfvOeScZJ56VSv7HWdV8TanbEGDTZo442aWJnRQiqwaM7lBJZ3Xjn5M9hWiik211JdR2SsdRr2kWWvaRdaZqkIms7lNjqeo9CD2IPIPqK+UfFXhe60TUrvw5fkyXtkpm0+4xj7TbnJ2/XqQOxBFfTWo6xq9kspbTAEM6QwyhWkAUkjeyoS2AAPTkiuC+L/g6+uvCk2txyLLrGl3LX0RjL4EBxvjG4k4GN34H1qKsOdaboznZ6v5+n9aosfAHxn/buhtpV5JuvbMfKT1dPX/PvXrNfIfhXVB4X8d6Zq9odlhf7XKjoAxwy/g36GvrqGRJokljOUdQyn2NTQndWNItta7rR/5/MfRRRXQUYXjbVV0XwtqN83WKFiB6nB4r5XsbWa+0dbaEk3+vaglmr99ikFj9C7gn/dr3P9oa+Nr4IECnBuJVQ/TIJ/TNec/CixF38QPB9swyljp8l+w/2n3MD+br+VcdT3qqj/XcyqbpeX5u35XPo7S7GDTNNtbC0Xbb2sSwxgdlUYH8qs9xRSjqK7DU55I/+EkspkuZZIoYrkY8nALgKGw2QeMn9BVrS7a00PTYrO2uA8av1ldS3zNk5xj1rP8ACd1HbaRePNvxHOQ+xC5zhR0UEnkVbudd09kTi6/1idbKb+8P9isaMm6ab3ColGTLWo31lFHHJcSwmJCWbJBwNp5rjfGmswrp27TNvm3WIrfYB8xJwDx75P0UV017rFk8OYTIjrkBprd4lBIKjllA79K4DRZYNV8cC+mMh03SgCipE0mZWGEGFBPCgnPrXJi3KclRXU3oWSdR9Df0TVNA0TQEsUuLaVoYtoZnQ7n28nrnls0kGseHW8PrpMtxbkRx/ZJGygLKp2Z69SBmtmbUtKuYNSgeO4CSqUyLCUEAxgf3KzfDF5pVp4R0WERz5WKEnNnK3UgnnZz1rb2dRaJq1u3/AATP2lPfqcv4W1JbG9gN8yyfZWNvOSM7kPR+fba3516RY3ml3jtPbvbGJkUAnaMkMwNecfEURJrVvq1gsotrlRbXIeF48OB8h+YDqMj8BXYeGdctn0yGW68xpFjWFjFA8mSpPJ2qcZBU/jWGFvTqOi9tzWtacVUR0dvdQFpVWaEKrYADjptFU/E+pT6Zp0dzbCNv3qq24Z+U56fpUNvr+nebcDF0P3n/AD4zf3V/2KyNY1yy8Q+Chf6aZjBLKEXzYmjbcDjoRzz3GRXZWk1TbT1MKbTkkdp7imyIkkbxyqHjcFWUjgg9RTgNoA9OKK1EfGvi3SZNLOvaK2d2i35aE9/Ik4H/ALIa+mPhDrB1vwDptxI2ZUTy3+oryr40acsPxJutq4XV9FfPvJGDg/8Aji1u/sw35l8OX9mTnyptwHsef/Zq5I+7Vt5/n/wUZU9Hby/J/wCTPa6KKK7DU8P/AGnJiul6VGOhlz+j/wCFVPglGG+JF2T/AMsdDgRfxEVWv2n4idJ0uUdBJz/L/wBmrO+BtwB8RBk/8fegxsPcqUB/9BNcf/L77/yRnL4vu/U+gaKWqWr6laaTp019qEyw20K5Zj/IepNdZbaWrMTSHXTfFup6e52rdYuoffOSR+e78hXQ3YYxqVDNh1OF64DCvN7HxBqniWwOtQaHFHhni02UyhZNh+9I24gY4GOOuSPfPttO8VW3zwS4PXH2sV588T7B8ijdETrOVnGLZ1PxMbUbrTLKy0eJje3MxjRGA6bDlvTAGevrVzwhoqeHNPtbQRySXDB5J5VjC+Y5284HYdK5i317xXp86zahpRu0RSodQsjBTjOChJ7D8q6XQfGema3cRxROIL5MqYJm25JxwD68dOtVSqU51Od6N9yliE0oPT1NxLlg94PIn5P90f3B71m6BOf+EU0QCGb/AFFtztHovvWmrThrzMSZz/z0/wBge1Znh15j4U0T9ygH2e2wfM9l9q7BdSTxDYxa1aS2E8MwEkR2sUB2MGBVsE9jXNfDO01PRLvVtN1gtJOgjdCg4dCWww7Y7fWug8Q+J9O0Fg+oSL5+0qsMbbmOSOvp0rjrzxZ4m1KbzNJ0VraPaVWaYLGSp56uRxx2rjrVKcZqe7XYf1hRTgtfQ9NtSxadirrufI3DH8IFc/4if7br2j6TGMr5n2mYD+GOPB/Vto/GvNb+y8V6hk3GoQAn+A3yj+VbFtq2ueHtCuNVfSrXUNRt0SO4cXId5rdc8rtJ+Ze/HIwe1KGJ9s+VqyJhVlG7lBo9ZpKyPCniLT/FGiw6npMvmQScMp+9G3dWHYiteu8tNNXR4v8AHKMDxp4PlHV47qI/TZ/9esH9lqQi91iLtjP/AKDW38dJgfGXhpAebazu7lvYbCB/6DWJ+y1ETc6tMRwQwz/37/xNckv433fqZx+P7/yR9D0UUV2Gp5d+0PpxvPAbzIuWt3Lfhjd/7IPzryP4U6stj4p8GXznEbSTaXKfTdymf++/0r3Px54j8NXHh6+sLvWLFHlj+UNKOo5H4f4180aedI0ywuLS58R2zkXEdxbvZwSStG6E88hRyp9etcM5L2nNHX+rEVINa+X5O6PsjUL220+ymu76ZYbaFdzux4Ar5x8VeN9P8YeJt2vXv2LwzYnfFacl7puwOOgPc9hwOua0PFfxi8M+IbGK1v8AQbvUYkIfZJIYkZsdSobn6HOK5MfEjSrX5dL8C6BAOxljRz+e3P61tKpzaJM560oyaXOkvv8AyOjvPizpqnbamadQMKsSpCoA4AAO7j8qypfildM2bfTpmX/alkP/AKDgVWX4ua6mBZWGjWi9hFbn+hFW734i+OordJrpntYZPuu1mUU/QtXL7CmvsfeTLFSf/L528kNX4r3kZ/f6fNGvcrM4P/jwIq4nxE0LWiserRlX6CWQDev0kTn8NuKzG8VeO7vTnv1nvZLBQS06WimMY65bbjiqtlfeLdXtLi8to3urWDPnTfYoWRMDJySnpSdKPSKXzIWKezm5esbntfgzxMtxaNpsupfaba4UxW2oowMkTEYVZO2emG9cA44qTUtVn8OeG7DQotQSS6s7dIrvUpQAIyAOFBwN3THoMZ5rwLTdZtYbhbqRH02+U5F3psShZB6SQHCMPcYP1rWub2fxDrcX2WCXWNXvCWt21ONILZOTkxw7trHOeWJ56DNac8lHk1/rzNI1oSV4tf15b/1ubN14+8P6LK7WFwbi8JO+dQJZnP8A10fAX6KuKw7v4ovduTHptxMfWW4Zif8AvgAVlXuva3YXs9tcSW0U9vI0TqlnBhWU4IGF9RUifEDxPEAItVIA9IIx/IVmqMesb/Mx+upe6puPpH/gk7fEKdR+90L5fUSzA/rmprDx/pSTpLNHqNhKpDB0kSUA/QhT+tTab8RPHVxv+xSzXoT7wjtC+367elNk+LviNWZL+206cg4ZJoDn6EEmn7Gm/sfcbQxckrqs/mizYePNO8LeJYda8I3Sz2N6cajpewxgN3ZAcgA9Rg8HI6Gvpbw/rNjr+kW+paXMJrSdcqe6nurDsR3FfLTfE3Trj/kKeC9CuM9SsCA/ntz+tdF4N+L/AIb8OtMLLw3Np8c5BkjgkLISO4UtgH3ArqjU5d0woyjGT99Wfy/Md8atTE/jLxHPG/y6dpsdgv8A10lbJ/Tf+Vdd+zJp7QeE7i7dcGZhg/Usf5bK8X8S3un69Bem0123jur29e8nN3E8WcjCrwGHGWP417/8MPFHhbTfDVnpkOsWhnT7wDceg/8AHQtYxmnU5paHVTi3qtdPzd/8j06imRSJLEkkTBo3AZWHQg9DRXcUfMP7RXg0abqiavZxKtu4ycDopPT/AICx/Jh6Vy3hjwdZeIPAst/plvd3GuLfR2XlGYCIbiDvwFzgA85Pqa9q/aW1yDTvBqWRRJLq6chAw+6MEE/kT+VeG+AfE9rofgzxJZvq0un6hdvE9mYYndldOckgYAPA6+vGK45JxTUOjOapCm6yc+qMjxpLpqa7cW+h2As7O0JhyWcvMw4Zm3kkcg4HHHXmu+8Qao/gKPwpbaPa2hhmso767eSBHa8ZjyrMwJC44wPWsXV/GPhbWtT0zWNU0O6uNSEeNRhjZYoLhtpG4EHIIOPqKpr45gu9HsdO1rQbXUxpzH7FI1w8bxpniNiv31GAO3SizaV1sc14RlJ8yu9rG78GI7TUviVC9zBF92a4ghblRIASo98c4+lYF3rviC+s9XtL64ubqGS4W4uhMWcwurFQRk/IMtjH0FPbxR4ivvJax09YbiK+k1CO4s7RvNDvn5d3PyjPT861NTvvGevWs8M+jmFboq1y8GnCBrgg5BdsAnnn60no7uxk1+75Yt9dlvc6n4P6rDY6BcW1+Q1hqGpx2E6seAssLgf+PAVpvA2heCfGPhcMrtp2nLcTsOd0skjH9I1jrzy30nxfFo8mlxW/lWEkgmeNjApLjo24ndkdueK0ra18do9863ux75t10xu4MzHGPm59OMdKzly3vdG1OU1BRcG7K23f+kdAdAtD4Z1a3v8ATNOtry10SO+jEW951k/56PJgLhv7gJxWhqV0P+Ew+GUCWlpGHtrWYPHFhk5b5FOeF749a5VbHx+LaO3j1aUQJF5CoL5MCP8Au9eRxTINK8eW0NnHFqMiRWf/AB7qL1MRcY4yfQn6UrruirNLSm1t07M2NetNM1jStV1CbSkhntvEn2Nns9xlniZvmBBJ3McnGMdsVi/EvS9Os9KtdR0KDTpNKuLp0gu7RnDBQvEMqMT84IJ3foKjlt/HcUUkYviFknFywW6h5lBBD9fvZA5rK1ux8YavFFFqCGeKJ2kWON4FXe33m2oQCx9TzTi0mveX3kVY88X+7d35G/49vbjRvAfge20aeaztbi2a7le3cp5s3y5LEdSMn/Iqro2jJ4x1GW/16w1Jb7UdR8h5YmWCGEbeWAcEuwI5QdqzLC48ZaVpqWH9mPd2ET+bFDdWK3KxN6pkHH8qSHxx4l0wwHUNMiuZbe8e+ilvLRw8cjkl8EYABye3GeKqztaNrlJxck6idtNLaaD7LwPpcml3t3f6tdQG21f+ygUthIJCWwGA3A/X0561U8SeARpFlrE0etWtw+lXMdvcx+U6bBIQFbPQnkZAzjnk1Anj/wD0NLObR7fyhqg1V/JndS0gOdvzbuO1aI8UWniP+2NLi069S98QalBcEiRZFTaV+XoDjhjmn+8Tv0GoYeSt1+Zjax8Pda02O/cy2FybGJZ547e4DSJGwzv2EA4rrfgB4MGt6z9vu4cwJlQSP4B98/jkIP8Aeb0qTx94j0zQ/EfjQQm6l1fUbdLBImg2Rwx7AC+/PzAjpgV2/wCy94ghutJutJkCC6gA2kDBZBnj/wAeJ+uacZSmlzbM2p0acK3u7q57sAAAFAAHAA4xRRRXadJ4H8R/AHiH4geK3u2iurbT4SY4EdUXKjjdlmyM/wC6etc34o+D/wDwivhyXVX09tVeIgNALwggHudqLxnA696+oajnijnhkhnRZIpFKOjDIYHgg1h7HTdicYSlzSij4m0jVLFreK+XQNPS2t51F9AqeZMkJON6GTcMjvkcHFfTugeFPCZ0aDVLGeSTT5YxKkwlEK7T67AuPQj1rw/4seBrvwP4lbWdMBk02clmBGQVP3gw78cN69fXGh8M/HKeEyVCNdeELt/38BG9rCRu+D1U/r9euMVFO019/wCRPNyP07fn/n2PdY7Lwmo5azl/663Bk/8AQmNc98R9Tt/Cmjadqug6No95A9wVnVrcEmJUZ2ZCO4CN1z+ldj52h/2QuqRx2cunsgcTRQqylT34HT19O9Rapotn4gTTJUuStlbM8gigVDHMHjaMq2RwNrsOMda2jBJ2djSo3KPutnJWvjuJ/G+o2NrYW76DZ6c16s1vbl57gqVDBADjALY6dVNWbj4mWxm0yLTdIvrmS41M6ZPGditA4Tf2YqxIIIwcYzzximP8JtJ+yC1i1HUYbcaYdKCIUB8sv5hYnbksX5PY9OlT2vwysrUK1tq2oRzpqK6mkqJCNsoj8s4UJt2le2OO1a2Of96VvC3xDAuLux8Rmc3A1G9tYLmK22wssALbeCTu2gnvW5pPjGLxF4Y1HVdCimjEEDSwvdRgpJ8hYH5WORxgjII6HFZj/DuztzHdNrWpIba9udU8xRECJJUKufudAM49M1Z+G+gaRb6Fcajpk891BrsaTSmWNItw2bfuIAAxGdx6k80xx59mUNO8aai/h3wvrOoR2n2fULOe8vI4IGZ1WNN+I8v1xxzmq2s/EfS7jw9qFxp1tcW1zBBbXSte6eHBhmcBZAu4ZB5HUYJB5rWsfh3bWul/2cdY1OazhtZrOzjk8v8A0WOUYbaQvzHbwC2cCqdx8LLCazltjq+oiOSwt9OYhYs+VAwZP4euRyaVhfvLaFrw9qOmeIdV8RWl54cgtotJuTAbiaGPa+FBJPdTznHPGDnPFW5bHwc/B+wR/wDXOYx/+gkVd0Xw3Do2razqAv7iWPU3E09vME8oSBQpcfLnkKOM49quWp0a7s5LuGKzNshYNMYlCfL1OSMY9+lZzgm7JI6KcpJe82c3deC/CV/YS3ef9EQMXm87zEUL1J37hxXzH4nutJjmv9Qg0i2OjecYdPMq+XPc7eGc7NoCg98dTjqDXqPxP8bxa3BNYabIbPwjavturiIbGvZBz5UQ9PU9up5wK4n4f+Gbz4leJ4rmeBbfSLbAijVf3ccanAAH90dB/eb/AIFjnko3tFetvyI53J6a+v5+i/E0PB3wpm8c6B/ay2z6bltiLLdsxcAdtytgCuj8H/DPxF4C8TwarZwz3kCkCSOLYxZc88hs9Cf4a+gNPsrfTrGCzs4xHbwqERfb/HvmrFbKh7trspKClzKKAHIB5wfWiiiugBaSlqBHLXUi78KgC7eOTjOf1FJsCDWdLtNZ06Wxv4hJBIOfVT2IPY18teP/AAHq/wAP9Xe90hPtGmS5BQJuR1PVdvcY6r26jI6fWdQX1pb31rJbXkKTQSDDI4yD/n1rOpTUxNJ7nyz8OvGd9ochl8Mv9otJDuudDnfP1aBj/Lr/AL1eweD/ABBpGv7pvBt+ljf5zPo938o3dwF6r9VyPYVxvxF+CJeZ9R8KyMkoO8xfxZ/9m+o+b2avKb3ULzTLgReLdNmaaJtqX8LeXOhHT95jDfRxke1czvH3ZK/5/J9SLyp6/wDDf8D8j63TXxbYTWrWXT5Om9huiP0ccfnz7VHrviGbTv3NtpV7cXUr+VbH5PLlfBP9/OAASeOgrwvwr8SvEFsqR6frdlrVrjAtdVHkzgegfOG/76/Cu/t/i1DEEfX/AAxqto6dJoYxcRjPXDDj9a2hVWzl9+4TndbW/FHQTy65bwCezt9aubwcyRXIgEMw7gAPmP2Iz75qv4J8URL4B0u5Gn3zWltZqktwGhCKUXDZJkGMEHrioYvjD4MlQ79SlgJHSWBgR+Wa5zTfF/wysrSxSa6ivLu3jiVnSBwszooAdk+6W44JBI45rXmXcy5op6SPQ7TxLcXd3piQ+HtYFteqX+0SIiiEYBBcbsjOe/PsatT6/C0rwabDPf3CkqVgX5VP+05+Ufia424+LNtMpOh6BrWons/kmOP8WORXFeJPibrc0bx3Wp6b4dg5zFasLm5/8dO0H/gQrKdVbKRrGolrq/yPRvFOq2GmW32jxrqMMcXVNMt2yX9A3Qt9OF+teS/Efxvd6pbhdW36RoSgGHSoW2XFyB08z/nmn159B3riF1u4vL5z4Usrm71An59TvGEkqk9wx+SP8Ofc16H4B+DF5qFymqeMJWdmO/y3BOT7K3U+7f8AfJ61ldvSP/B/4Am5VfT8P+D8jjfB3hfWfiTqcBmtxaaLAAI4VBSNY88ADsvv95j+JH1N4a0Gx8O6ZHZadGFRQNzBQC5Ax26DsB0Aq3pmn2umWaW1jCsMK9h1J9SepPuatV0U6ajqaJJBRRS1qMBRRRQAxflOw/gfWoI7YkM8hCzl94ZOdvAGOeowKmm+4D/tD+dSdqm1xjI1ZUwzFz6kAU6loqhCVk654d0rXIyup2ccrEbfMxh8emR1HscitalpNJqzBO2x4n4j+AmlXbPJpFy1q55C/c/kCv8A46K4yb4PeNNHkLaRqUpA6bWx/wCgtn9K+nvSispUU/6/zJ5Y72+7T8j5Xl0H4pQHa8s0oH95ZG/mlJHoPxQnO1Hlhz3RXX/0FK+qaKz+rLy+4fKu7+8+YYfhV4+1lh/a2qTCM9dzM3/obD+VdZoHwA02F0k1m6a5cclS28flwPzDV7jS1oqKX9W/IXLG97ffr+ZieH/C2j6DFGum2UaMgwrsAWH07L+AFbdFHetFFR0RV7hRSik71QBS0UlAC0UgooA//9k=" alt="" style="width:84px;height:84px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 22px #ff7a00">
+    <div class="flame" id="fl0" style="--k:3;margin:12px auto 4px"><i></i><i></i><i></i></div>
+    <h1>🔥 Geometry Puzzles 🔥</h1>
+    <small>ත්‍රිකෝණ • සමාන්තර රේඛා • අංගසම ත්‍රිකෝණ • වෘත්ත ජ්‍යා හා වෘත්ත කෝණ<br>ප්‍රශ්න 30 ක්. නිවැරදි පිළිතුරු දී ගිනි දැල්ල ඇවිළවන්න! වැරදුනොත් දැල්ල නිවී යයි 💧<br>⏱ ප්‍රශ්නයකට තත්පර 90 &nbsp;•&nbsp; උපරිම උත්සාහ 3 &nbsp;•&nbsp; 💡 ඉඟි ඇත</small>
+    <div style="text-align:left">
+    <label for="nm">නම</label><input id="nm" maxlength="30" placeholder="ඔබේ නම">
+    <label for="gp">කණ්ඩායම</label><input id="gp" maxlength="30" placeholder="කණ්ඩායමේ නම"></div>
+    <div class="msg" id="smsg" style="color:#ffb3a8"></div>
+    <button class="b3 wide" id="go">🔥 Start Game 🔥</button>
+    <button class="b3 alt wide" id="th0" style="margin-top:12px;font-size:18px">📖 සිද්ධාන්ත බලන්න</button>
+  </div>
+  <div class="card"><h2>🥇 ලකුණු පුවරුව</h2><div id="lb0"></div></div>
+</section>
+
+<section class="sec" id="s-play">
+  <div class="card hd"><img src="data:image/jpeg;base64,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" alt=""><div class="grow" id="lvn"></div><span class="pill">🔥×<span id="stk">0</span></span><span class="pill">⭐ <span id="sc">0</span></span><button class="b3 alt sbtn" id="snd">🔊</button></div>
+  <div class="flame" id="flame"><i></i><i></i><i></i></div>
+  <div class="pg" id="pg"></div>
+  <div class="card tilt" id="qcard">
+    <div class="qtop"><span id="qlabel"></span><span id="tnum">90 s</span></div>
+    <div class="tbar"><i id="tfill"></i></div>
+    <div class="qtxt" id="qtxt"></div>
+    <div id="fig"></div>
+    <div class="row"><input id="ans" inputmode="numeric" autocomplete="off" placeholder="ඔබේ පිළිතුර (අංකයක්)"><button class="b3" id="chk">පරීක්ෂා කරන්න ➜</button></div>
+    <div class="tools"><button class="b3 alt" id="hb">💡 ඉඟිය (−10)</button><button class="b3 alt" id="th1">📖 සිද්ධාන්ත</button></div>
+    <div class="dots" id="dots"></div>
+    <div class="hint" id="hint"></div>
+    <div class="msg" id="msg"></div>
+  </div>
+</section>
+
+<section class="sec" id="s-end">
+  <div class="card tilt ctr">
+    <div class="flame hot" style="--k:5;margin:6px auto 10px"><i></i><i></i><i></i></div>
+    <h1>🏁 ගිනි ජ්‍යාමිතිය අවසන්!</h1>
+    <p style="font-size:20px"><b id="en"></b> • <span id="eg"></span></p>
+    <div class="rank" id="erk"></div>
+    <div class="stat"><div>ලකුණු<b id="es"></b></div><div>නිවැරදි<b id="ec"></b></div><div>කාලය<b id="et"></b></div><div>වැරදි උත්සාහ<b id="ew"></b></div><div>උපරිම දැල්ල<b id="ek"></b></div></div>
+    <a class="b3" id="form" target="_blank" rel="noopener" style="display:none">📝 ප්‍රතිඵල Google Form එකට යවන්න</a>
+    <button class="b3 alt wide" id="copy">📋 ප්‍රතිඵල පිටපත් කරන්න</button>
+    <div class="msg" id="cmsg"></div>
+  </div>
+  <div class="card" id="revc" style="display:none"><h2>📖 නැවත අධ්‍යයනය කළ යුතු සිද්ධාන්ත</h2><ol class="th" id="rev"></ol></div>
+  <div class="card"><h2>🥇 ලකුණු පුවරුව</h2><div id="lb1"></div></div>
+  <button class="b3 wide" onclick="location.reload()">🔁 නැවත ක්‍රීඩා කරන්න</button>
+</section>
+</main>
+<script>
+// ===== සැකසුම් (Teacher settings) =====
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScmaRhkPAuqr_t-C-GkGu0JNBBhvT9VX7YSnysn68hC7iP5Fg/viewform";   // Google Form "Get pre-filled link" URL (viewform ලෙස අවසන් වන කොටස)
+const ENTRY = {name:"entry.1341088117",group:"entry.225628272",score:"entry.101774562",correct:"entry.1686830365",time:"entry.736987893",wrong:"entry.396852829"};
+const LBKEY='kcc_fire_geometry',TLIM=90;
+//#GEO-START
+const D2R=Math.PI/180,pol=(cx,cy,r,d)=>[cx+r*Math.cos(d*D2R),cy-r*Math.sin(d*D2R)];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1]],unit=v=>{const l=Math.hypot(v[0],v[1])||1;return[v[0]/l,v[1]/l]};
+const f1=n=>+n.toFixed(1);
+function fit(P,box){const k=Object.keys(P);let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;k.forEach(n=>{const[x,y]=P[n];x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)});
+ const s=Math.min((box[2]-box[0])/((x1-x0)||1),(box[3]-box[1])/((y1-y0)||1)),ox=box[0]+((box[2]-box[0])-(x1-x0)*s)/2,oy=box[1]+((box[3]-box[1])-(y1-y0)*s)/2,o={};
+ k.forEach(n=>o[n]=[ox+(P[n][0]-x0)*s,oy+(P[n][1]-y0)*s]);return o}
+const tri=(a,b,c)=>{const AB=Math.sin(c*D2R)/Math.sin(a*D2R);return{A:[AB*Math.cos(b*D2R),-AB*Math.sin(b*D2R)],B:[0,0],C:[1,0]}};
+const triS=(ab,bc,ca)=>{const x=(ab*ab+bc*bc-ca*ca)/(2*bc);return{A:[x,-Math.sqrt(ab*ab-x*x)],B:[0,0],C:[bc,0]}};
+const mirror=P=>{const o={};for(const k in P)o[k]=[-P[k][0],P[k][1]];return o};
+const ren=(P,m)=>{const o={};for(const k in P)o[m[k]||k]=P[k];return o};
+const twin=(g,n1,n2)=>Object.assign(ren(fit(g,[28,36,132,178]),n1),ren(fit(mirror(g),[148,36,252,178]),n2));
+const TL=(a,b,c)=>[[a,b],[b,c],[c,a]];
+const BX=[30,22,250,188],CX=140,CY=105,CR=78;
+const ONE=(P,e)=>Object.assign({P},e);
+const circ=(pts,e,noO)=>{const P={};P[noO?'_O':'O']=[CX,CY];for(const k in pts)P[k]=pol(CX,CY,CR,pts[k]);return Object.assign({c:[CX,CY,CR],P},e)};
+const chordFig=(rc,sc,dc,e)=>{const r=rc*sc,d=dc*sc,h=Math.sqrt(r*r-d*d),y=CY+d;return Object.assign({c:[CX,CY,r],P:{O:[CX,CY],A:[CX-h,y],B:[CX+h,y],T:[CX,y],_Y:[CX,CY+r]}},e)};
+const parFig=(al,e)=>{const t=Math.tan(al*D2R),P0=[120,68],Q0=[120+80/t,148],v=sub(Q0,P0);return Object.assign({P:{A:[20,68],B:[260,68],C:[20,148],D:[260,148],_P:P0,_Q:Q0,_T1:[P0[0]-.45*v[0],P0[1]-.45*v[1]],_T2:[Q0[0]+.45*v[0],Q0[1]+.45*v[1]]},L:[['A','B'],['C','D'],['_T1','_T2']],pa:[['A','B'],['C','D']]},e)};
+const exT=(a,b,c,x)=>{const P=tri(a,b,c);P.D=[1.75,0];return fit(P,BX)};
+const nm1={A:'P',B:'Q',C:'R'},nm2={A:'X',B:'Y',C:'Z'},nmD={A:'D',B:'E',C:'F'},nmP={A:'P',B:'Q',C:'R'};
+const CODE='අංගසම අවස්ථා : 1 = පා.පා.පා ; 2 = පා.කෝ.පා ; 3 = කෝ.කෝ.පා ; 4 = සෘජුකෝණය-කර්ණය-පාදය. ';
+const TH=[
+'ත්‍රිකෝණයක අභ්‍යන්තර කෝණ තුනේ එකතුව 180° කි.',
+'සමද්විපාද ත්‍රිකෝණයක සමාන පාද දෙකට සම්මුඛ කෝණ සමානයි (AB = AC නම් ∠B = ∠C).',
+'ත්‍රිකෝණයක එක් පාදයක් දික් කළ විට සෑදෙන බාහිර කෝණය, එයට සම්මුඛ අභ්‍යන්තර කෝණ දෙකේ එකතුවට සමානයි.',
+'සමාන්තර රේඛා : ඒකාන්තර කෝණ සමානයි.',
+'සමාන්තර රේඛා : අනුරූප කෝණ සමානයි.',
+'සමාන්තර රේඛා : මිත්‍ර (එකම පැත්තේ අභ්‍යන්තර) කෝණ දෙකේ එකතුව 180° කි.',
+'අංගසම ත්‍රිකෝණ අවස්ථා : පා.පා.පා ; පා.කෝ.පා ; කෝ.කෝ.පා ; සෘජුකෝණය-කර්ණය-පාදය. අංගසම ත්‍රිකෝණවල අනුරූප අංග සමානයි.',
+'කේන්ද්‍රයේ සිට ජ්‍යායකට ඇඳි ලම්බය ජ්‍යාය සමච්ඡේදනය කරයි (පයිතගරස් ප්‍රමේයය සමඟ භාවිතා කරන්න).',
+'වෘත්තයක කේන්ද්‍රික කෝණය, එම චාපය මත සිටින වෘත්ත කෝණයේ දෙගුණයකි.',
+'අර්ධ වෘත්තයක කෝණය සෘජු කෝණයකි (90°).',
+'එකම වෘත්ත ඛණ්ඩයේ කෝණ සමානයි.',
+'වෘත්ත චතුරස්‍රයක සම්මුඛ කෝණ දෙකේ එකතුව 180° කි.',
+'වෘත්තයක අරයන් සමානයි : කේන්ද්‍රය හා වෘත්තය මත ලක්ෂ්‍ය දෙකක් යා කිරීමෙන් සමද්විපාද ත්‍රිකෝණයක් ලැබේ.'];
+const Q=[
+{t:'ABC ත්‍රිකෝණයේ ∠A = 65° ද ∠B = 48° ද වේ. ∠C = x° නම් x හි අගය සොයන්න.',a:67,th:0,w:'x = 180 − (65 + 48)',
+ f:ONE(fit(tri(65,48,67),BX),{L:TL('A','B','C'),a:[['A','B','C','65°',65],['B','A','C','48°',48],['C','A','B','x',67]]})},
+{t:'AB = AC වේ. ∠BAC = 84° නම් ∠ABC හි අගය (අංශක) සොයන්න.',a:48,th:1,w:'AB = AC නිසා ∠B = ∠C ; 2 × ∠B = 180 − 84',
+ f:ONE(fit(tri(84,48,48),BX),{L:TL('A','B','C'),tk:[['A','B',1],['A','C',1]],a:[['A','B','C','84°',84],['B','A','C','x',48]]})},
+{t:'PQ = PR වේ. ∠PQR = 36° නම් ∠QPR හි අගය (අංශක) සොයන්න.',a:108,th:1,w:'∠R = ∠Q = 36° ; ∠P = 180 − 72',
+ f:ONE(ren(fit(tri(108,36,36),BX),nmP),{L:TL('P','Q','R'),tk:[['P','Q',1],['P','R',1]],a:[['P','Q','R','x',108],['Q','P','R','36°',36]]})},
+{t:'ABC ත්‍රිකෝණයේ ∠A = 52° ද ∠B = 61° ද වේ. BC පාදය D දක්වා දික් කර ඇත. ∠ACD = x° නම් x හි අගය සොයන්න.',a:113,th:2,w:'x = 52 + 61 (බාහිර කෝණය = සම්මුඛ අභ්‍යන්තර කෝණ දෙකේ එකතුව)',
+ f:ONE(exT(52,61,67),{L:[...TL('A','B','C'),['C','D']],a:[['A','B','C','52°',52],['B','A','C','61°',61],['C','A','D','x',113]]})},
+{t:'ABC ත්‍රිකෝණයේ BC පාදය D දක්වා දික් කර ඇත. ∠BAC = x°, ∠ABC = (2x − 10)° හා ∠ACD = 125° නම් x හි අගය සොයන්න.',a:45,th:2,w:'x + (2x − 10) = 125 ⇒ 3x = 135',
+ f:ONE(exT(45,80,55),{L:[...TL('A','B','C'),['C','D']],a:[['A','B','C','x',45],['B','A','C','(2x−10)°',80],['C','A','D','125°',125]]})},
+{t:'AB ∥ CD වේ. ඒකාන්තර කෝණ දෙක (3x + 8)° සහ (x + 50)° නම් x හි අගය සොයන්න.',a:21,th:3,w:'3x + 8 = x + 50 ⇒ 2x = 42',
+ f:parFig(71,{a:[['_P','B','_Q','(3x+8)°',71],['_Q','C','_P','(x+50)°',71]]})},
+{t:'AB ∥ CD වේ. අනුරූප කෝණ දෙක (4x − 15)° සහ 65° නම් x හි අගය සොයන්න.',a:20,th:4,w:'4x − 15 = 65 ⇒ 4x = 80',
+ f:parFig(65,{a:[['_P','B','_Q','(4x−15)°',65],['_Q','D','_T2','65°',65]]})},
+{t:'AB ∥ CD වේ. මිත්‍ර කෝණ දෙක (2x + 20)° සහ (3x + 10)° නම් x හි අගය සොයන්න.',a:30,th:5,w:'(2x + 20) + (3x + 10) = 180 ⇒ 5x = 150',
+ f:parFig(80,{a:[['_P','B','_Q','(2x+20)°',80],['_Q','D','_P','(3x+10)°',100]]})},
+(()=>{const E=[50+61.04*Math.cos(55*D2R),100],C=[E[0]-77.79*Math.cos(40*D2R),150];return{t:'AB ∥ CD වේ. ∠BAE = 55° ද ∠DCE = 40° ද නම් ∠AEC හි අගය (අංශක) සොයන්න.',a:95,th:3,w:'E හරහා AB ට සමාන්තරව රේඛාවක් ඇඳ ඒකාන්තර කෝණ යොදන්න : ∠AEC = 55° + 40°',
+ f:{P:{A:[50,50],B:[240,50],E,C,D:[240,150]},L:[['A','B'],['C','D'],['A','E'],['E','C']],pa:[['A','B'],['C','D']],a:[['A','B','E','55°',55],['C','D','E','40°',40],['E','A','C','x',95]]}}})(),
+{t:CODE+'රූපයේ ABC හා PQR ත්‍රිකෝණ අංගසම වන අවස්ථාවේ අංකය ඇතුළත් කරන්න.',a:2,th:6,w:'AB = PQ (පාදය) ; ∠B = ∠Q (කෝණය) ; BC = QR (පාදය) ⇒ පා.කෝ.පා',
+ f:ONE(twin(tri(62,55,63),{},nm1,nmP),{L:[...TL('A','B','C'),...TL('P','Q','R')],tk:[['A','B',1],['P','Q',1],['B','C',2],['Q','R',2]],a:[['B','A','C','',55],['Q','P','R','',55]]})},
+{t:CODE+'රූපයේ ත්‍රිකෝණ යුගලය අංගසම වන අවස්ථාවේ අංකය ඇතුළත් කරන්න.',a:3,th:6,w:'∠B = ∠Q = 50° ; ∠C = ∠R = 60° ; BC = QR ⇒ කෝ.කෝ.පා',
+ f:ONE(twin(tri(70,50,60),{},nm1),{L:[...TL('A','B','C'),...TL('P','Q','R')],tk:[['B','C',1],['Q','R',1]],a:[['B','A','C','50°',50],['C','A','B','60°',60],['Q','P','R','50°',50],['R','P','Q','60°',60]]})},
+{t:CODE+'රූපයේ ත්‍රිකෝණ යුගලය අංගසම වන අවස්ථාවේ අංකය ඇතුළත් කරන්න.',a:4,th:6,w:'∠B = ∠Q = 90° ; කර්ණ AC = PR ; BC = QR ⇒ සෘජුකෝණය-කර්ණය-පාදය',
+ f:ONE(twin(tri(50,90,40),{},nm1),{L:[...TL('A','B','C'),...TL('P','Q','R')],ra:[['B','A','C'],['Q','P','R']],tk:[['A','C',2],['P','R',2],['B','C',1],['Q','R',1]]})},
+{t:'ABC ත්‍රිකෝණය DEF ත්‍රිකෝණයට අංගසම වේ (A ↔ D, B ↔ E, C ↔ F). AB = 10 cm, BC = 12 cm, CA = 14 cm නම් DF හි දිග (cm) සොයන්න.',a:14,th:6,w:'DF ට අනුරූප පාදය CA වේ ; අංගසම ත්‍රිකෝණවල අනුරූප පාද සමානයි.',
+ f:ONE(twin(triS(10,12,14),{},nmD),{L:[...TL('A','B','C'),...TL('D','E','F')],len:[['A','B','10 cm'],['B','C','12 cm'],['C','A','14 cm'],['D','F','x']]})},
+{t:'PQR ත්‍රිකෝණය XYZ ත්‍රිකෝණයට අංගසම වේ (P ↔ X, Q ↔ Y, R ↔ Z). ∠P = 52° ද ∠Q = 71° ද නම් ∠Z හි අගය (අංශක) සොයන්න.',a:57,th:6,w:'∠Z = ∠R = 180 − (52 + 71)',
+ f:ONE(twin(tri(52,71,57),nm1,nm2),{L:[...TL('P','Q','R'),...TL('X','Y','Z')],a:[['P','Q','R','52°',52],['Q','P','R','71°',71],['Z','X','Y','x',57]]})},
+(()=>{const T=tri(100,40,40);T.D=[T.A[0]-.55,T.A[1]];T.E=[T.A[0]+.55,T.A[1]];const P=fit(T,BX);return{t:'DE ∥ BC වේ. AB = AC ද ∠DAB = 40° ද නම් ∠BAC හි අගය (අංශක) සොයන්න.',a:100,th:3,w:'∠ABC = ∠DAB = 40° (ඒකාන්තර) ; ∠ACB = 40° (AB = AC) ; ∠BAC = 180 − 80',
+ f:{P,L:[...TL('A','B','C'),['D','E']],pa:[['D','E'],['B','C']],tk:[['A','B',1],['A','C',1]],a:[['A','D','B','40°',40],['A','B','C','x',100]]}}})(),
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ අරය 13 cm ද AB ජ්‍යාය 24 cm ද වේ. OT ⟂ AB නම් OT හි දිග (cm) සොයන්න.',a:5,th:7,w:'AT = 12 ; OT² = 13² − 12² = 25',
+ f:chordFig(13,6,5,{L:[['O','T'],['A','B'],['O','A'],['O','B']],ra:[['T','O','B']],len:[['A','B','24 cm',null,.28,20],['O','A','13 cm',false],['O','T','x',true]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ අරය 17 cm ද කේන්ද්‍රයේ සිට AB ජ්‍යායට ඇති ලම්බ දුර OT = 8 cm ද නම් AB ජ්‍යායේ දිග (cm) සොයන්න.',a:30,th:7,w:'AT² = 17² − 8² = 225 ⇒ AT = 15 ; AB = 2 × 15',
+ f:chordFig(17,4.4,8,{L:[['O','T'],['A','B'],['O','A'],['O','B']],ra:[['T','O','B']],len:[['A','B','x',null,.28,20],['O','A','17 cm',false],['O','T','8 cm',true]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ AB ජ්‍යාය 16 cm ද OT ⟂ AB ද OT = 6 cm ද වේ. OAB ත්‍රිකෝණයේ පරිමිතිය (cm) සොයන්න.',a:36,th:7,w:'AT = 8 ; OA² = 8² + 6² = 100 ⇒ OA = OB = 10 ; පරිමිතිය = 10 + 10 + 16',
+ f:chordFig(10,7.5,6,{L:[['O','T'],['A','B'],['O','A'],['O','B']],ra:[['T','O','B']],len:[['A','B','16 cm',null,.28,20],['O','T','6 cm',true]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ ∠AOB = 110° නම් ∠OAB හි අගය (අංශක) සොයන්න.',a:35,th:12,w:'OA = OB (අරයන්) ; ∠OAB = (180 − 110) ÷ 2',
+ f:circ({A:230,B:340},{L:[['O','A'],['O','B'],['A','B']],tk:[['O','A',1],['O','B',1]],a:[['O','A','B','110°',110],['A','O','B','x',35]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ ∠ACB = 37° නම් ∠AOB හි අගය (අංශක) සොයන්න.',a:74,th:8,w:'කේන්ද්‍රික කෝණය = 2 × වෘත්ත කෝණය = 2 × 37',
+ f:circ({A:233,B:307,C:90},{L:[['C','A'],['C','B'],['O','A'],['O','B']],a:[['C','A','B','37°',37],['O','A','B','x',74]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ ∠AOB = 128° නම් ∠ACB හි අගය (අංශක) සොයන්න.',a:64,th:8,w:'වෘත්ත කෝණය = ½ × කේන්ද්‍රික කෝණය = ½ × 128',
+ f:circ({A:206,B:334,C:90},{L:[['C','A'],['C','B'],['O','A'],['O','B']],a:[['O','A','B','128°',128],['C','A','B','x',64]]})},
+{t:'වෘත්තයේ AB විෂ්කම්භයයි. C ලක්ෂ්‍යය වෘත්තය මත පිහිටා ඇත. ∠BAC = 28° නම් ∠ABC හි අගය (අංශක) සොයන්න.',a:62,th:9,w:'∠ACB = 90° (අර්ධ වෘත්තයේ කෝණය) ; ∠ABC = 180 − 90 − 28',
+ f:circ({A:180,B:0,C:56},{L:[['A','B'],['A','C'],['C','B']],ra:[['C','A','B']],a:[['A','B','C','28°',28],['B','A','C','x',62]]})},
+{t:'රූපයේ ∠ABD = x° ද ∠ACD = (2x − 25)° ද වේ. x හි අගය සොයන්න.',a:25,th:10,w:'එකම වෘත්ත ඛණ්ඩයේ කෝණ සමානයි : x = 2x − 25',
+ f:circ({A:245,D:295,B:100,C:45},{L:[['B','A'],['B','D'],['C','A'],['C','D'],['A','D']],a:[['B','A','D','x',25],['C','A','D','(2x−25)°',25]]},true)},
+{t:'ABCD වෘත්ත චතුරස්‍රයකි. ∠ABC = 87° නම් ∠ADC හි අගය (අංශක) සොයන්න.',a:93,th:11,w:'සම්මුඛ කෝණ : ∠ADC = 180 − 87',
+ f:circ({A:160,B:250,C:346,D:60},{L:[['A','B'],['B','C'],['C','D'],['D','A']],a:[['B','A','C','87°',87],['D','A','C','x',93]]},true)},
+{t:'ABCD වෘත්ත චතුරස්‍රයක ∠DAB = (3x + 10)° ද ∠BCD = (2x + 30)° ද වේ. x හි අගය සොයන්න.',a:28,th:11,w:'(3x + 10) + (2x + 30) = 180 ⇒ 5x = 140',
+ f:circ({A:300,B:20,C:110,D:208},{L:[['A','B'],['B','C'],['C','D'],['D','A']],a:[['A','D','B','(3x+10)°',94],['C','B','D','(2x+30)°',86]]},true)},
+{t:'වෘත්තයේ AOD විෂ්කම්භයකි (O කේන්ද්‍රය). ∠ABC = 110° නම් ∠COD හි අගය (අංශක) සොයන්න.',a:40,th:11,w:'ABCD වෘත්ත චතුරස්‍රය : ∠ADC = 180 − 110 = 70° ; OC = OD නිසා ∠OCD = 70° ; ∠COD = 180 − 140',
+ f:circ({A:180,D:0,B:110,C:40},{L:[['A','D'],['A','B'],['B','C'],['C','D'],['O','C']],a:[['B','A','C','110°',110],['O','C','D','x',40]]})},
+(()=>{const g=chordFig(26,3,10,{L:[['A','B'],['O','A'],['_Y','O']],ra:[['T','O','B']],len:[['A','B','48 cm'],['O','A','26 cm',false],['T','_Y','x']]});g.P.X=g.P.T;delete g.P.T;g.P.Y=g.P._Y;delete g.P._Y;g.L=[['A','B'],['O','A'],['Y','O']];g.ra=[['X','O','B']];g.len=[['A','B','48 cm',null,.28,20],['O','A','26 cm',false],['X','Y','x',true]];return{t:'O කේන්ද්‍රය වූ වෘත්තයේ අරය 26 cm ද AB ජ්‍යාය 48 cm ද වේ. OY ⟂ AB ද X යනු AB මත ලක්ෂ්‍යයක් ද Y වෘත්තය මත ලක්ෂ්‍යයක් ද නම් XY හි දිග (cm) සොයන්න.',a:16,th:7,w:'AX = 24 ; OX² = 26² − 24² = 100 ⇒ OX = 10 ; XY = 26 − 10',f:g}})(),
+{t:'ABC ත්‍රිකෝණයේ AB = AC වේ. BC පාදය D දක්වා දික් කර ඇත. ∠ACD = 125° නම් ∠BAC හි අගය (අංශක) සොයන්න.',a:70,th:2,w:'∠ACB = 180 − 125 = 55° ; ∠ABC = 55° (AB = AC) ; ∠BAC = 180 − 110',
+ f:ONE(exT(70,55,55),{L:[...TL('A','B','C'),['C','D']],tk:[['A','B',1],['A','C',1]],a:[['C','A','D','125°',125],['A','B','C','x',70]]})},
+{t:'O කේන්ද්‍රය වූ වෘත්තයේ ∠OAB = 25° නම් ∠ACB හි අගය (අංශක) සොයන්න.',a:65,th:8,w:'OA = OB ⇒ ∠OBA = 25° ; ∠AOB = 130° ; ∠ACB = ½ × 130',
+ f:circ({A:205,B:335,C:90},{L:[['A','B'],['O','A'],['O','B'],['C','A'],['C','B']],tk:[['O','A',1],['O','B',1]],a:[['A','O','B','25°',25],['C','A','B','x',65]]})},
+{t:'වෘත්තයේ AB විෂ්කම්භය 30 cm කි. C ලක්ෂ්‍යය වෘත්තය මත පිහිටා ඇත. AC = 24 cm නම් BC හි දිග (cm) සොයන්න.',a:18,th:9,w:'∠ACB = 90° (අර්ධ වෘත්තයේ කෝණය) ; BC² = 30² − 24² = 324',
+ f:circ({A:180,B:0,C:73.74},{L:[['A','B'],['A','C'],['C','B']],ra:[['C','A','B']],len:[['A','C','24 cm'],['C','B','x'],['A','B','30 cm',false]]})}];
+//#GEO-END
+// ===== රූප සටහන් ඇඳීම =====
+function draw(s){const P=s.P,vis=Object.keys(P).filter(n=>n[0]!=='_'),cn=s.c?[s.c[0],s.c[1]]:[vis.reduce((a,n)=>a+P[n][0],0)/vis.length,vis.reduce((a,n)=>a+P[n][1],0)/vis.length];let o='';
+ if(s.c)o+=`<circle class="cc" cx="${f1(s.c[0])}" cy="${f1(s.c[1])}" r="${f1(s.c[2])}"/>`;
+ (s.L||[]).forEach(([a,b])=>o+=`<line class="ln" x1="${f1(P[a][0])}" y1="${f1(P[a][1])}" x2="${f1(P[b][0])}" y2="${f1(P[b][1])}"/>`);
+ (s.a||[]).forEach(([v,p,q,t,val])=>{const V=P[v],u1=unit(sub(P[p],V)),u2=unit(sub(P[q],V)),r=val<35?30:val<60?24:19,sw=(u1[0]*u2[1]-u1[1]*u2[0])>0?1:0,p1=[V[0]+r*u1[0],V[1]+r*u1[1]].map(f1),p2=[V[0]+r*u2[0],V[1]+r*u2[1]].map(f1),bi=unit([u1[0]+u2[0],u1[1]+u2[1]]),lr=r+12,an=bi[0]>.35?'start':bi[0]<-.35?'end':'middle';
+  o+=`<path class="ar" d="M${p1} A${r} ${r} 0 0 ${sw} ${p2}"/>`;if(t)o+=`<text class="${t==='x'?'unk':'tx'}" x="${f1(V[0]+lr*bi[0])}" y="${f1(V[1]+lr*bi[1]+4)}" text-anchor="${an}">${t}</text>`});
+ (s.ra||[]).forEach(([v,p,q])=>{const V=P[v],u1=unit(sub(P[p],V)),u2=unit(sub(P[q],V)),k=10,a=[V[0]+k*u1[0],V[1]+k*u1[1]],b=[a[0]+k*u2[0],a[1]+k*u2[1]],c=[V[0]+k*u2[0],V[1]+k*u2[1]];o+=`<polyline class="ra" points="${a.map(f1)} ${b.map(f1)} ${c.map(f1)}"/>`});
+ (s.tk||[]).forEach(([a,b,n])=>{const A=P[a],B=P[b],m=[(A[0]+B[0])/2,(A[1]+B[1])/2],d=unit(sub(B,A)),nn=[-d[1],d[0]];for(let i=0;i<n;i++){const of=(i-(n-1)/2)*5,c=[m[0]+d[0]*of,m[1]+d[1]*of];o+=`<line class="tk" x1="${f1(c[0]-nn[0]*5)}" y1="${f1(c[1]-nn[1]*5)}" x2="${f1(c[0]+nn[0]*5)}" y2="${f1(c[1]+nn[1]*5)}"/>`}});
+ (s.pa||[]).forEach(([a,b])=>{const A=P[a],B=P[b],d=unit(sub(B,A)),nn=[-d[1],d[0]],m=[A[0]+(B[0]-A[0])*.8,A[1]+(B[1]-A[1])*.8],t=[m[0]+6*d[0],m[1]+6*d[1]];o+=`<polyline class="pa" points="${[t[0]-8*d[0]+6*nn[0],t[1]-8*d[1]+6*nn[1]].map(f1)} ${t.map(f1)} ${[t[0]-8*d[0]-6*nn[0],t[1]-8*d[1]-6*nn[1]].map(f1)}"/>`});
+ (s.len||[]).forEach(([a,b,t,fl,tf,off])=>{const A=P[a],B=P[b],k=tf==null?.5:tf,m=[A[0]+(B[0]-A[0])*k,A[1]+(B[1]-A[1])*k],d=unit(sub(B,A));let nn=[-d[1],d[0]];if(fl==null){if(nn[0]*(m[0]-cn[0])+nn[1]*(m[1]-cn[1])<0)nn=[-nn[0],-nn[1]]}else if(fl)nn=[-nn[0],-nn[1]];o+=`<text class="${/^[x?]$/.test(t)?'unk':'tx'}" x="${f1(m[0]+nn[0]*(off||14))}" y="${f1(m[1]+nn[1]*(off||14)+4)}" text-anchor="middle">${t}</text>`});
+ vis.forEach(n=>{const p=P[n];let dx,dy;if(n==='O'){dx=-12;dy=-7}else{const u=unit(sub(p,cn));dx=u[0]*14;dy=u[1]*14}o+=`<circle class="dt" cx="${f1(p[0])}" cy="${f1(p[1])}" r="2.6"/><text class="pn" x="${f1(p[0]+dx)}" y="${f1(p[1]+dy+4)}" text-anchor="middle">${n}</text>`});
+ return `<svg class="fig" viewBox="0 0 280 210">${o}</svg>`}
+// ===== ශබ්ද (Web Audio) =====
+let AC=null,snd=true,NB=null;
+const A=()=>{if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC};
+function tone(f,d=.15,type='sine',v=.15,at=0,f2){if(!snd)return;const a=A();if(!a)return;const t=a.currentTime+at,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.03)}
+function noise(d,f0,f1_,type,v,at=0){if(!snd)return;const a=A();if(!a)return;if(!NB){NB=a.createBuffer(1,a.sampleRate,a.sampleRate);const c=NB.getChannelData(0);for(let i=0;i<c.length;i++)c[i]=Math.random()*2-1}const t=a.currentTime+at,s=a.createBufferSource(),b=a.createBiquadFilter(),g=a.createGain();s.buffer=NB;b.type=type;b.frequency.setValueAtTime(f0,t);b.frequency.exponentialRampToValueAtTime(f1_,t+d);b.Q.value=type==='bandpass'?1.2:.7;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+d*.25);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(b);b.connect(g);g.connect(a.destination);s.start(t);s.stop(t+d+.05)}
+const SFX={click:()=>tone(700,.06,'square',.05),whoosh:()=>noise(.7,300,2600,'bandpass',.35),crackle:()=>{for(let i=0;i<6;i++)noise(.04,2500+Math.random()*3000,900,'highpass',.2,i*.07+Math.random()*.05)},
+ correct:()=>{noise(.65,300,2400,'bandpass',.3);[523,659,784,1047].forEach((f,i)=>tone(f,.2,'triangle',.16,.05+i*.09));setTimeout(()=>SFX.crackle(),350)},
+ streak:()=>{tone(400,.5,'triangle',.14,0,1400);noise(.5,500,3200,'bandpass',.28)},
+ wrong:()=>{noise(.55,5000,1800,'highpass',.3);tone(150,.4,'sawtooth',.16,0,60)},
+ warn:()=>tone(1000,.1,'square',.1),timeup:()=>[440,370,311,220].forEach((f,i)=>tone(f,.3,'sawtooth',.15,i*.2)),
+ level:()=>{noise(.8,200,3000,'bandpass',.35);[392,523,659,784,1047].forEach((f,i)=>tone(f,.25,'triangle',.18,i*.1))},
+ win:()=>{noise(1.2,200,3500,'bandpass',.4);[523,523,523,659,784,659,784,1047].forEach((f,i)=>tone(f,.3,'triangle',.2,.2+i*.16));[262,330,392,523].forEach((f,i)=>tone(f,1,'sine',.11,1.6+i*.05))}};
+// ===== ක්‍රීඩා තර්කනය =====
+const $=id=>document.getElementById(id),rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const LV=['🕯️ ගිනි පහන','🌋 ගිනි ගොඩ','☄️ ගිනි කඳු'];
+let me={},qi=0,cur=null,att=0,hl=0,t0=0,tick=0,lastS=-1,score=0,okc=0,wrongAll=0,totalT=0,busy=false,streak=0,maxStreak=0,res=[],tmode='start';
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.round(s%60)).padStart(2,'0');
+const esc=s=>String(s).replace(/</g,'&lt;');
+const show=id=>{document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===id));scrollTo(0,0)};
+if(!rm){const c=$('em'),x=c.getContext('2d');let W,H;const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight};rs();addEventListener('resize',rs);const mk=()=>({x:Math.random()*W,y:H+Math.random()*40,r:1+Math.random()*2.6,vy:.5+Math.random()*1.6,vx:-.3+Math.random()*.6,a:.4+Math.random()*.6,ph:Math.random()*6}),P=Array.from({length:70},()=>{const p=mk();p.y=Math.random()*H;return p});
+ (function loop(){x.clearRect(0,0,W,H);P.forEach((p,i)=>{p.y-=p.vy;p.x+=p.vx+Math.sin(p.ph+=.03)*.4;p.a-=.0025;if(p.y<-10||p.a<=0)P[i]=mk();x.beginPath();x.fillStyle=`rgba(255,${120+p.r*30|0},30,${p.a})`;x.shadowColor='#ff7a00';x.shadowBlur=8;x.arc(p.x,p.y,p.r,0,6.3);x.fill()});requestAnimationFrame(loop)})()}
+document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;document.querySelectorAll('.sec.on .tilt').forEach(el=>{const r=el.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){el.style.transform='';return}const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(900px) rotateX(${(-y*4).toFixed(2)}deg) rotateY(${(x*6).toFixed(2)}deg)`})});
+$('thl').innerHTML=TH.map(t=>`<li>${t}</li>`).join('');
+const openTh=()=>{SFX.click();$('thm').classList.add('on')};$('th0').onclick=openTh;$('th1').onclick=openTh;$('thx').onclick=()=>{SFX.click();$('thm').classList.remove('on')};
+function getLB(){try{return JSON.parse(localStorage.getItem(LBKEY)||'[]')}catch(e){return[]}}
+function lb(el){const L=getLB().sort((a,b)=>b.score-a.score||a.time-b.time).slice(0,10);
+ $(el).innerHTML=L.length?'<table><tr><th>#</th><th>නම</th><th>ලකුණු</th><th>නිවැරදි</th><th>කාලය</th></tr>'+L.map((r,k)=>`<tr><td>${['🥇','🥈','🥉'][k]||k+1}</td><td>${esc(r.n)} <small>(${esc(r.g)})</small></td><td>${r.score}</td><td>${r.ok}/30</td><td>${fmt(r.time)}</td></tr>`).join('')+'</table>':'<small>තවම ප්‍රතිඵල නැත.</small>'}
+lb('lb0');
+$('snd').onclick=()=>{snd=!snd;$('snd').textContent=snd?'🔊':'🔇';if(snd)SFX.click()};
+$('go').onclick=()=>{const n=$('nm').value.trim(),g=$('gp').value.trim();if(!n||!g){$('smsg').textContent='කරුණාකර නම සහ කණ්ඩායමේ නම ඇතුළත් කරන්න!';$('go').classList.add('shake');setTimeout(()=>$('go').classList.remove('shake'),450);return}
+ A();SFX.whoosh();me={n,g};qi=0;$('pg').innerHTML=Q.map(()=>'<i></i>').join('');show('s-play');banner(0,()=>present())};
+function banner(l,cb){$('lvt').textContent=LV[l];$('lvl').classList.add('on');SFX.level();setTimeout(()=>{$('lvl').classList.remove('on');cb()},1700)}
+function setFlame(k){const f=$('flame');f.style.setProperty('--k',Math.min(5,k));f.classList.toggle('hot',k>=5);$('stk').textContent=streak}
+function head(){$('sc').textContent=score;setFlame(streak);$('lvn').textContent=LV[Math.floor(qi/10)]}
+function present(){cur=Q[qi];att=0;hl=0;busy=false;
+ [...$('pg').children].forEach((e,i)=>e.classList.toggle('cur',i===qi&&!e.className.match(/ok|no/)));
+ $('qlabel').textContent=`ප්‍රශ්නය ${qi+1} / 30`;$('qtxt').innerHTML=cur.t;$('fig').innerHTML=draw(cur.f);
+ const h=$('hint');h.style.display='none';h.innerHTML='';$('msg').textContent='';$('ans').value='';$('ans').disabled=false;$('chk').disabled=false;$('hb').disabled=false;$('dots').innerHTML='<i></i><i></i><i></i>';
+ const c=$('qcard');c.classList.remove('shake','low');c.style.animation='none';void c.offsetWidth;c.style.animation='';
+ head();startTimer();if(matchMedia('(pointer:fine)').matches)$('ans').focus()}
+function startTimer(){t0=Date.now();lastS=-1;clearInterval(tick);tick=setInterval(()=>{const rem=Math.max(0,TLIM-(Date.now()-t0)/1000),s=Math.ceil(rem),low=rem>0&&rem<=10;
+ $('tfill').style.width=(rem/TLIM*100)+'%';$('tnum').textContent=s+' s';$('qcard').classList.toggle('low',low);document.body.classList.toggle('alarm',low);
+ if(low&&s!==lastS)SFX.warn();lastS=s;if(rem<=0)end(false,'time')},100)}
+function stopTimer(){clearInterval(tick);totalT+=Math.min(TLIM,(Date.now()-t0)/1000);$('qcard').classList.remove('low');document.body.classList.remove('alarm')}
+function msg(t,c){const m=$('msg');m.style.color=c||'#fff';m.innerHTML=t}
+function showHint(){const h=$('hint');let s='';if(hl>=1)s+=`📖 <b>සිද්ධාන්තය:</b> ${TH[cur.th]}`;if(hl>=2)s+=`<br>💡 <b>විසඳුම:</b> ${cur.w}`;h.innerHTML=s;h.style.display=s?'block':'none'}
+$('hb').onclick=()=>{if(busy||hl>=2)return;SFX.click();hl++;score=Math.max(0,score-10);head();showHint();if(hl>=2)$('hb').disabled=true};
+function submit(){if(busy)return;const raw=$('ans').value.replace(/[°\s]|cm/gi,'').replace(',','.');
+ if(!/^-?\d+(\.\d+)?$/.test(raw)){msg('අංකයක් පමණක් ඇතුළත් කරන්න.','#ffb3a8');return}
+ const rem=Math.max(0,TLIM-(Date.now()-t0)/1000);
+ if(Math.abs(+raw-cur.a)<1e-9){busy=true;stopTimer();streak++;maxStreak=Math.max(maxStreak,streak);
+  const pts=100+(att===0?50:0)+Math.floor(rem/TLIM*50)+Math.min(streak,5)*10;score+=pts;okc++;res[qi]=1;
+  $('pg').children[qi].className='ok';SFX.correct();if(streak>=2&&streak<=5)setTimeout(SFX.streak,500);head();
+  msg(`✅ නිවැරදියි! +${pts} ලකුණු 🔥×${streak}`,'#ffd36b');$('ans').disabled=true;$('chk').disabled=true;$('hb').disabled=true;
+  setTimeout(next,1700)}
+ else{att++;wrongAll++;score=Math.max(0,score-10);streak=0;SFX.wrong();const f=$('flame');f.classList.remove('douse');void f.offsetWidth;f.classList.add('douse');head();
+  const c=$('qcard');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');$('dots').children[att-1].classList.add('x');$('ans').select();
+  if(att>=3){end(false,'jam');return}
+  msg(`💧 වැරදියි! (−10) තව උත්සාහ ${3-att} යි.`,'#ffb3a8');
+  if(att===1&&hl<1){hl=1;showHint()}else if(att===2&&hl<2){hl=2;showHint();$('hb').disabled=true}}}
+function end(ok,why){if(busy)return;busy=true;stopTimer();streak=0;head();SFX.timeup();res[qi]=0;$('pg').children[qi].className='no';
+ $('ans').disabled=true;$('chk').disabled=true;$('hb').disabled=true;hl=2;showHint();
+ msg((why==='time'?'⏰ කාලය ඉවරයි! ':'💧 උත්සාහ ඉවරයි! ')+'නිවැරදි පිළිතුර : <b>'+cur.a+'</b>','#ffb3a8');setTimeout(next,3200)}
+function next(){qi++;if(qi>=30)return finish();if(qi%10===0)banner(qi/10,present);else present()}
+$('chk').onclick=()=>{SFX.click();submit()};$('ans').onkeydown=e=>{if(e.key==='Enter')submit()};
+function burst(){if(rm)return;const c=document.createElement('canvas');c.style.cssText='position:fixed;inset:0;z-index:90;pointer-events:none';c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const x=c.getContext('2d'),col=['#ffe066','#ff9d00','#ff5a00','#fff3a0','#ff2e00'],P=Array.from({length:180},()=>({x:c.width/2,y:c.height*.7,vx:-6+Math.random()*12,vy:-12+Math.random()*-6,r:2+Math.random()*4,c:col[Math.random()*5|0]}));let f=0;
+ (function loop(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.28;x.fillStyle=p.c;x.shadowColor=p.c;x.shadowBlur=10;x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});if(++f<150)requestAnimationFrame(loop);else c.remove()})()}
+function finish(){const t=Math.round(totalT),rk=score>=4200?'👑 ගිනි රජ':score>=2400?'🌋 ගිනි පර්වත':'🕯️ ගිනි පහන';
+ show('s-end');SFX.win();burst();
+ $('en').textContent=me.n;$('eg').textContent=me.g;$('erk').textContent=rk;$('es').textContent=score;$('ec').textContent=okc+'/30';$('et').textContent=fmt(t);$('ew').textContent=wrongAll;$('ek').textContent='🔥×'+maxStreak;
+ const miss=[...new Set(Q.filter((q,i)=>!res[i]).map(q=>q.th))];$('revc').style.display=miss.length?'block':'none';$('rev').innerHTML=miss.map(i=>`<li>${TH[i]}</li>`).join('');
+ try{const L=getLB();L.push({n:me.n,g:me.g,score,ok:okc,time:t});localStorage.setItem(LBKEY,JSON.stringify(L))}catch(e){}lb('lb1');
+ if(FORM_URL){const q=new URLSearchParams({usp:'pp_url','entry.1343312173':"Geometry Puzzles",[ENTRY.name]:me.n,[ENTRY.group]:me.g,[ENTRY.score]:score,[ENTRY.correct]:okc+'/30',[ENTRY.time]:fmt(t),[ENTRY.wrong]:wrongAll});const a=$('form');a.href=FORM_URL+'?'+q.toString();a.style.display='block'}
+ const txt=`නම: ${me.n}\nකණ්ඩායම: ${me.g}\nලකුණු: ${score}\nනිවැරදි: ${okc}/30\nකාලය: ${fmt(t)}\nවැරදි උත්සාහ: ${wrongAll}`;
+ $('copy').onclick=()=>{SFX.click();try{navigator.clipboard.writeText(txt).then(()=>$('cmsg').textContent='පිටපත් විය ✅')}catch(e){$('cmsg').textContent=txt}}}
+</script></body></html>

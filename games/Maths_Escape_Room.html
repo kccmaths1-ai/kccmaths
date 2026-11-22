@@ -1,0 +1,1836 @@
+
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071326">
+<title>Math Escape Room | Grade 10-11</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy:#071326;
+  --navy2:#0d203b;
+  --panel:#102746;
+  --gold:#f4c66a;
+  --gold2:#ffdf91;
+  --text:#edf3ff;
+  --muted:#a6b5ca;
+  --green:#37d69a;
+  --red:#ff5265;
+  --line:rgba(255,255,255,.10);
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--text);
+  font-family:"Noto Sans Sinhala",system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 20%,#17365c 0%,#0a1930 45%,#050d1b 100%);
+  transition:background .2s;
+}
+
+body.danger {
+  animation:redFlash .8s infinite;
+}
+
+@keyframes redFlash {
+  0%,100% {
+    box-shadow:inset 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow:inset 0 0 100px rgba(255,0,35,.35);
+  }
+}
+
+#background {
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.symbol {
+  position:absolute;
+  bottom:-60px;
+  color:rgba(244,198,106,.12);
+  font-size:30px;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from {
+    transform:translateY(0) rotate(0);
+    opacity:0;
+  }
+  15% {opacity:1}
+  to {
+    transform:translateY(-115vh) rotate(180deg);
+    opacity:0;
+  }
+}
+
+.floor {
+  position:fixed;
+  bottom:-25%;
+  left:-50%;
+  width:200%;
+  height:65%;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    linear-gradient(rgba(244,198,106,.13) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(244,198,106,.13) 1px,transparent 1px);
+  background-size:55px 40px;
+  transform:perspective(350px) rotateX(58deg);
+  transform-origin:top;
+  animation:floorMove 3s linear infinite;
+  mask-image:linear-gradient(to bottom,transparent,black 30%);
+}
+
+@keyframes floorMove {
+  to {background-position:0 40px,55px 0}
+}
+
+.app {
+  position:relative;
+  z-index:2;
+  max-width:1050px;
+  margin:auto;
+  padding:20px;
+  min-height:100vh;
+}
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:12px 0 20px;
+  border-bottom:1px solid var(--line);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-icon {
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#ffdf91,#b77a23);
+  color:#18233a;
+  border-radius:13px;
+  font-size:25px;
+  box-shadow:0 5px 0 #80551b,0 10px 25px #0008;
+}
+
+.brand h2 {
+  font-size:17px;
+  margin:0;
+  color:var(--gold);
+}
+
+.brand small {
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.stat {
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:12px;
+}
+
+.stat strong {
+  color:var(--gold);
+  margin-left:4px;
+}
+
+.sound-btn {
+  background:#173352;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 13px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.screen {
+  display:none;
+  animation:enterScreen .65s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.screen.active {
+  display:block;
+}
+
+@keyframes enterScreen {
+  from {
+    opacity:0;
+    transform:perspective(900px) rotateX(9deg) translateY(25px) scale(.96);
+  }
+  to {
+    opacity:1;
+    transform:perspective(900px) rotateX(0) translateY(0) scale(1);
+  }
+}
+
+.card {
+  background:linear-gradient(145deg,rgba(21,51,83,.97),rgba(8,23,43,.98));
+  border:1px solid rgba(244,198,106,.22);
+  border-radius:22px;
+  padding:30px;
+  box-shadow:
+    0 25px 50px rgba(0,0,0,.4),
+    inset 0 1px rgba(255,255,255,.08),
+    0 5px 0 rgba(0,0,0,.15);
+  transition:transform .15s;
+}
+
+.start-card {
+  max-width:680px;
+  margin:45px auto;
+  text-align:center;
+}
+
+.cube-wrap {
+  perspective:700px;
+  width:140px;
+  height:140px;
+  margin:15px auto 35px;
+}
+
+.cube {
+  width:100px;
+  height:100px;
+  position:relative;
+  margin:20px;
+  transform-style:preserve-3d;
+  animation:rotateCube 12s infinite linear;
+}
+
+.cube-face {
+  position:absolute;
+  width:100px;
+  height:100px;
+  display:grid;
+  place-items:center;
+  border:2px solid var(--gold);
+  background:rgba(244,198,106,.12);
+  color:var(--gold);
+  font-size:34px;
+  font-weight:bold;
+  backdrop-filter:blur(5px);
+}
+
+.front {transform:translateZ(50px)}
+.back {transform:rotateY(180deg) translateZ(50px)}
+.right {transform:rotateY(90deg) translateZ(50px)}
+.left {transform:rotateY(-90deg) translateZ(50px)}
+.top {transform:rotateX(90deg) translateZ(50px)}
+.bottom {transform:rotateX(-90deg) translateZ(50px)}
+
+@keyframes rotateCube {
+  to {transform:rotateX(360deg) rotateY(360deg)}
+}
+
+.eyebrow {
+  color:var(--gold);
+  letter-spacing:3px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+h1 {
+  font-size:clamp(25px,5vw,42px);
+  margin:10px 0;
+  color:var(--gold2);
+}
+
+h2 {
+  color:var(--gold);
+}
+
+.subtitle {
+  color:var(--muted);
+  line-height:1.9;
+  font-size:14px;
+}
+
+.input-group {
+  text-align:left;
+  margin:18px 0;
+}
+
+label {
+  display:block;
+  font-size:13px;
+  color:var(--gold2);
+  margin-bottom:8px;
+}
+
+input,select {
+  width:100%;
+  padding:14px;
+  background:#07182c;
+  border:1px solid rgba(244,198,106,.3);
+  border-radius:10px;
+  color:white;
+  font-family:inherit;
+  font-size:15px;
+  outline:none;
+}
+
+input:focus,select:focus {
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(244,198,106,.12);
+}
+
+.btn {
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-weight:bold;
+  padding:14px 25px;
+  border-radius:11px;
+  background:linear-gradient(145deg,#ffdf91,#d59a3f);
+  color:#17243a;
+  box-shadow:0 6px 0 #865a1f,0 10px 20px #0005;
+  transition:transform .12s,box-shadow .12s;
+}
+
+.btn:hover {
+  filter:brightness(1.08);
+}
+
+.btn:active {
+  transform:translateY(5px);
+  box-shadow:0 1px 0 #865a1f;
+}
+
+.btn:disabled {
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.btn-secondary {
+  background:#183758;
+  color:white;
+  box-shadow:0 5px 0 #081a30;
+}
+
+.center {text-align:center}
+
+.game-info {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:25px 0 15px;
+}
+
+.stage-title {
+  font-size:22px;
+  color:var(--gold);
+}
+
+.timer-box {
+  text-align:right;
+  min-width:110px;
+}
+
+.timer {
+  font-size:26px;
+  font-weight:900;
+  color:var(--green);
+  font-variant-numeric:tabular-nums;
+}
+
+.timer.urgent {
+  color:var(--red);
+  animation:pulse .5s infinite alternate;
+}
+
+@keyframes pulse {
+  to {transform:scale(1.12)}
+}
+
+.progress-track {
+  width:100%;
+  height:9px;
+  background:#071326;
+  border-radius:20px;
+  overflow:hidden;
+  margin:8px 0 22px;
+}
+
+.progress-fill {
+  height:100%;
+  width:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#37d69a,#f4c66a);
+  transition:width .3s linear;
+}
+
+.lock-grid {
+  display:grid;
+  grid-template-columns:repeat(10,1fr);
+  gap:8px;
+  margin:20px 0 25px;
+}
+
+.lock {
+  height:51px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  font-weight:bold;
+  background:linear-gradient(145deg,#25415e,#0b1b31);
+  border:1px solid #39516a;
+  box-shadow:0 4px 0 #030a14;
+  transition:.4s;
+}
+
+.lock.current {
+  border:2px solid var(--gold);
+  color:var(--gold);
+  animation:pulse .9s infinite alternate;
+}
+
+.lock.opened {
+  background:linear-gradient(145deg,#48e6ac,#137d5c);
+  color:#052b20;
+  transform:rotateY(360deg);
+  box-shadow:0 4px 0 #07523b;
+}
+
+.lock.lost {
+  background:linear-gradient(145deg,#e64e60,#8d1c31);
+  color:white;
+}
+
+.question-card {
+  position:relative;
+  overflow:hidden;
+}
+
+.question-number {
+  font-size:12px;
+  color:var(--gold);
+  letter-spacing:2px;
+  font-weight:bold;
+}
+
+.question-text {
+  font-size:clamp(16px,2.5vw,19px);
+  line-height:2;
+  margin:20px 0;
+}
+
+.figure {
+  text-align:center;
+  margin:20px auto;
+  padding:12px;
+  background:rgba(0,0,0,.15);
+  border:1px solid var(--line);
+  border-radius:13px;
+  overflow:hidden;
+}
+
+.figure svg {
+  width:100%;
+  max-width:440px;
+  height:auto;
+}
+
+.figure svg text {
+  font-family:"Noto Sans Sinhala",sans-serif;
+}
+
+.answer-row {
+  display:flex;
+  gap:12px;
+  align-items:stretch;
+}
+
+.answer-row input {
+  flex:1;
+  min-width:0;
+  font-size:22px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.feedback {
+  min-height:38px;
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.8;
+  text-align:center;
+}
+
+.feedback.good {color:var(--green)}
+.feedback.bad {color:var(--red)}
+
+.hint {
+  display:none;
+  background:rgba(244,198,106,.1);
+  border:1px dashed var(--gold);
+  border-radius:10px;
+  padding:12px;
+  margin-top:12px;
+  color:var(--gold2);
+  font-size:13px;
+  line-height:1.9;
+}
+
+.hint.show {display:block}
+
+.shake {
+  animation:shake .35s;
+}
+
+@keyframes shake {
+  0%,100% {transform:translateX(0)}
+  20%,60% {transform:translateX(-9px)}
+  40%,80% {transform:translateX(9px)}
+}
+
+.key-display {
+  color:var(--gold);
+  font-weight:bold;
+  font-size:14px;
+  text-align:center;
+  margin-top:12px;
+}
+
+.fraction {
+  display:inline-flex;
+  vertical-align:middle;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin:0 5px;
+  line-height:1.35;
+  font-size:.95em;
+}
+
+.fraction .numerator {
+  border-bottom:2px solid var(--gold2);
+  padding:0 7px 3px;
+}
+
+.fraction .denominator {
+  padding:3px 7px 0;
+}
+
+.final-card {
+  max-width:700px;
+  margin:35px auto;
+  text-align:center;
+}
+
+.final-icon {
+  font-size:70px;
+  animation:victory 2s infinite alternate;
+}
+
+@keyframes victory {
+  to {transform:translateY(-12px) rotate(8deg)}
+}
+
+.result-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:25px 0;
+}
+
+.result-item {
+  background:rgba(255,255,255,.055);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:17px;
+}
+
+.result-item small {
+  color:var(--muted);
+  display:block;
+  font-size:12px;
+}
+
+.result-item strong {
+  display:block;
+  margin-top:8px;
+  font-size:22px;
+  color:var(--gold);
+}
+
+.rank {
+  color:var(--gold2);
+  font-size:25px;
+  font-weight:900;
+  margin:20px;
+}
+
+#confetti {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:10;
+}
+
+.warning {
+  color:var(--red);
+  font-size:12px;
+  text-align:center;
+  margin-top:10px;
+}
+
+footer {
+  text-align:center;
+  color:#72849d;
+  font-size:11px;
+  padding:30px 0 15px;
+}
+
+@media(max-width:600px) {
+  .app {padding:12px}
+  .card {padding:20px 16px}
+  .start-card {margin:25px auto}
+  .lock-grid {gap:5px}
+  .lock {height:38px;font-size:15px}
+  .header-right {gap:5px}
+  .stat {padding:7px;font-size:10px}
+  .brand h2 {font-size:14px}
+  .brand-icon {width:40px;height:40px}
+  .answer-row {flex-direction:column}
+  .answer-row .btn {width:100%}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+  }
+  .floor {animation:none}
+}
+</style>
+</head>
+
+<body>
+
+<div id="background"></div>
+<div class="floor"></div>
+<canvas id="confetti"></canvas>
+
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">🔐</div>
+    <div>
+      <h2>MATH ESCAPE ROOM</h2>
+      <small>Grade 10 - 11 | Mathematics Challenge</small>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="stat">ප්‍රගතිය <strong id="globalProgress">0/20</strong></div>
+    <div class="stat">ලකුණු <strong id="globalScore">0</strong></div>
+    <button class="sound-btn" id="soundToggle" onclick="toggleSound()">🔊 ශබ්ද</button>
+  </div>
+</header>
+
+<!-- START SCREEN -->
+
+<section id="startScreen" class="screen active">
+
+<div class="card start-card">
+
+  <div class="eyebrow">THE ULTIMATE MATHEMATICS CHALLENGE</div>
+
+  <div class="cube-wrap">
+    <div class="cube">
+      <div class="cube-face front">π</div>
+      <div class="cube-face back">√</div>
+      <div class="cube-face right">∑</div>
+      <div class="cube-face left">∞</div>
+      <div class="cube-face top">x²</div>
+      <div class="cube-face bottom">∠</div>
+    </div>
+  </div>
+
+  <h1>MATH ESCAPE ROOM</h1>
+
+  <p class="subtitle">
+    ගණිත දැනුමෙන් ඔබේ නිදහස සොයාගන්න!<br>
+    ප්‍රශ්න විසඳන්න. අගුළු විවෘත කරන්න.<br>
+    අවසානයේ කාමරයෙන් පිටවන්න!
+  </p>
+
+  <div style="margin:25px 0;color:var(--gold)">
+    🔑 ප්‍රශ්න 20ක් &nbsp; | &nbsp; 🔐 අගුළු 20ක් &nbsp; | &nbsp; 🏆 එක් අභියෝගයක්
+  </div>
+
+  <div class="input-group">
+    <label for="studentName">ශිෂ්‍යයාගේ නම</label>
+    <input id="studentName" type="text" maxlength="60" placeholder="ඔබේ නම ඇතුළත් කරන්න">
+  </div>
+
+  <div class="input-group">
+    <label for="groupName">කණ්ඩායමේ නම</label>
+    <input id="groupName" type="text" maxlength="50" placeholder="කණ්ඩායමේ නම">
+  </div>
+
+  <div class="input-group">
+    <label for="grade">ශ්‍රේණිය</label>
+    <select id="grade">
+      <option value="10 ශ්‍රේණිය">10 ශ්‍රේණිය</option>
+      <option value="11 ශ්‍රේණිය">11 ශ්‍රේණිය</option>
+    </select>
+  </div>
+
+  <button class="btn" onclick="startGame()">🚪 ක්‍රීඩාව ආරම්භ කරන්න</button>
+
+  <p class="warning">⚠️ එක් ප්‍රශ්නයකට ලබාදෙන කාලය තත්පර 90කි.</p>
+</div>
+</section>
+
+<!-- GAME SCREEN -->
+
+<section id="gameScreen" class="screen">
+
+<div class="game-info">
+  <div>
+    <div class="eyebrow" id="stageLabel">STAGE 01</div>
+    <div class="stage-title" id="stageTitle">පළමු අභියෝගය</div>
+    <small style="color:var(--muted)" id="stageDescription">ගණිත දැනුම පරීක්ෂා කරමු!</small>
+  </div>
+
+  <div class="timer-box">
+    <small style="color:var(--muted)">ඉතිරි කාලය</small>
+    <div class="timer" id="timer">01:30</div>
+  </div>
+</div>
+
+<div class="progress-track">
+  <div class="progress-fill" id="timerBar"></div>
+</div>
+
+<div class="lock-grid" id="lockGrid"></div>
+
+<div class="card question-card" id="questionCard">
+
+  <div class="question-number" id="questionNumber">QUESTION 01 / 10</div>
+
+  <div class="question-text" id="questionText"></div>
+
+  <div class="figure" id="figureBox" style="display:none"></div>
+
+  <div class="answer-row">
+    <input
+      id="answerInput"
+      type="number"
+      step="1"
+      inputmode="numeric"
+      placeholder="පිළිතුර ඇතුළත් කරන්න"
+      autocomplete="off"
+      aria-label="Numeric answer"
+    >
+    <button class="btn" id="checkButton" onclick="checkAnswer()">පිළිතුර පරීක්ෂා කරන්න ✓</button>
+  </div>
+
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+
+  <div class="hint" id="hint"></div>
+
+  <div class="key-display" id="keyDisplay"></div>
+
+</div>
+
+<div class="center" style="margin-top:20px">
+  <small style="color:var(--muted)">
+    🔒 නිවැරදි පිළිතුර ලබා දුන් විට අගුළ විවෘත වේ.
+  </small>
+</div>
+
+</section>
+
+<!-- FINAL SCREEN -->
+
+<section id="finalScreen" class="screen">
+
+<div class="card final-card">
+
+  <div class="final-icon">🏆</div>
+
+  <div class="eyebrow">MISSION COMPLETED</div>
+
+  <h1>ඔබ සාර්ථකව පලා ගියා!</h1>
+
+  <p class="subtitle">
+    සියලුම අගුළු විවෘත කරමින් ගණිත අභියෝගය සාර්ථකව අවසන් කළ ඔබට සුබ පැතුම්!
+  </p>
+
+  <div class="rank" id="rankText">MATH MASTER</div>
+
+  <div style="font-size:15px;line-height:2">
+    ශිෂ්‍යයා: <strong id="finalName" style="color:var(--gold)"></strong><br>
+    කණ්ඩායම: <strong id="finalGroup" style="color:var(--gold)"></strong><br>
+    ශ්‍රේණිය: <strong id="finalGrade" style="color:var(--gold)"></strong>
+  </div>
+
+  <div class="result-grid">
+
+    <div class="result-item">
+      <small>මුළු ලකුණු</small>
+      <strong id="finalScore">0</strong>
+    </div>
+
+    <div class="result-item">
+      <small>ගත වූ කාලය</small>
+      <strong id="finalTime">00:00</strong>
+    </div>
+
+    <div class="result-item">
+      <small>නිවැරදි පිළිතුරු</small>
+      <strong id="finalCorrect">0/20</strong>
+    </div>
+
+    <div class="result-item">
+      <small>වැරදි උත්සාහ</small>
+      <strong id="finalWrong">0</strong>
+    </div>
+
+  </div>
+
+  <div style="font-size:22px;margin:20px">🔓 🔓 🔓 🔓 🔓 🔓 🔓 🔓 🔓 🔓</div>
+
+  <p class="subtitle">MATH ESCAPE ROOM - CHALLENGE COMPLETED</p>
+
+  <a class="btn" id="gf" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;margin:0 6px 12px">📨 ලකුණු Google Form එකට යවන්න</a>
+  <button class="btn" onclick="location.reload()" style="margin:0 6px 12px">නැවත ක්‍රීඩා කරන්න ↻</button>
+
+</div>
+</section>
+
+<footer>
+  MATH ESCAPE ROOM | LEARN • THINK • SOLVE • ESCAPE
+</footer>
+
+</div>
+
+<script>
+
+/* =====================================================
+   QUESTION DATABASE
+   Format:
+   [questionText, answer, hint, optionalSvgFigure]
+
+   Stage 01: 10 questions
+   Stage 02: 10 questions
+===================================================== */
+
+/* ---------- SVG DIAGRAMS ---------- */
+
+const triangleFigure = `
+<svg viewBox="0 0 400 230">
+  <path d="M65 185 L200 35 L335 185 Z"
+    fill="rgba(244,198,106,.08)"
+    stroke="#f4c66a" stroke-width="3"/>
+  <text x="75" y="173" fill="#ffdf91" font-size="17">x</text>
+  <text x="295" y="173" fill="#ffdf91" font-size="17">2x</text>
+  <text x="184" y="65" fill="#ffdf91" font-size="17">3x</text>
+  <text x="190" y="215" fill="#a6b5ca" font-size="12">A</text>
+</svg>`;
+
+const cylinderFigure = `
+<svg viewBox="0 0 400 220">
+  <ellipse cx="200" cy="45" rx="85" ry="25"
+    fill="none" stroke="#f4c66a" stroke-width="3"/>
+  <path d="M115 45 V160 M285 45 V160"
+    stroke="#f4c66a" stroke-width="3" fill="none"/>
+  <path d="M115 160 A85 25 0 0 0 285 160"
+    fill="none" stroke="#f4c66a" stroke-width="3"/>
+  <path d="M115 160 A85 25 0 0 1 285 160"
+    fill="none" stroke="#a6b5ca" stroke-width="2"
+    stroke-dasharray="5 5"/>
+  <text x="300" y="110" fill="#ffdf91" font-size="17">h = 10</text>
+  <text x="190" y="35" fill="#ffdf91" font-size="16">r = 7</text>
+  <text x="200" y="205" fill="#a6b5ca" font-size="13">Cylinder</text>
+</svg>`;
+
+const sectorFigure = `
+<svg viewBox="0 0 400 240">
+  <path d="M190 120 L190 25
+    A95 95 0 0 1 285 120 Z"
+    fill="rgba(244,198,106,.22)"
+    stroke="#f4c66a" stroke-width="3"/>
+  <path d="M190 120 L285 120"
+    stroke="#f4c66a" stroke-width="3"/>
+  <path d="M190 120 L190 25"
+    stroke="#f4c66a" stroke-width="3"/>
+  <text x="200" y="65" fill="#ffdf91" font-size="15">14 cm</text>
+  <text x="225" y="145" fill="#ffdf91" font-size="17">90°</text>
+  <text x="180" y="140" fill="white" font-size="14">O</text>
+</svg>`;
+
+const centralFigure = `
+<svg viewBox="0 0 400 250">
+  <circle cx="200" cy="125" r="90"
+    fill="none" stroke="#f4c66a" stroke-width="3"/>
+  <path d="M200 125 L110 125 L155 47"
+    stroke="#ffdf91" stroke-width="3" fill="none"/>
+  <path d="M155 47 L200 125"
+    stroke="#ffdf91" stroke-width="3"/>
+  <path d="M110 125 L155 47"
+    stroke="#37d69a" stroke-width="3"/>
+  <circle cx="200" cy="125" r="4" fill="#ffdf91"/>
+  <text x="207" y="143" fill="white" font-size="15">O</text>
+  <text x="120" y="115" fill="#ffdf91" font-size="15">A</text>
+  <text x="145" y="39" fill="#ffdf91" font-size="15">B</text>
+  <text x="125" y="78" fill="#37d69a" font-size="16">35°</text>
+</svg>`;
+
+const chordFigure = `
+<svg viewBox="0 0 400 260">
+  <circle cx="200" cy="130" r="100"
+    fill="none" stroke="#f4c66a" stroke-width="3"/>
+  <path d="M120 70 L280 70"
+    stroke="#37d69a" stroke-width="4"/>
+  <path d="M200 130 L200 70"
+    stroke="#ffdf91" stroke-width="3"/>
+  <path d="M190 70 L190 80 L200 80"
+    fill="none" stroke="#ffdf91" stroke-width="2"/>
+  <text x="210" y="120" fill="#ffdf91" font-size="15">13 cm</text>
+  <text x="210" y="90" fill="#37d69a" font-size="14">5 cm</text>
+  <text x="190" y="150" fill="white" font-size="15">O</text>
+  <text x="105" y="55" fill="#ffdf91" font-size="15">A</text>
+  <text x="285" y="55" fill="#ffdf91" font-size="15">B</text>
+  <text x="210" y="190" fill="#a6b5ca" font-size="13">AB = ?</text>
+</svg>`;
+
+const volumeFigure = `
+<svg viewBox="0 0 400 230">
+  <path d="M120 50 V180 H280 V50"
+    fill="none" stroke="#f4c66a" stroke-width="3"/>
+  <path d="M121 115 H279 V180 H121 Z"
+    fill="rgba(55,214,154,.16)"
+    stroke="#37d69a" stroke-width="2"/>
+  <text x="200" y="35" text-anchor="middle"
+    fill="#ffdf91" font-size="16">Tank</text>
+  <text x="200" y="145" text-anchor="middle"
+    fill="#37d69a" font-size="17">600 L</text>
+  <text x="70" y="85" fill="#ffdf91" font-size="14">12 L/min</text>
+  <text x="290" y="85" fill="#ffdf91" font-size="14">8 L/min</text>
+</svg>`;
+
+
+/* ---------- STAGE 01 ---------- */
+
+const stage1 = [
+
+[
+  "රු. 12,000ක මුදලක් වාර්ෂික 5%ක සුළු පොලියට වසර 2ක් තැන්පත් කර ඇත. ලැබෙන මුළු පොලිය රුපියල් කීයද?",
+  1200,
+  "සරල පොලිය = (ප්‍රාග්ධනය × පොලී අනුපාතය × කාලය) / 100"
+],
+
+[
+  "නිවසක වාර්ෂික තක්සේරු වටිනාකම රු. 240,000කි. වරිපනම් බදු අනුපාතය 6% නම් වසරකට ගෙවිය යුතු වරිපනම් බදු මුදල කීයද?",
+  14400,
+  "වරිපනම් බදු = වාර්ෂික වටිනාකම × බදු අනුපාතය / 100"
+],
+
+[
+  "2<sup>5</sup> = 32 නම්, එය ලඝුගණක ආකාරයෙන් lg නොව log<sub>2</sub> 32 = x ලෙස ලියූ විට x හි අගය කීයද?",
+  5,
+  "a<sup>b</sup> = c නම් log<sub>a</sub> c = b වේ. දර්ශක ආකාරයෙන් ලඝුගණක ආකාරයට මාරු කරන්න."
+],
+
+[
+  "පුද්ගලයෙකුගේ වාර්ෂික බදු අය කළ හැකි ආදායම රු. 1,200,000කි. පළමු රු. 500,000 සඳහා බදු අය නොකරන අතර ඊළඟ රු. 500,000 සඳහා 6%ක් ද ඉතිරි මුදල සඳහා 12%ක් ද අය කරයි. ගෙවිය යුතු මුළු ආදායම් බද්ද කීයද?",
+  54000,
+  "රු. 500,000 × 6% සහ ඉතිරි රු. 200,000 × 12% වෙන වෙනම ගණනය කර එකතු කරන්න."
+],
+
+[
+  "භාණ්ඩයක රේගු තක්සේරු වටිනාකම රු. 80,000කි. තීරු බදු අනුපාතය 15% නම් ගෙවිය යුතු තීරු බදු මුදල කීයද?",
+  12000,
+  "තීරු බදු = තක්සේරු වටිනාකම × 15 / 100"
+],
+
+[
+  "ත්‍රිකෝණයක අභ්‍යන්තර කෝණ තුන පිළිවෙළින් x, 2x සහ 3x වේ. එහි කුඩාම කෝණයේ අගය සොයන්න.",
+  30,
+  "ත්‍රිකෝණයක අභ්‍යන්තර කෝණවල එකතුව 180° වේ. x + 2x + 3x = 180°",
+  triangleFigure
+],
+
+[
+  "කම්කරුවන් 8 දෙනෙකුට යම් කාර්යයක් නිම කිරීමට දින 15ක් ගත වේ. එකම කාර්යක්ෂමතාවයෙන් කම්කරුවන් 12 දෙනෙකුට එම කාර්යය නිම කිරීමට දින කීයක් ගතවේද?",
+  10,
+  "මිනිස් දින = කම්කරුවන් ගණන × දින ගණන. කාර්යය ස්ථාවර බැවින් 8 × 15 = 12 × x"
+],
+
+[
+  "අරය 7 cm සහ උස 10 cm වන සංවෘත සිලින්ඩරයක මුළු පෘෂ්ඨ වර්ගඵලය සොයන්න. π = 22/7 ලෙස ගන්න. රූපයේ දක්වා ඇති වෘත්තාකාර පාදයේ වට ප්‍රමාණයද සලකා බලන්න. පිළිතුර cm² වලින් දෙන්න.",
+  748,
+  "වෘත්තයක වට ප්‍රමාණය = 2πr. සංවෘත සිලින්ඩරයේ මුළු පෘෂ්ඨ වර්ගඵලය = 2πr(r+h).",
+  cylinderFigure
+],
+
+[
+  "අරය 14 cm වන වෘත්තයක 90° කේන්ද්‍රික කෝණයකින් සීමා වූ වෘත්ත ඛණ්ඩයේ වර්ගඵලය සොයන්න. π = 22/7 ලෙස ගන්න.",
+  154,
+  "වෘත්ත ඛණ්ඩයේ වර්ගඵලය = කෝණය / 360 × πr²",
+  sectorFigure
+],
+
+[
+  "වාහනයක් පැය 3කදී කිලෝමීටර් 180ක් ගමන් කරයි. එහි සාමාන්‍ය වේගය පැයට කිලෝමීටර් කීයද?",
+  60,
+  "සාමාන්‍ය වේගය = මුළු දුර / මුළු කාලය"
+]
+
+];
+
+
+/* ---------- STAGE 02 ---------- */
+
+const stage2 = [
+
+[
+  "එකම වෘත්ත චාපයක් මත පිහිටි පරිධි කෝණය 35° වේ. එම චාපයට අදාළ කේන්ද්‍රික කෝණයේ අගය සොයන්න.",
+  70,
+  "එකම චාපයකට අදාළ කේන්ද්‍රික කෝණය = පරිධි කෝණය මෙන් දෙගුණයකි.",
+  centralFigure
+],
+
+[
+  "වෘත්තයක අරය 13 cm වේ. එහි කේන්ද්‍රයේ සිට ජ්‍යායයකට ඇඳි ලම්බ දුර 5 cm නම් ජ්‍යායයේ සම්පූර්ණ දිග සොයන්න.",
+  24,
+  "ලම්බය ජ්‍යාය දෙකට සමව බෙදයි. පයිතගරස් සම්බන්ධය භාවිතයෙන් අර්ධ ජ්‍යාය සොයන්න.",
+  chordFigure
+],
+
+[
+  "ජල ටැංකියකට ජලය පුරවන නළ දෙකකින් පිළිවෙළින් මිනිත්තුවකට ලීටර් 12ක් සහ ලීටර් 8ක් බැගින් ජලය ලැබේ. ටැංකියේ ධාරිතාව ලීටර් 600ක් නම් නළ දෙකම එකවර විවෘත කළ විට ටැංකිය පිරීමට ගතවන කාලය මිනිත්තු කීයද?",
+  30,
+  "නළ දෙකේ ඒකාබද්ධ ප්‍රවාහ අනුපාතය = 12 + 8. කාලය = ධාරිතාව / ප්‍රවාහ අනුපාතය.",
+  volumeFigure
+],
+
+[
+  "x² + 7x + 12 = (x + k)(x + 4) ලෙස සාධකවලට වෙන් කළ හැකිය. මෙහි k හි අගය සොයන්න.",
+  3,
+  "ගුණිතය 12 සහ එකතුව 7 වන සංඛ්‍යා දෙක සොයන්න."
+],
+
+[
+  "50² − 30² හි අගය සොයන්න. වර්ග දෙකක වෙනස භාවිත කරන්න.",
+  1600,
+  "a² − b² = (a − b)(a + b) සම්බන්ධතාව භාවිත කරන්න."
+],
+
+[
+  "අරය 7 cm හා උස 12 cm වන සිලින්ඩරයක පරිමාව සොයන්න. π = 22/7 ලෙස ගන්න. පිළිතුර cm³ වලින් දෙන්න.",
+  1848,
+  "සිලින්ඩරයක පරිමාව = πr²h",
+  cylinderFigure
+],
+
+[
+  "සමීකරණය විසඳන්න. [[x + 2|3]] = [[3|2]] නම් x හි අගය සොයන්න.",
+  7,
+  "දෙපසම 6න් ගුණ කර භාග ඉවත් කරන්න. ඉන්පසු x තනි කරන්න."
+],
+
+[
+  "x = 8 වන විට [[x² − 25|x − 5]] යන වීජීය භාගයේ සරල කළ අගය සොයන්න.",
+  13,
+  "x² − 25 = (x − 5)(x + 5). පොදු සාධකය ඉවත් කරන්න."
+],
+
+[
+  "යම් ප්‍රාග්ධනයක් වාර්ෂික 6%ක සරල පොලියට වසර 3ක් තැන්පත් කළ විට ලැබුණු පොලිය රු. 1,800කි. මුල් ප්‍රාග්ධනය රුපියල් කීයද?",
+  10000,
+  "P = (සරල පොලිය × 100) / (පොලී අනුපාතය × කාලය)"
+],
+
+[
+  "භාණ්ඩයක රේගු තක්සේරු වටිනාකම රු. 100,000කි. ඒ මත 10%ක තීරු බද්දක් අය කරයි. ඉන්පසු (භාණ්ඩ වටිනාකම + තීරු බද්ද) මත 15%ක VAT අය කරයි. තීරු බද්ද සහ VAT යන දෙකෙහිම එකතුව සොයන්න.",
+  26500,
+  "පළමුව තීරු බද්ද = 100,000 × 10%. ඉන්පසු VAT ගණනය කර බදු දෙක එකතු කරන්න."
+]
+
+];
+
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let student = {};
+let stage = 1;
+let questionIndex = 0;
+
+let score = 0;
+let correctCount = 0;
+let wrongAttempts = 0;
+let attemptsThisQuestion = 0;
+
+let remaining = 90;
+let timerInterval = null;
+let gameStart = 0;
+let locked = false;
+let soundEnabled = true;
+let audioContext = null;
+let completed = false;
+
+let questionStart = 0;
+
+let stageStatus = {
+  1:Array(10).fill("locked"),
+  2:Array(10).fill("locked")
+};
+
+const $ = id => document.getElementById(id);
+
+function currentQuestions() {
+  return stage === 1 ? stage1 : stage2;
+}
+
+function currentQuestion() {
+  return currentQuestions()[questionIndex];
+}
+
+
+/* =====================================================
+   AUDIO - WEB AUDIO API
+===================================================== */
+
+function getAudio() {
+  if(!audioContext) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if(!AudioCtx) return null;
+    audioContext = new AudioCtx();
+  }
+
+  if(audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+function tone(freq,duration,type="sine",volume=.12,delay=0) {
+  if(!soundEnabled) return;
+
+  const ctx = getAudio();
+  if(!ctx) return;
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq,ctx.currentTime+delay);
+
+  gain.gain.setValueAtTime(volume,ctx.currentTime+delay);
+  gain.gain.exponentialRampToValueAtTime(
+    .001,ctx.currentTime+delay+duration
+  );
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime+delay);
+  osc.stop(ctx.currentTime+delay+duration);
+}
+
+function playSound(name) {
+  if(!soundEnabled) return;
+
+  switch(name) {
+
+    case "click":
+      tone(600,.07,"sine",.07);
+      break;
+
+    case "correct":
+      tone(523,.2,"sine",.12);
+      tone(659,.2,"sine",.12,.15);
+      tone(784,.4,"sine",.12,.3);
+      break;
+
+    case "wrong":
+      tone(180,.25,"sawtooth",.12);
+      tone(120,.35,"square",.08,.12);
+      break;
+
+    case "warning":
+      tone(880,.12,"square",.07);
+      break;
+
+    case "timeup":
+      tone(260,.4,"sawtooth",.13);
+      tone(160,.6,"sawtooth",.12,.35);
+      break;
+
+    case "unlock":
+      tone(440,.2,"sine",.12);
+      tone(660,.2,"sine",.12,.15);
+      tone(880,.4,"sine",.12,.3);
+      break;
+
+    case "victory":
+      [523,659,784,1047].forEach((f,i)=>{
+        tone(f,.6,"sine",.13,i*.22);
+      });
+      break;
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  $("soundToggle").textContent = soundEnabled ? "🔊 ශබ්ද" : "🔇 නිහඬ";
+  if(soundEnabled) playSound("unlock");
+}
+
+
+/* =====================================================
+   FRACTION RENDERER
+   Converts [[numerator|denominator]] into stacked HTML
+===================================================== */
+
+function renderMath(text) {
+  return text.replace(
+    /\[\[([\s\S]*?)\|([\s\S]*?)\]\]/g,
+    (_,num,den)=>{
+      return `
+        <span class="fraction">
+          <span class="numerator">${num}</span>
+          <span class="denominator">${den}</span>
+        </span>
+      `;
+    }
+  );
+}
+
+
+/* =====================================================
+   BACKGROUND SYMBOLS
+===================================================== */
+
+const symbols = ["π","∑","√","∞","%","∠","∫","x²"];
+
+function createSymbols() {
+  const bg = $("background");
+
+  for(let i=0;i<18;i++) {
+    const el = document.createElement("div");
+    el.className = "symbol";
+    el.textContent = symbols[i%symbols.length];
+    el.style.left = Math.random()*100+"%";
+    el.style.animationDuration = (12+Math.random()*18)+"s";
+    el.style.animationDelay = (-Math.random()*25)+"s";
+    el.style.fontSize = (20+Math.random()*25)+"px";
+    bg.appendChild(el);
+  }
+}
+
+
+/* =====================================================
+   SCREEN MANAGEMENT
+===================================================== */
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  $(id).classList.remove("active");
+
+  void $(id).offsetWidth;
+
+  $(id).classList.add("active");
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+function startGame() {
+  const name = $("studentName").value.trim();
+  const group = $("groupName").value.trim();
+
+  if(!name || !group) {
+    alert("කරුණාකර ඔබේ නම සහ කණ්ඩායමේ නම ඇතුළත් කරන්න.");
+    return;
+  }
+
+  getAudio();
+  playSound("click");
+
+  student = {
+    name,
+    group,
+    grade:$("grade").value
+  };
+
+  stage = 1;
+  questionIndex = 0;
+  score = 0;
+  correctCount = 0;
+  wrongAttempts = 0;
+  completed = false;
+
+  stageStatus = {
+    1:Array(10).fill("locked"),
+    2:Array(10).fill("locked")
+  };
+
+  gameStart = Date.now();
+
+  showScreen("gameScreen");
+  renderQuestion();
+}
+
+
+/* =====================================================
+   RENDER LOCKS
+===================================================== */
+
+function renderLocks() {
+  const grid = $("lockGrid");
+  grid.innerHTML = "";
+
+  const statuses = stageStatus[stage];
+
+  statuses.forEach((status,i)=>{
+    const tile = document.createElement("div");
+    tile.className = "lock";
+
+    if(status==="opened") {
+      tile.classList.add("opened");
+      tile.textContent = "🔓";
+      tile.title = "විවෘතයි";
+    }
+    else if(status==="lost") {
+      tile.classList.add("lost");
+      tile.textContent = "✖";
+      tile.title = "අහිමි විය";
+    }
+    else if(i===questionIndex) {
+      tile.classList.add("current");
+      tile.textContent = "🔒";
+      tile.title = "වත්මන් ප්‍රශ්නය";
+    }
+    else {
+      tile.textContent = "🔐";
+    }
+
+    grid.appendChild(tile);
+  });
+}
+
+
+/* =====================================================
+   RENDER QUESTION
+===================================================== */
+
+function renderQuestion() {
+  clearInterval(timerInterval);
+
+  locked = false;
+  attemptsThisQuestion = 0;
+  remaining = 90;
+
+  const q = currentQuestion();
+
+  $("stageLabel").textContent = "STAGE 0"+stage;
+
+  $("stageTitle").textContent =
+    stage===1 ? "පළමු අභියෝගය" : "අවසන් අභියෝගය";
+
+  $("stageDescription").textContent =
+    stage===1
+    ? "පළමු අගුළු 10 විවෘත කරන්න!"
+    : "දැන් ඔබේ දැනුම තවත් පරීක්ෂා වේ!";
+
+  $("questionNumber").textContent =
+    `QUESTION ${String(questionIndex+1).padStart(2,"0")} / 10`;
+
+  $("questionText").innerHTML = renderMath(q[0]);
+
+  if(q[3]) {
+    $("figureBox").style.display = "block";
+    $("figureBox").innerHTML = q[3];
+  } else {
+    $("figureBox").style.display = "none";
+    $("figureBox").innerHTML = "";
+  }
+
+  $("answerInput").value = "";
+  $("answerInput").disabled = false;
+  $("checkButton").disabled = false;
+
+  $("feedback").textContent = "";
+  $("feedback").className = "feedback";
+
+  $("hint").innerHTML = "";
+  $("hint").classList.remove("show");
+
+  $("keyDisplay").textContent = "";
+
+  updateGlobalStats();
+  renderLocks();
+  updateTimerDisplay();
+
+  questionStart = Date.now();
+
+  $("answerInput").focus();
+
+  timerInterval = setInterval(tick,1000);
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function tick() {
+  if(locked) return;
+
+  remaining--;
+
+  updateTimerDisplay();
+
+  if(remaining<=10 && remaining>0) {
+    document.body.classList.add("danger");
+    playSound("warning");
+  }
+
+  if(remaining<=0) {
+    clearInterval(timerInterval);
+    timeUp();
+  }
+}
+
+function updateTimerDisplay() {
+  const min = Math.floor(remaining/60);
+  const sec = remaining%60;
+
+  $("timer").textContent =
+    String(min).padStart(2,"0")+":"+
+    String(sec).padStart(2,"0");
+
+  $("timer").classList.toggle("urgent",remaining<=10);
+
+  $("timerBar").style.width =
+    Math.max(0,(remaining/90)*100)+"%";
+}
+
+function clearDanger() {
+  document.body.classList.remove("danger");
+}
+
+
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
+
+function checkAnswer() {
+  if(locked) return;
+
+  const input = $("answerInput");
+  const value = input.value.trim();
+
+  if(value==="" || !/^-?\d+$/.test(value)) {
+    $("feedback").textContent =
+      "කරුණාකර පූර්ණ සංඛ්‍යාවක් ඇතුළත් කරන්න.";
+    $("feedback").className = "feedback bad";
+    return;
+  }
+
+  playSound("click");
+
+  const answer = Number(value);
+
+  if(!Number.isSafeInteger(answer)) {
+    $("feedback").textContent =
+      "වලංගු පූර්ණ සංඛ්‍යාවක් ඇතුළත් කරන්න.";
+    $("feedback").className = "feedback bad";
+    return;
+  }
+
+  if(answer===currentQuestion()[1]) {
+    correctAnswer();
+  } else {
+    wrongAnswer();
+  }
+}
+
+$("answerInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter") {
+    checkAnswer();
+  }
+});
+
+
+/* =====================================================
+   CORRECT ANSWER
+===================================================== */
+
+function correctAnswer() {
+  locked = true;
+  clearInterval(timerInterval);
+  clearDanger();
+
+  correctCount++;
+
+  const speedBonus = Math.floor(remaining/3);
+  const firstTryBonus = attemptsThisQuestion===0 ? 50 : 0;
+
+  const earned = 50+speedBonus+firstTryBonus;
+
+  score += earned;
+
+  stageStatus[stage][questionIndex] = "opened";
+
+  playSound("correct");
+
+  $("feedback").innerHTML =
+    "🎉 නිවැරදියි! අගුළ විවෘත විය!<br>"+
+    `<strong>+${earned} ලකුණු</strong>`;
+
+  $("feedback").className = "feedback good";
+
+  $("keyDisplay").textContent =
+    "🔑 ඔබට නව යතුරක් ලැබුණි!";
+
+  $("answerInput").disabled = true;
+  $("checkButton").disabled = true;
+
+  updateGlobalStats();
+  renderLocks();
+
+  setTimeout(nextQuestion,2200);
+}
+
+
+/* =====================================================
+   WRONG ANSWER
+===================================================== */
+
+function wrongAnswer() {
+  attemptsThisQuestion++;
+  wrongAttempts++;
+
+  score = Math.max(0,score-10);
+
+  playSound("wrong");
+
+  $("questionCard").classList.remove("shake");
+  void $("questionCard").offsetWidth;
+  $("questionCard").classList.add("shake");
+
+  $("feedback").textContent =
+    "❌ වැරදියි! නැවත උත්සාහ කරන්න. (-10 ලකුණු)";
+  $("feedback").className = "feedback bad";
+
+  if(attemptsThisQuestion>=2) {
+    $("hint").innerHTML =
+      "💡 ඉඟිය: "+renderMath(currentQuestion()[2]);
+    $("hint").classList.add("show");
+  }
+
+  updateGlobalStats();
+}
+
+
+/* =====================================================
+   TIME UP
+===================================================== */
+
+function timeUp() {
+  locked = true;
+  clearDanger();
+
+  stageStatus[stage][questionIndex] = "lost";
+
+  playSound("timeup");
+
+  const answer = currentQuestion()[1];
+
+  $("feedback").innerHTML =
+    `⏰ කාලය අවසන්! නිවැරදි පිළිතුර: <strong>${answer}</strong><br>
+    මෙම අගුළ අහිමි විය.`;
+
+  $("feedback").className = "feedback bad";
+
+  $("keyDisplay").textContent = "✖ අගුළ අහිමි විය";
+
+  $("answerInput").disabled = true;
+  $("checkButton").disabled = true;
+
+  renderLocks();
+  updateGlobalStats();
+
+  setTimeout(nextQuestion,2800);
+}
+
+
+/* =====================================================
+   NEXT QUESTION / STAGE
+===================================================== */
+
+function nextQuestion() {
+  clearInterval(timerInterval);
+  clearDanger();
+
+  questionIndex++;
+
+  if(questionIndex<10) {
+    renderQuestion();
+    return;
+  }
+
+  if(stage===1) {
+    stage = 2;
+    questionIndex = 0;
+
+    playSound("unlock");
+
+    $("stageTitle").textContent =
+      "පළමු අදියර සම්පූර්ණයි!";
+
+    $("feedback").textContent =
+      "🔓 STAGE 01 UNLOCKED! දෙවන අදියරට පිවිසෙමු!";
+
+    setTimeout(()=>{
+      renderQuestion();
+    },1500);
+
+  } else {
+    finishGame();
+  }
+}
+
+
+/* =====================================================
+   GLOBAL SCORE / PROGRESS
+===================================================== */
+
+function updateGlobalStats() {
+  const completedQuestions = correctCount +
+    stageStatus[1].filter(x=>x==="lost").length+
+    stageStatus[2].filter(x=>x==="lost").length;
+
+  $("globalProgress").textContent =
+    Math.min(20,completedQuestions)+"/20";
+
+  $("globalScore").textContent = score;
+}
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+function finishGame() {
+  clearInterval(timerInterval);
+  clearDanger();
+
+  if(completed) return;
+  completed = true;
+
+  const totalSeconds = Math.floor((Date.now()-gameStart)/1000);
+
+  const minutes = Math.floor(totalSeconds/60);
+  const seconds = totalSeconds%60;
+
+  let rank;
+
+  if(correctCount>=18 && score>=1800) {
+    rank = "👑 MATH MASTER";
+  }
+  else if(correctCount>=15) {
+    rank = "⭐ SUPER SOLVER";
+  }
+  else if(correctCount>=10) {
+    rank = "🏅 BRAVE ESCAPER";
+  }
+  else {
+    rank = "🔑 DETERMINED ESCAPER";
+  }
+
+  $("finalName").textContent = student.name;
+  $("finalGroup").textContent = student.group;
+  $("finalGrade").textContent = student.grade;
+
+  $("finalScore").textContent = score;
+  $("finalTime").textContent =
+    String(minutes).padStart(2,"0")+":"+
+    String(seconds).padStart(2,"0");
+
+  $("finalCorrect").textContent = correctCount+"/20";
+  $("finalWrong").textContent = wrongAttempts;
+
+  $("rankText").textContent = rank;
+
+  $("globalProgress").textContent = "20/20";
+
+  const GF_BASE="https://docs.google.com/forms/d/e/1FAIpQLScmaRhkPAuqr_t-C-GkGu0JNBBhvT9VX7YSnysn68hC7iP5Fg/viewform",GF_E={"GAME": "entry.1343312173", "NAME": "entry.1341088117", "GRADE": "entry.765725535", "SCORE": "entry.101774562", "TIME": "entry.736987893", "CORRECT": "entry.1686830365", "WRONG": "entry.396852829", "RANK": "entry.1917189363", "EXTRA": "entry.225628272"};function gfUrl(v){const q=new URLSearchParams({usp:'pp_url'});Object.keys(v).forEach(k=>{if(v[k]!==undefined&&v[k]!==null&&v[k]!=='')q.set(GF_E[k],v[k])});return GF_BASE+'?'+q.toString()}
+  $('gf').href=gfUrl({GAME:'Maths Escape Room',NAME:student.name,EXTRA:student.group,GRADE:student.grade,SCORE:score,CORRECT:correctCount+'/20',WRONG:wrongAttempts,TIME:$('finalTime').textContent,RANK:rank});
+
+  showScreen("finalScreen");
+
+  playSound("victory");
+  startConfetti();
+}
+
+
+/* =====================================================
+   CONFETTI CANVAS
+===================================================== */
+
+const canvas = $("confetti");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let confettiAnimation = null;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth*devicePixelRatio;
+  canvas.height = window.innerHeight*devicePixelRatio;
+
+  ctx.setTransform(
+    devicePixelRatio,0,0,devicePixelRatio,0,0
+  );
+}
+
+window.addEventListener("resize",resizeCanvas);
+resizeCanvas();
+
+function startConfetti() {
+  particles = [];
+
+  for(let i=0;i<180;i++) {
+    particles.push({
+      x:Math.random()*window.innerWidth,
+      y:-Math.random()*window.innerHeight,
+      size:4+Math.random()*7,
+      speed:2+Math.random()*5,
+      rotation:Math.random()*360,
+      rotationSpeed:(Math.random()-.5)*10,
+      color:["#f4c66a","#37d69a","#ff5265","#69a9ff","#ffffff"][i%5]
+    });
+  }
+
+  if(confettiAnimation) {
+    cancelAnimationFrame(confettiAnimation);
+  }
+
+  animateConfetti();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+
+  particles.forEach(p=>{
+    p.y+=p.speed;
+    p.rotation+=p.rotationSpeed;
+    p.x+=Math.sin(p.y*.01)*1.3;
+
+    if(p.y>window.innerHeight+20) {
+      p.y=-20;
+      p.x=Math.random()*window.innerWidth;
+    }
+
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.rotation*Math.PI/180);
+    ctx.fillStyle=p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.6);
+    ctx.restore();
+  });
+
+  confettiAnimation=requestAnimationFrame(animateConfetti);
+}
+
+
+/* =====================================================
+   3D CARD TILT
+===================================================== */
+
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+
+  document.querySelectorAll(".card").forEach(card=>{
+
+    card.addEventListener("mousemove",e=>{
+      if(window.innerWidth<700) return;
+
+      const rect=card.getBoundingClientRect();
+
+      const x=(e.clientX-rect.left)/rect.width-.5;
+      const y=(e.clientY-rect.top)/rect.height-.5;
+
+      card.style.transform=
+        `perspective(1000px) rotateY(${x*2}deg) rotateX(${-y*2}deg)`;
+    });
+
+    card.addEventListener("mouseleave",()=>{
+      card.style.transform="";
+    });
+
+  });
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+createSymbols();
+
+</script>
+
+</body>
+</html>

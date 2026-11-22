@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="si"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Code හදමු</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+body{font-family:"Noto Sans Sinhala","Iskoola Pota",system-ui,sans-serif;background:#faf8f0;color:#17301f;margin:0;padding:24px;text-align:center}
+.box{max-width:520px;margin:0 auto}
+input{width:100%;font:inherit;padding:12px 14px;border:2px solid #b8932f;border-radius:12px;margin:10px 0}
+button{font:inherit;font-weight:700;background:#0f5b2e;color:#fff;border:0;border-radius:12px;padding:12px 22px;cursor:pointer;margin:4px}
+#qr{display:inline-block;background:#fff;padding:18px;border:3px solid #0f5b2e;border-radius:18px;margin:18px 0}
+.t{font-weight:800;font-size:1.3rem;color:#0f5b2e}
+@media print{input,button,.hint{display:none}body{background:#fff}}
+</style></head><body><div class="box">
+<img src="img/logo.png" alt="" width="96">
+<div class="t">Maths Spark '26</div>
+<p class="hint">ඔබේ website එකේ ලිපිනය (URL) පහළ දමා QR code එක හදන්න. ඉන්පසු Print කරන්න.</p>
+<input id="u" placeholder="https://your-site.netlify.app" inputmode="url">
+<button onclick="make()">QR හදන්න</button><button onclick="print()">Print</button>
+<div id="qr"></div>
+<div class="t">Scan කර ගේම් වලට යන්න 📱</div>
+</div>
+<script>
+let q;function make(){const v=document.getElementById('u').value.trim();if(!v)return;
+document.getElementById('qr').innerHTML='';q=new QRCode(document.getElementById('qr'),{text:v,width:280,height:280,correctLevel:QRCode.CorrectLevel.M});}
+document.getElementById('u').value=location.origin.startsWith('http')?location.href.replace(/qr\.html.*$/,''):'';
+if(document.getElementById('u').value)make();
+</script></body></html>

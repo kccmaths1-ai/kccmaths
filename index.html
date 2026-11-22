@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Spark '26 – KCC Maths Camp</title>
+<meta name="theme-color" content="#0f5b2e">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf8f0; --card:#ffffff; --ink:#17301f; --muted:#5b6b60;
+  --green:#0f5b2e; --gold:#b8932f; --line:#e4dfc9;
+  --c-escape:#23407a; --c-detective:#6b3a7d; --c-puzzle:#0e7c7b;
+  --c-geo:#b83a5a; --c-theorem:#0f5b2e; --c-team:#9a6a12;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans Sinhala","Iskoola Pota","Nirmala UI",system-ui,sans-serif;line-height:1.6;
+  -webkit-text-size-adjust:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* banner */
+.banner{padding:16px 16px 0}
+.banner img{display:block;width:100%;height:auto;border-radius:18px;border:2px solid var(--gold);
+  box-shadow:0 10px 30px -14px rgba(15,91,46,.45)}
+.intro{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;padding:22px 0 8px}
+.intro h1{margin:0;font-size:clamp(1.4rem,3.2vw,2rem);font-weight:800;color:var(--green);line-height:1.3}
+.intro p{margin:4px 0 0;color:var(--muted);max-width:52ch}
+.surprise{border:0;cursor:pointer;font:inherit;font-weight:800;color:#fff;background:var(--green);
+  padding:14px 22px;border-radius:14px;box-shadow:0 4px 0 #093a1d;min-height:48px}
+.surprise:active{transform:translateY(3px);box-shadow:0 1px 0 #093a1d}
+
+/* sticky nav */
+.bar{position:sticky;top:0;z-index:20;background:rgba(250,248,240,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;gap:10px;align-items:center;padding-top:10px;padding-bottom:10px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;text-decoration:none;font-weight:600;font-size:.92rem;padding:8px 14px;border-radius:999px;
+  background:#fff;border:2px solid var(--c);color:var(--c);white-space:nowrap}
+.chip:hover{background:var(--c);color:#fff}
+.search{flex:none;width:190px;font:inherit;font-size:.95rem;padding:9px 14px;border-radius:999px;
+  border:2px solid var(--line);background:#fff;color:var(--ink)}
+.search:focus{border-color:var(--gold);outline:none}
+
+/* sections */
+section{padding:34px 0 6px}
+.head{display:flex;gap:14px;align-items:center;margin-bottom:16px;padding-left:14px;border-left:8px solid var(--c)}
+.head .ico{font-size:2rem;line-height:1}
+.head h2{margin:0;font-size:1.45rem;font-weight:800;color:var(--c);line-height:1.3}
+.head p{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.head .n{margin-left:auto;font-weight:800;color:var(--c);font-size:.9rem;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{display:flex;flex-direction:column;text-decoration:none;background:var(--card);border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);border-bottom:5px solid var(--c);transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card:active{transform:scale(.98)}
+.card .pic{position:relative;aspect-ratio:16/9;background:#e9e5d2;overflow:hidden}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.tag{position:absolute;left:10px;bottom:10px;background:var(--c);color:#fff;font-size:.78rem;font-weight:600;
+  padding:2px 10px;border-radius:999px}
+.card .txt{padding:12px 14px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.card h3{margin:0;font-size:1.08rem;font-weight:800;line-height:1.35}
+.card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55;flex:1}
+.card .go{margin-top:8px;font-weight:800;color:var(--c);font-size:.95rem}
+.none{display:none;text-align:center;color:var(--muted);padding:40px 0}
+footer{margin-top:46px;padding:26px 0 40px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.9rem}
+footer b{color:var(--green)}
+
+@media (max-width:640px){
+  .search{width:120px}
+  .head .n{display:none}
+  .grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="wrap banner">
+  <img src="img/banner.jpg" alt="Kiriella Central College – Maths Spark '26 – Maths Unit" width="1376" height="768">
+  <div class="intro">
+    <div>
+      <h1>ගණිත ක්‍රීඩා ලෝකයට සාදරයෙන් පිළිගනිමු!</h1>
+      <p>කැමති ගේම් එකක් තෝරා ක්‍රීඩා කරන්න. ගේම් එකේදී ඔබේ නම ඇතුළත් කරන්න, අවසානයේ ලකුණු ඉබේම යැවෙනවා.</p>
+    </div>
+    <button class="surprise" id="rand" type="button">🎲 අහම්බෙන් එකක් දෙන්න</button>
+  </div>
+</header>
+
+<nav class="bar" aria-label="ගේම් වර්ග">
+  <div class="wrap">
+    <div class="chips" id="chips"></div>
+    <input class="search" id="q" type="search" placeholder="🔍 සොයන්න" aria-label="ගේම් සොයන්න">
+  </div>
+</nav>
+
+<main class="wrap" id="main"></main>
+<p class="none wrap" id="none">ගැලපෙන ගේම් එකක් නැහැ. වෙනත් වචනයකින් සොයන්න.</p>
+
+<footer class="wrap">
+  <b>Kiriella Central College</b> · Maths Spark '26 · Maths Unit<br>
+  ගේම් එකකින් ආපසු එන්න ඕනේ නම්, උපාංගයේ Back බොත්තම ඔබන්න.
+</footer>
+
+<script>
+const CATS = [
+  {id:'escape', c:'--c-escape', ico:'🔐', title:'ගැලවුම් කාමර', desc:'අගුළු දැමූ කාමරවලින් පැන යන්න. ගැටලු විසඳා යතුරු එකතු කරන්න.'},
+  {id:'detective', c:'--c-detective', ico:'🕵️', title:'රහස් පරීක්ෂක', desc:'සාක්ෂි හා අකුරු එකතු කර රහස හෙළි කරන්න.'},
+  {id:'puzzle', c:'--c-puzzle', ico:'🧩', title:'ප්‍රහේලිකා', desc:'කොටු පුරවන්න, සමීකරණ සම්පූර්ණ කරන්න, රූප වල අගය සොයන්න.'},
+  {id:'geo', c:'--c-geo', ico:'📐', title:'ජ්‍යාමිති අභියෝග', desc:'ත්‍රිකෝණ, වෘත්ත, කෝණ සහ ප්‍රමේයයන් පිළිබඳ ප්‍රශ්න.'},
+  {id:'theorem', c:'--c-theorem', ico:'⭕', title:'ප්‍රමේය ගවේෂණය', desc:'රූප ඇඳ, මැන, ප්‍රමේයය තනිවම සොයාගෙන ප්‍රශ්න විසඳන්න.'},
+  {id:'team', c:'--c-team', ico:'🏆', title:'කණ්ඩායම් තරග', desc:'මිතුරන් සමඟ කණ්ඩායම් වශයෙන් තරග කරන්න.'}
+];
+
+// [category, file, title, description, tag]
+const G = [
+ ['escape','Escape_Room','ගණිත Escape Room','අගුළු දැමූ කාමරයක සිරවී සිටී! Stage 2ක්, ප්‍රශ්න 20ක්. ප්‍රශ්නයකට මිනිත්තු 2යි.','ප්‍රශ්න 20'],
+ ['escape','Logic_Lock','Logic Lock','Stage 2ක්, ප්‍රශ්න 20ක්. ප්‍රශ්නයකට තත්පර 90යි. අවසන් තත්පර 10දී අනතුරු ඇඟවීමක් ඇත.','ප්‍රශ්න 20'],
+ ['escape','Maths_Escape','Maths Escape','ගණිත පුස්තකාලයෙන් පැන යන්න. කාමර 2ක්, එක් කාමරයක අගුලු 10ක්.','අගුලු 20'],
+ ['escape','The_Math_Gate','The Math Gate','ගණිත ගබඩාවේ අගුලු දමා ඇත. අගුලු සියල්ල විවෘත කර දොර ඇරගන්න.','අගුලු 20'],
+ ['escape','Maths_Escape_Room','Math Escape Room','10 හා 11 ශ්‍රේණි සඳහා ගණිත අභියෝගය. ප්‍රශ්න විසඳා අගුළු විවෘත කරන්න.','10–11 ශ්‍රේණි'],
+ ['escape','Maths_Room','ගණිත ගැලවුම් කාමරය','අභියෝගාත්මක ගැටලු විසඳමින් අගුළු හැර රහස් කාමරයෙන් මිදෙන්න.','10–11 ශ්‍රේණි'],
+ ['escape','Breakout_Castle','Breakout Castle','ගැටලු 20ක් විසඳා යතුරු 20ක් එක්රැස් කර මාළිගාවෙන් පලා යන්න. ප්‍රශ්නයකට තත්පර 90යි.','ගැටලු 20'],
+ ['escape','The_Castle_Puzzle','The Castle Puzzle','භූතාවේශ ගණිත මාළිගාවක සිරවී ඇත. කාමර 20ක ගැටලු විසඳා එළියට පැනගන්න.','කාමර 20'],
+ ['escape','Math_Castle','මාළිගා ගැලවුම','මහා මාළිගාවක කාමරයෙන් කාමරයට ගොස් ගණිත ප්‍රශ්න විසඳා එළියට පැනගන්න.','කාමර 20'],
+
+ ['detective','Find_the_Secrte_Message1','රහස් පණිවිඩය සොයමු 1','ප්‍රශ්න විසඳා අකුරු එකතු කර සැඟවුණු පණිවිඩය හෙළි කරන්න.','කණ්ඩායම්'],
+ ['detective','Find_the_Secret_Message2','රහස් පණිවිඩය සොයමු 2','ප්‍රශ්න 16කට පිළිතුරු දී අදාළ අකුරු හොයාගෙන රහස් පණිවිඩය හෙළි කරන්න.','ප්‍රශ්න 16'],
+ ['detective','Find_the_Secret_Message3','රහස් පණිවිඩය සොයමු 3','ගැටළු 21ක් විසඳන්න. සෑම නිවැරදි පිළිතුරකටම අකුරක් ලැබේ.','ගැටළු 21'],
+ ['detective','Find_the_Secret_Message4','රහස් පණිවිඩය සොයමු 4','ගැටළු 21ම විසඳා අකුරු එකතු කරන්න. වේගයෙන් හා වැරදි නැතිව විසඳූ තරමට ලකුණු වැඩියි.','ගැටළු 21'],
+ ['detective','Catch_the_Thief','සොරා සොයා දෙන්න','සාක්ෂි පරීක්ෂා කර සොරා කවුදැයි සොයා දෙන්න. ආරම්භ කළ මොහොතේ සිට කාලය ගණනය වේ.','රහස් පරීක්ෂණය'],
+ ['detective','Find_the_Winner','ජයග්‍රාහකයා සෙවීම','බාධක 7ක් එකින් එක තරණය කර ජයග්‍රාහකයා වෙන්න. වේගයෙන් හා නිවැරදිව විසඳන්න.','බාධක 7'],
+
+ ['puzzle','Cross_Maths','Cross Maths','හිස් කොටුවලට අංක දමා සියලුම සමීකරණ නිවැරදි කරන්න.','ගැටළු 18'],
+ ['puzzle','Maths_Puzzle1','ප්‍රහේලිකා අංක 01','හරහට හා පහළට ඇති ගැටළු විසඳා පිළිතුරු අංක කොටුවලට පුරවන්න.','අංක කොටු'],
+ ['puzzle','Math_Puzzle2','ප්‍රහේලිකා අංක 02','හරහට හා පහළට ඇති ප්‍රශ්න විසඳා පිළිතුරු ඉලක්කම් කොටුවල පුරවන්න.','අංක කොටු'],
+ ['puzzle','Maths_Puzzle2','ගණිත ප්‍රහේලිකාව','ඉඟි අනුව ගණන් විසඳා, කොටු ඉලක්කම්වලින් පුරවමු.','කණ්ඩායම්'],
+ ['puzzle','Math_Matrix_Picture_Puzzle','Picture Puzzle','රූපවල අගය සොයා "?" වල අගය සොයන්න.','ප්‍රහේලිකා 16'],
+ ['puzzle','Domino','ඩොමිනෝ චේන්','ප්‍රශ්නයේ පිළිතුර ඊළඟ කාඩ්පතේ වම් පැත්තේ ඇත. කාඩ්පත් 20ම සම්බන්ධ කරන්න.','කාඩ්පත් 20'],
+
+ ['geo','Geometry_Treasure_Hunt','ජ්‍යාමිති නිධාන දඩයම','ප්‍රශ්න 10කට නිවැරදිව පිළිතුරු දී නිධානය සොයන්න. හදවත් 3ක් ඇත.','ප්‍රශ්න 10'],
+ ['geo','Geomatric','Shape Shifters','වෘත්ත, සමාන්තර රේඛා, මධ්‍ය ලක්ෂ්‍ය ප්‍රමේයය හා ත්‍රිකෝණමිතිය. ගිනි දැල්ල නිවෙන්න දෙන්න එපා.','ප්‍රශ්න 30'],
+ ['geo','Geometry_Puzzles','Geometry Puzzles','ත්‍රිකෝණ, සමාන්තර රේඛා, අංගසම ත්‍රිකෝණ හා වෘත්ත. ප්‍රශ්නයකට තත්පර 90යි.','ප්‍රශ්න 30'],
+ ['geo','Shape_Challenges','Shape Challenges','රූපය බලා පිළිතුර ලියන්න. අවශ්‍ය නම් මුලින් සිද්ධාන්ත කියවන්න.','10 ශ්‍රේණිය'],
+ ['geo','Geomatric_Heroes','Geomatric Heroes','වෘත්ත චතුරස්‍ර, ජ්‍යා, මධ්‍ය ලක්ෂ්‍ය ප්‍රමේයය, වර්ගඵල හා ත්‍රිකෝණමිතිය.','11 ශ්‍රේණිය'],
+ ['geo','Angle_Battle','Angle Battle','ජ්‍යාමිති ප්‍රමේය ඇසුරින් ප්‍රශ්න 30ක්. අදියර 6ක් පසුකර ශූරයා වෙන්න!','11 ශ්‍රේණිය'],
+
+ ['theorem','Circle_Theorem','වෘත්තයක කෝණ','වෘත්තයේ කෝණ ප්‍රමේය තුන ඇදගෙන, මනිමින් සොයාගෙන ප්‍රශ්න 10ක් විසඳන්න.','ප්‍රශ්න 10'],
+ ['theorem','Circle_Theorems','ජ්‍යා ප්‍රමේය','ජ්‍යා ප්‍රමේය 2 ඇදගෙන, මනිමින් සොයාගෙන ප්‍රශ්න 12ක් විසඳන්න.','10 ශ්‍රේණිය'],
+ ['theorem','Cyclic_Quadrilateral_Theorem','වෘත්ත ප්‍රමේය','වෘත්ත ප්‍රමේය 7ම ඇදගෙන මනින්න. පසුව O/L මට්ටමේ ප්‍රශ්න 20ක්.','ප්‍රශ්න 20'],
+ ['theorem','Midpoint_Theorem','මධ්‍ය ලක්ෂ්‍ය ප්‍රමේයය','ත්‍රිකෝණය අදිමින්, මනිමින් ප්‍රමේයය සොයාගෙන ප්‍රශ්න 9ක් විසඳන්න.','ප්‍රශ්න 9'],
+ ['theorem','Radius_Tangent_Theorem','ස්පර්ශක ප්‍රමේය','ස්පර්ශක ප්‍රමේය ඇදගෙන, මනිමින් සොයාගෙන ප්‍රශ්න 20ක් විසඳන්න.','11 ශ්‍රේණිය'],
+ ['theorem','Geometric_Theorems','ජ්‍යාමිතික ප්‍රමේයයන්','ප්‍රමේයයක් තෝරා කියවන්න, උදාහරණය බලන්න, ප්‍රශ්න 3ක් විසඳන්න.','ප්‍රමේය 42'],
+
+ ['team','BlockBuster','BlockBuster','කණ්ඩායම් දෙකක තරගයකි. ප්‍රශ්න විසඳා ෂඩාස්‍ර ලබාගෙන පුවරුව හරහා පාලමක් හදන්න.','කණ්ඩායම් 2'],
+ ['team','E_BlockBuster','BlockBuster 2','ෂඩාස්‍රයක් තෝරා ප්‍රශ්නයට නිවැරදිව පිළිතුරු දෙන්න. පළමුව මාර්ගය සම්පූර්ණ කරන කණ්ඩායම ජයගනී.','කණ්ඩායම් 2'],
+ ['team','Genius_Only','Genius Only','මාතෘකා 5ක්, ප්‍රශ්න 25ක් සහිත ජෙපර්ඩි ක්‍රීඩාව. කණ්ඩායම් අතර ලකුණු තරගයකි.','කණ්ඩායම් 4'],
+ ['team','MathLock','MathLock','ජෙපර්ඩි 02. ප්‍රශ්නය කියවා පිළිතුර ටයිප් කරන්න. සැඟවුණු ද්විත්ව ලකුණු කොටු 2ක් ඇත.','ජෙපර්ඩි']
+];
+
+const main = document.getElementById('main'), chips = document.getElementById('chips');
+const href = f => 'games/' + f + (f === 'Geometry_Treasure_Hunt' ? '/index.html' : '.html');
+
+CATS.forEach(cat => {
+  const items = G.filter(g => g[0] === cat.id);
+  chips.insertAdjacentHTML('beforeend',
+    `<a class="chip" href="#${cat.id}" style="--c:var(${cat.c})">${cat.ico} ${cat.title}</a>`);
+  main.insertAdjacentHTML('beforeend', `
+  <section id="${cat.id}" style="--c:var(${cat.c})">
+    <div class="head"><span class="ico" aria-hidden="true">${cat.ico}</span>
+      <div><h2>${cat.title}</h2><p>${cat.desc}</p></div>
+      <span class="n">ගේම් ${items.length}</span></div>
+    <div class="grid">${items.map(g => `
+      <a class="card" href="${href(g[1])}" data-s="${(g[2]+' '+g[3]).toLowerCase()}">
+        <div class="pic"><img src="img/${g[1]}.jpg" alt="" loading="lazy" width="640" height="360"><span class="tag">${g[4]}</span></div>
+        <div class="txt"><h3>${g[2]}</h3><p>${g[3]}</p><span class="go">සෙල්ලම් කරන්න ▶</span></div>
+      </a>`).join('')}
+    </div>
+  </section>`);
+});
+
+// search
+const q = document.getElementById('q'), none = document.getElementById('none');
+q.addEventListener('input', () => {
+  const t = q.value.trim().toLowerCase(); let any = false;
+  document.querySelectorAll('section').forEach(sec => {
+    let n = 0;
+    sec.querySelectorAll('.card').forEach(c => {
+      const show = !t || c.dataset.s.includes(t); c.style.display = show ? '' : 'none'; if (show) n++;
+    });
+    sec.style.display = n ? '' : 'none'; if (n) any = true;
+  });
+  none.style.display = any ? 'none' : 'block';
+});
+
+// random game
+document.getElementById('rand').addEventListener('click', () => {
+  location.href = href(G[Math.floor(Math.random() * G.length)][1]);
+});
+</script>
+</body>
+</html>
